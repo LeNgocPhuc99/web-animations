@@ -1,0 +1,360 @@
+.css-lab {
+  --lab-accent: #5b8dee;
+  --lab-accent-2: #ee5b8d;
+  --lab-accent-3: #5beeb4;
+  --lab-accent-4: #eec85b;
+}
+
+.css-lab code {
+  color: var(--lab-accent-3);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.92em;
+}
+
+.lab-top-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.lab-logo-dot {
+  animation: labPulse 2s ease-in-out infinite;
+}
+
+@keyframes labPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
+.lab-hero-grid {
+  background-image:
+    linear-gradient(rgba(91, 141, 238, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91, 141, 238, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+}
+
+.lab-fade-0 {
+  animation: labFadeUp 0.6s ease-out both;
+}
+
+.lab-fade-1 {
+  animation: labFadeUp 0.6s 0.08s ease-out both;
+}
+
+.lab-fade-2 {
+  animation: labFadeUp 0.6s 0.16s ease-out both;
+}
+
+.lab-fade-3 {
+  animation: labFadeUp 0.6s 0.24s ease-out both;
+}
+
+@keyframes labFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lab-section-list a.is-active {
+  background: #1a1a24;
+  color: #e8e8f0;
+}
+
+.delay-row:hover .t-box-delay {
+  border-radius: 50%;
+}
+
+.delay-row .t-box-delay:nth-child(1) {
+  background: var(--lab-accent);
+  transition: border-radius 0.3s ease 0s;
+}
+
+.delay-row .t-box-delay:nth-child(2) {
+  background: var(--lab-accent-2);
+  transition: border-radius 0.3s ease 0.08s;
+}
+
+.delay-row .t-box-delay:nth-child(3) {
+  background: var(--lab-accent-3);
+  transition: border-radius 0.3s ease 0.16s;
+}
+
+.delay-row .t-box-delay:nth-child(4) {
+  background: var(--lab-accent-4);
+  transition: border-radius 0.3s ease 0.24s;
+}
+
+.delay-row .t-box-delay:nth-child(5) {
+  background: #8d5bee;
+  transition: border-radius 0.3s ease 0.32s;
+}
+
+.kf-orb.playing {
+  animation: bounce 1s cubic-bezier(0.36, 0, 0.66, -0.56) infinite alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+    background: var(--lab-accent);
+  }
+
+  to {
+    transform: translateY(-50px);
+    background: var(--lab-accent-2);
+  }
+}
+
+.kf-spin.playing,
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.kf-flash.playing {
+  animation: flash 1s ease infinite;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    background: #1a1a24;
+    color: #e8e8f0;
+  }
+
+  50% {
+    background: var(--lab-accent-4);
+    color: #08080c;
+  }
+}
+
+.kf-shake.playing {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-6px) rotate(-2deg);
+  }
+
+  40% {
+    transform: translateX(6px) rotate(2deg);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+#tfTranslate:hover {
+  transform: translateX(16px);
+}
+
+#tfScale:hover {
+  transform: scale(1.6);
+}
+
+#tfRotate:hover {
+  transform: rotate(135deg);
+}
+
+#tfSkew:hover {
+  transform: skewX(20deg);
+}
+
+#tfCombo:hover {
+  transform: translateY(-8px) scale(1.1) rotate(15deg);
+}
+
+#tfTranslate {
+  background: linear-gradient(135deg, #5b8dee22, #5b8dee44);
+  border-color: #5b8dee55;
+}
+
+#tfScale {
+  background: linear-gradient(135deg, #ee5b8d22, #ee5b8d44);
+  border-color: #ee5b8d55;
+}
+
+#tfRotate {
+  background: linear-gradient(135deg, #5beeb422, #5beeb444);
+  border-color: #5beeb455;
+}
+
+#tfSkew {
+  background: linear-gradient(135deg, #eec85b22, #eec85b44);
+  border-color: #eec85b55;
+}
+
+#tfCombo {
+  background: linear-gradient(135deg, #ee5b8d22, #5b8dee44);
+  border-color: #8d5bee55;
+}
+
+.lane:nth-child(1) .lane-ball {
+  background: var(--lab-accent);
+}
+
+.lane:nth-child(2) .lane-ball {
+  background: var(--lab-accent-2);
+}
+
+.lane:nth-child(3) .lane-ball {
+  background: var(--lab-accent-3);
+}
+
+.lane:nth-child(4) .lane-ball {
+  background: var(--lab-accent-4);
+}
+
+.lane:nth-child(5) .lane-ball {
+  background: #8d5bee;
+}
+
+.lane:nth-child(6) .lane-ball {
+  background: #ee8d5b;
+}
+
+.scroll-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.bad.moving {
+  animation: moveLeft 1.2s linear infinite alternate;
+}
+
+.good.moving {
+  animation: moveTransform 1.2s linear infinite alternate;
+}
+
+@keyframes moveLeft {
+  from {
+    left: 0;
+  }
+
+  to {
+    left: calc(100% - 64px);
+  }
+}
+
+@keyframes moveTransform {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(100% - 64px));
+  }
+}
+
+.toggle.on {
+  background: var(--lab-accent);
+  border-color: var(--lab-accent);
+}
+
+.toggle.on .toggle-knob {
+  transform: translateX(24px);
+}
+
+.like-btn.liked {
+  background: rgba(238, 91, 141, 0.15);
+  border-color: var(--lab-accent-2);
+  animation: likeAnim 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes likeAnim {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(91, 141, 238, 0.3);
+  pointer-events: none;
+  transform: scale(0);
+  animation: rippleOut 0.6s ease-out forwards;
+}
+
+@keyframes rippleOut {
+  to {
+    opacity: 0;
+    transform: scale(4);
+  }
+}
+
+.dot {
+  animation: dotBounce 1.2s ease-in-out infinite;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+@keyframes dotBounce {
+  0%,
+  80%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.skel {
+  background: linear-gradient(90deg, #1a1a24 25%, #111118 50%, #1a1a24 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
