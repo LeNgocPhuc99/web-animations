@@ -1,1 +1,1 @@
-export { CSSAnimationsLab } from "./components";
+export { default as CSSAnimationsLab } from "./CSSAnimationsLab";

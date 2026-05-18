@@ -1,0 +1,6 @@
+{
+  "name": "Web Animations",
+  "description": "A modern web application built with React router, TypeScript, and TailwindCSS",
+  "version": "1.0.0",
+  "type": "web-application"
+}

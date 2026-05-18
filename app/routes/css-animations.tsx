@@ -1,6 +1,6 @@
 import type { Route } from "./+types/css-animations";
 
-import { CSSAnimationsLab } from "~/css-animations/components";
+import CSSAnimationsLab from "~/css-animations/CSSAnimationsLab";
 import "~/css-animations/styles.css";
 
 export function meta({}: Route.MetaArgs) {

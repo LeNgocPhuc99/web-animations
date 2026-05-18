@@ -26,7 +26,8 @@ export const sidebarLinkClass =
 export const pillClass =
   "rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-[#85859a]";
 
-export const transformItemClass = "flex flex-col items-center gap-2.5 px-2 py-4";
+export const transformItemClass =
+  "flex flex-col items-center gap-2.5 px-2 py-4";
 
 export const transformBoxClass =
   "h-12 w-12 cursor-pointer rounded-lg border border-white/15 bg-[#1a1a24] transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]";

@@ -4,6 +4,8 @@ import { DemoCard } from "../components";
 
 import LessonSection from "./LessonSection";
 
+import { cn } from "~/lib/utils";
+
 const TransitionsSection = () => {
   return (
     <LessonSection id="transitions">
@@ -17,7 +19,12 @@ const TransitionsSection = () => {
       >
         <div className={ui.demoArea}>
           <div className={ui.stack}>
-            <div className="flex h-18 w-18 cursor-pointer items-center justify-center rounded-[10px] bg-[#5b8dee] font-mono text-[11px] text-white transition-all duration-500 ease-out hover:scale-120 hover:rounded-full hover:bg-[#ee5b8d]">
+            <div
+              className={cn(
+                "flex h-18 w-18 cursor-pointer items-center justify-center rounded-[10px] font-mono text-[11px]",
+                "text-white bg-[#5b8dee] transition-all duration-500 ease-out hover:scale-120 hover:rounded-full hover:bg-[#ee5b8d]",
+              )}
+            >
               hover
             </div>
             <div className={ui.caption}>hover để xem</div>

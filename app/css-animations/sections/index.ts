@@ -1,5 +1,10 @@
+export { default as MicroSection } from "./MicroSection";
 export { default as LessonSection } from "./LessonSection";
 export { default as TimingSection } from "./TimingSection";
+export { default as ScrollSection } from "./ScrollSection";
+export { default as LoadingSection } from "./LoadingSection";
+export { default as StaggerSection } from "./StaggerSection";
 export { default as KeyframesSection } from "./KeyframesSection";
 export { default as TransformSection } from "./TransformSection";
 export { default as TransitionsSection } from "./TransitionsSection";
+export { default as PerformanceSection } from "./PerformanceSection";
