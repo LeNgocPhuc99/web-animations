@@ -30,7 +30,7 @@ export const lessons = [
     id: "keyframes",
     num: "02",
     title: "@keyframes Animation",
-    desc: "<code>@keyframes</code> định nghĩa nhiều bước animation. Dùng khi animation cần tự chạy, lặp lại, hoặc không phụ thuộc trực tiếp vào hover.",
+    desc: "<code>@keyframes</code> định nghĩa các bước trung gian của animation. Khác với <code>transition</code> chỉ phản ứng khi state thay đổi, keyframe animation chạy độc lập, có thể lặp vô hạn, đi ngược chiều, và kiểm soát trạng thái trước/sau khi chạy qua <code>fill-mode</code>.",
   },
   {
     id: "transform",

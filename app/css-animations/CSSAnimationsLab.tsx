@@ -19,6 +19,8 @@ import {
   PerformanceSection,
 } from "./sections";
 
+import { cn } from "~/lib/utils";
+
 const heroPills = [
   "transition",
   "@keyframes",
@@ -63,7 +65,10 @@ const CSSAnimationsLab = () => {
             <nav className="lab-section-list grid gap-1 max-lg:grid-cols-2 max-sm:grid-cols-1">
               {lessons.map((lesson) => (
                 <a
-                  className={`${sidebarLinkClass} ${activeId === lesson.id ? "is-active" : ""}`}
+                  className={cn(
+                    sidebarLinkClass,
+                    activeId === lesson.id && "is-active",
+                  )}
                   href={`#${lesson.id}`}
                   key={lesson.id}
                 >
