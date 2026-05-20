@@ -1,11 +1,13 @@
 import { useState } from "react";
 
-import { ui } from "../classes";
-import { DemoCard } from "../components";
+import { ui } from "~/css-animations/classes";
+import { DemoCard } from "~/css-animations/components";
 
-import LessonSection from "./LessonSection";
+import LessonSection from "../LessonSection";
 
 import { cn } from "~/lib/utils";
+
+import './performance.css'
 
 const PerformanceSection = () => {
   const [running, setRunning] = useState(false);

@@ -1,0 +1,44 @@
+#tfTranslate:hover {
+    transform: translateX(16px);
+}
+
+#tfScale:hover {
+    transform: scale(1.6);
+}
+
+#tfRotate:hover {
+    transform: rotate(135deg);
+}
+
+#tfSkew:hover {
+    transform: skewX(20deg);
+}
+
+#tfCombo:hover {
+    transform: translateY(-8px) scale(1.1) rotate(15deg);
+}
+
+#tfTranslate {
+    background: linear-gradient(135deg, #5b8dee22, #5b8dee44);
+    border-color: #5b8dee55;
+}
+
+#tfScale {
+    background: linear-gradient(135deg, #ee5b8d22, #ee5b8d44);
+    border-color: #ee5b8d55;
+}
+
+#tfRotate {
+    background: linear-gradient(135deg, #5beeb422, #5beeb444);
+    border-color: #5beeb455;
+}
+
+#tfSkew {
+    background: linear-gradient(135deg, #eec85b22, #eec85b44);
+    border-color: #eec85b55;
+}
+
+#tfCombo {
+    background: linear-gradient(135deg, #ee5b8d22, #5b8dee44);
+    border-color: #8d5bee55;
+}

@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-import { ui } from "../classes";
-import { staggerBars, staggerWords } from "../data";
+import { ui } from "~/css-animations/classes";
+import { DemoCard } from "~/css-animations/components";
+import { staggerBars, staggerWords } from "~/css-animations/data";
 
-import { DemoCard } from "../components";
-
-import LessonSection from "./LessonSection";
+import LessonSection from "../LessonSection";
 
 const StaggerSection = () => {
   const [isRevealed, setIsRevealed] = useState(false);
@@ -43,11 +42,7 @@ const StaggerSection = () => {
           <span class="c">/* GSAP: */</span> gsap.to(".bar", { <span class="p">stagger</span>: <span class="v">0.06</span>, scaleY: <span class="v">1</span> });
         `}
         action={
-          <button
-            className={ui.button}
-            onClick={playStagger}
-            type="button"
-          >
+          <button className={ui.button} onClick={playStagger} type="button">
             Play
           </button>
         }

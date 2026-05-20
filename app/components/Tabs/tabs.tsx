@@ -11,6 +11,8 @@ import {
 
 import { cn } from "~/lib/utils";
 
+import "./tabs.css";
+
 type TabValue = string;
 
 type TabsContextValue = {
@@ -98,7 +100,7 @@ export const TabItem = ({
     <button
       aria-controls={`${baseId}-panel-${value}`}
       aria-selected={active}
-      className={cn(className, active && "active")}
+      className={cn("tab-item", className, active && "active")}
       id={`${baseId}-tab-${value}`}
       onClick={(event) => {
         setActiveValue(value);

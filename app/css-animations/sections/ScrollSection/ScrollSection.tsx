@@ -1,13 +1,13 @@
-import { useScrollReveal } from "../interactions";
+import { ui } from "~/css-animations/classes";
+import { DemoCard } from "~/css-animations/components";
+import { scrollConcepts } from "~/css-animations/data";
+import { useScrollReveal } from "~/css-animations/interactions";
 
-import { ui } from "../classes";
-import { scrollConcepts } from "../data";
-
-import { DemoCard } from "../components";
-
-import LessonSection from "./LessonSection";
+import LessonSection from "../LessonSection";
 
 import { cn } from "~/lib/utils";
+
+import "./scroll.css";
 
 const ScrollSection = () => {
   const { itemRefs, rootRef, visibleItems } = useScrollReveal(

@@ -1,0 +1,27 @@
+.bad.moving {
+    animation: moveLeft 1.2s linear infinite alternate;
+}
+
+.good.moving {
+    animation: moveTransform 1.2s linear infinite alternate;
+}
+
+@keyframes moveLeft {
+    from {
+        left: 0;
+    }
+
+    to {
+        left: calc(100% - 64px);
+    }
+}
+
+@keyframes moveTransform {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(100% - 64px));
+    }
+}

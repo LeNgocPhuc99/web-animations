@@ -1,13 +1,14 @@
 import { useState } from "react";
 
-import { ui } from "../classes";
+import { ui } from "~/css-animations/classes";
+import { DemoCard } from "~/css-animations/components";
+import { TabItem, TabList, TabPanel, Tabs } from "~/components/Tabs";
 
-import { DemoCard } from "../components";
+import LessonSection from "../LessonSection";
 
-import LessonSection from "./LessonSection";
-
-import { TabItem, TabList, TabPanel, Tabs } from "~/components/tabs";
 import { cn } from "~/lib/utils";
+
+import "./keyframes.css";
 
 const tabs = [
   { label: "anatomy", value: "anatomy" },
@@ -148,7 +149,7 @@ const KeyframesSection = () => {
         >
           <TabList className="flex flex-wrap gap-1 border-b border-white/10 px-6 pt-4">
             {tabs.map((tab) => (
-              <TabItem className="kf-tab" key={tab.value} value={tab.value}>
+              <TabItem key={tab.value} value={tab.value}>
                 {tab.label}
               </TabItem>
             ))}
@@ -194,7 +195,7 @@ const KeyframesSection = () => {
                     playing && "playing",
                   )}
                 >
-                  !
+                  ⚠️
                 </div>
                 <div className={ui.caption}>shake</div>
               </div>

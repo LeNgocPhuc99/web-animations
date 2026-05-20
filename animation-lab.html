@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animation Lab — CSS & JS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ──────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0a0a0f;
+  --bg2:      #111118;
+  --bg3:      #1a1a24;
+  --border:   rgba(255,255,255,0.08);
+  --border2:  rgba(255,255,255,0.15);
+  --text:     #e8e8f0;
+  --muted:    #6b6b80;
+  --accent:   #5b8dee;
+  --accent2:  #ee5b8d;
+  --accent3:  #5beeb4;
+  --accent4:  #eec85b;
+  --mono:     'DM Mono', monospace;
+  --sans:     'DM Sans', sans-serif;
+  --display:  'Syne', sans-serif;
+  --radius:   12px;
+  --radius-sm: 7px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+::selection { background: rgba(91,141,238,0.3); }
+
+/* ── LAYOUT ────────────────────────────────────────── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+
+.logo {
+  font-family: var(--display);
+  font-weight: 800; font-size: 18px;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+}
+
+.logo-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+nav { display: flex; gap: 4px; }
+
+nav a {
+  font-size: 13px; color: var(--muted); text-decoration: none;
+  padding: 5px 12px; border-radius: 20px;
+  transition: color 0.2s, background 0.2s;
+}
+nav a:hover { color: var(--text); background: var(--bg3); }
+
+.main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+
+/* ── HERO ──────────────────────────────────────────── */
+.hero {
+  text-align: center;
+  padding: 4rem 0 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(91,141,238,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91,141,238,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 12px;
+  color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 1rem;
+  animation: fadeUp 0.6s ease-out both;
+}
+
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.1s ease-out both;
+}
+
+.hero h1 span { color: var(--accent); }
+
+.hero p {
+  font-size: 17px; color: var(--muted); max-width: 520px; margin: 0 auto 2.5rem;
+  animation: fadeUp 0.6s 0.2s ease-out both;
+}
+
+.pill-row {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  animation: fadeUp 0.6s 0.3s ease-out both;
+}
+
+.pill {
+  font-family: var(--mono); font-size: 11px;
+  padding: 4px 12px; border-radius: 20px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTION CHROME ────────────────────────────────── */
+.section { margin-bottom: 4rem; }
+
+.section-label {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.section-num {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--accent); opacity: 0.7;
+  min-width: 28px;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: 22px; font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.section-desc {
+  font-size: 14px; color: var(--muted);
+  max-width: 600px; margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+.demo-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.demo-area {
+  padding: 2.5rem 2rem;
+  min-height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 16px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.demo-footer {
+  padding: 1rem 1.25rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+
+.code-block {
+  font-family: var(--mono); font-size: 12px;
+  color: var(--muted); line-height: 1.8;
+  flex: 1;
+}
+
+.code-block .k { color: #ee5b8d; }
+.code-block .v { color: #5beeb4; }
+.code-block .p { color: var(--accent); }
+.code-block .c { color: #6b6b80; font-style: italic; }
+
+.btn {
+  font-family: var(--mono); font-size: 12px;
+  padding: 7px 16px; border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: transparent; color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--bg3); border-color: rgba(255,255,255,0.25); }
+.btn:active { transform: scale(0.97); }
+
+/* ── 1. TRANSITION BASICS ──────────────────────────── */
+.t-box {
+  width: 72px; height: 72px; border-radius: 10px;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11px; color: #fff;
+  cursor: pointer;
+  transition: border-radius 0.4s ease, background 0.4s ease, transform 0.4s ease;
+}
+.t-box:hover {
+  border-radius: 50%;
+  background: var(--accent2);
+  transform: scale(1.2);
+}
+
+.t-box-delay {
+  width: 56px; height: 56px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 10px; color: #fff;
+  cursor: pointer;
+}
+#delayRow:hover .t-box-delay { border-radius: 50%; }
+#delayRow .t-box-delay:nth-child(1) { background: var(--accent);  transition: border-radius 0.3s ease 0s; }
+#delayRow .t-box-delay:nth-child(2) { background: var(--accent2); transition: border-radius 0.3s ease 0.08s; }
+#delayRow .t-box-delay:nth-child(3) { background: var(--accent3); transition: border-radius 0.3s ease 0.16s; }
+#delayRow .t-box-delay:nth-child(4) { background: var(--accent4); transition: border-radius 0.3s ease 0.24s; }
+#delayRow .t-box-delay:nth-child(5) { background: var(--accent2); transition: border-radius 0.3s ease 0.32s; }
+
+/* ── 2. KEYFRAMES (expanded) ───────────────────────── */
+
+/* 2a. anatomy demos */
+.kf-orb {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--accent);
+}
+.kf-orb.playing { animation: kfBounce 1s cubic-bezier(0.36,0,0.66,-0.56) infinite alternate; }
+@keyframes kfBounce {
+  from { transform: translateY(0);     background: var(--accent); }
+  to   { transform: translateY(-50px); background: var(--accent2); }
+}
+
+.kf-spin {
+  width: 50px; height: 50px;
+  border: 3px solid var(--border2);
+  border-top-color: var(--accent3);
+  border-radius: 50%;
+}
+.kf-spin.playing { animation: kfSpin 0.8s linear infinite; }
+@keyframes kfSpin { to { transform: rotate(360deg); } }
+
+.kf-flash {
+  padding: 10px 24px; border-radius: 8px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  font-family: var(--mono); font-size: 13px; color: var(--text);
+}
+.kf-flash.playing { animation: kfFlash 1s ease infinite; }
+@keyframes kfFlash {
+  0%,100% { background: var(--bg3); color: var(--text); }
+  50%     { background: var(--accent4); color: #000; }
+}
+
+.kf-shake-el { font-family: var(--mono); font-size: 24px; display: inline-block; }
+.kf-shake-el.playing { animation: kfShake 0.5s cubic-bezier(0.36,0.07,0.19,0.97) infinite; }
+@keyframes kfShake {
+  0%,100% { transform: translateX(0); }
+  20%  { transform: translateX(-6px) rotate(-2deg); }
+  40%  { transform: translateX(6px)  rotate(2deg); }
+  60%  { transform: translateX(-4px); }
+  80%  { transform: translateX(4px); }
+}
+
+/* 2b. multi-step */
+.ms-box {
+  width: 56px; height: 56px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 10px; color: #fff;
+}
+.ms-box.playing-bounce { animation: msBounceIn 0.7s cubic-bezier(0.34,1.2,0.64,1) both; }
+@keyframes msBounceIn {
+  0%   { transform: scale(0);   opacity: 0; }
+  60%  { transform: scale(1.2); opacity: 1; }
+  80%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+.ms-box.playing-pop { animation: msPop 1.2s ease-in-out infinite; }
+@keyframes msPop {
+  0%,100% { transform: scale(1);   background: var(--accent); }
+  50%     { transform: scale(1.3); background: var(--accent2); }
+}
+.ms-box.playing-walk {
+  animation: msWalk 1.8s ease-in-out infinite;
+  position: relative;
+}
+@keyframes msWalk {
+  0%   { transform: translateX(0)   rotate(0deg);    }
+  25%  { transform: translateX(30px) rotate(5deg);   }
+  50%  { transform: translateX(60px) rotate(0deg);   }
+  75%  { transform: translateX(30px) rotate(-5deg);  }
+  100% { transform: translateX(0)   rotate(0deg);    }
+}
+
+/* 2c. fill-mode */
+.fm-row { display: flex; gap: 1.5rem; align-items: flex-end; flex-wrap: wrap; }
+.fm-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.fm-box {
+  width: 56px; height: 56px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px; color: #fff; text-align: center; line-height: 1.3;
+}
+.fm-label { font-family: var(--mono); font-size: 10px; color: var(--muted); text-align: center; }
+@keyframes fmFlyIn {
+  from { transform: translateY(28px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.fm-none     { background: #666; }
+.fm-forwards { background: var(--accent);  opacity: 0; }
+.fm-backwards{ background: var(--accent3); }
+.fm-both     { background: var(--accent2); opacity: 0; }
+
+.fm-running .fm-none      { animation: fmFlyIn 0.6s ease-out 0.7s none; }
+.fm-running .fm-forwards  { animation: fmFlyIn 0.6s ease-out 0.7s forwards; }
+.fm-running .fm-backwards { animation: fmFlyIn 0.6s ease-out 0.7s backwards; }
+.fm-running .fm-both      { animation: fmFlyIn 0.6s ease-out 0.7s both; }
+
+/* 2d. iteration & direction */
+.id-box {
+  width: 48px; height: 48px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 10px; color: #fff;
+}
+.id-box.spin-inf  { animation: kfSpin 1s linear infinite; }
+.id-box.spin-3    { animation: kfSpin 0.55s linear 3 both; }
+.id-swing { font-size: 26px; display: inline-block; transform-origin: top center; }
+.id-swing.alt     { animation: idSwing 0.7s ease-in-out infinite alternate; }
+.id-swing.alt-rev { animation: idSwing 0.7s ease-in-out infinite alternate-reverse; }
+@keyframes idSwing {
+  from { transform: rotate(-22deg); }
+  to   { transform: rotate(22deg); }
+}
+.id-box.hover-pause { animation: kfSpin 1.4s linear infinite; }
+.id-box.hover-pause:hover { animation-play-state: paused; }
+
+/* 2e. stagger */
+.kf-stagger-grid { display: flex; gap: 8px; align-items: flex-end; }
+.kf-stagger-bar {
+  width: 30px; border-radius: 4px 4px 0 0;
+  background: var(--accent); opacity: 0; transform: scaleY(0);
+  transform-origin: bottom;
+}
+.kf-stagger-bar.revealed {
+  animation: kfBarReveal 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes kfBarReveal {
+  from { opacity: 0; transform: scaleY(0); }
+  to   { opacity: 1; transform: scaleY(1); }
+}
+
+/* 2f. real-world patterns */
+.rw-skeleton {
+  height: 12px; border-radius: 4px;
+  position: relative; overflow: hidden;
+  background: var(--bg3);
+}
+.rw-skeleton::after {
+  content: "";
+  position: absolute; inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  animation: shimmer 1.6s linear infinite;
+  will-change: transform;
+}
+.rw-spinner {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 3px solid var(--bg3); border-top-color: var(--accent);
+  animation: kfSpin 0.7s linear infinite;
+}
+.rw-dots { display: flex; gap: 5px; align-items: center; }
+.rw-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent2);
+  animation: rwDotBounce 1.2s ease-in-out infinite;
+}
+.rw-dot:nth-child(2) { animation-delay: 0.2s; }
+.rw-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes rwDotBounce {
+  0%,80%,100% { transform: scale(0.7); opacity: 0.4; }
+  40%         { transform: scale(1.2); opacity: 1; }
+}
+.rw-shake-input {
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 7px; padding: 8px 12px;
+  color: var(--text); font-family: var(--mono); font-size: 12px;
+  outline: none; width: 130px;
+  transition: border-color 0.2s;
+}
+.rw-shake-input.error { border-color: #e24b4a; }
+.rw-shake-input.shaking { animation: rwShake 0.42s ease; }
+@keyframes rwShake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-7px) rotate(-1deg); }
+  40% { transform: translateX(7px)  rotate(1deg); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.rw-hero { font-family: var(--display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.rw-hero span {
+  display: inline-block;
+  opacity: 0;
+  animation: rwHeroWord 0.65s cubic-bezier(0.22,1,0.36,1) both;
+}
+.rw-hero span:nth-child(1) { animation-delay: 0.0s; }
+.rw-hero span:nth-child(2) { animation-delay: 0.1s; }
+.rw-hero span:nth-child(3) { animation-delay: 0.2s; }
+@keyframes rwHeroWord {
+  from { opacity: 0; transform: translateY(20px) skewY(2deg); }
+  to   { opacity: 1; transform: translateY(0)    skewY(0deg); }
+}
+
+/* sub-tab system */
+.kf-tabs { display: flex; gap: 4px; padding: 1rem 1.5rem 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.kf-tab {
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+  padding: 6px 14px; border-radius: 6px 6px 0 0;
+  cursor: pointer; border: 1px solid transparent;
+  border-bottom: none; transition: color 0.15s, background 0.15s;
+  position: relative; bottom: -1px;
+}
+.kf-tab:hover { color: var(--text); }
+.kf-tab.active {
+  color: var(--text); background: var(--bg2);
+  border-color: var(--border); border-bottom-color: var(--bg2);
+}
+.kf-panel { display: none; }
+.kf-panel.active { display: block; }
+
+/* ── 3. TRANSFORM (expanded) ───────────────────────── */
+
+/* shared tab system cho transform — dùng lại .kf-tabs/.kf-tab/.kf-panel */
+/* nhưng scope riêng bằng .tf-tabs .tf-tab .tf-panel */
+.tf-tabs { display: flex; gap: 4px; padding: 1rem 1.5rem 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.tf-tab {
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+  padding: 6px 14px; border-radius: 6px 6px 0 0;
+  cursor: pointer; border: 1px solid transparent;
+  border-bottom: none; transition: color 0.15s, background 0.15s;
+  position: relative; bottom: -1px;
+}
+.tf-tab:hover { color: var(--text); }
+.tf-tab.active { color: var(--text); background: var(--bg2); border-color: var(--border); border-bottom-color: var(--bg2); }
+.tf-panel { display: none; }
+.tf-panel.active { display: block; }
+
+/* -- shared demo atom -- */
+.tf-stage {
+  background: var(--bg3); border-radius: var(--radius-sm);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.atom {
+  width: 52px; height: 52px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 10px; color: #fff;
+  font-weight: 500; transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* 3a. translate */
+.tl-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; width: 100%; }
+.tl-cell { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.tl-stage { width: 100%; height: 90px; background: var(--bg3); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.tl-atom { width: 44px; height: 44px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; color: #fff; transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1); cursor: default; }
+.tl-label { font-family: var(--mono); font-size: 10px; color: var(--muted); text-align: center; line-height: 1.5; }
+
+.tl-stage:hover .tl-tx  { transform: translateX(24px); }
+.tl-stage:hover .tl-ty  { transform: translateY(-24px); }
+.tl-stage:hover .tl-txy { transform: translate(18px, -18px); }
+.tl-stage:hover .tl-t3d { transform: translate3d(16px, -12px, 0) scale(1.05); }
+
+.tl-tx  { background: var(--accent); }
+.tl-ty  { background: var(--accent2); }
+.tl-txy { background: var(--accent3); }
+.tl-t3d { background: var(--accent4); }
+
+/* 3b. scale */
+.sc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; width: 100%; }
+.sc-cell { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.sc-stage { width: 100%; height: 90px; background: var(--bg3); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.sc-atom { width: 40px; height: 40px; border-radius: 7px; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+.sc-stage:hover .sc-up   { transform: scale(1.6); }
+.sc-stage:hover .sc-down { transform: scale(0.5); }
+.sc-stage:hover .sc-x    { transform: scaleX(2); }
+.sc-stage:hover .sc-y    { transform: scaleY(2); }
+.sc-up   { background: var(--accent); }
+.sc-down { background: var(--accent2); }
+.sc-x    { background: var(--accent3); }
+.sc-y    { background: var(--accent4); }
+
+/* 3c. rotate */
+.ro-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; width: 100%; }
+.ro-cell { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.ro-stage { width: 100%; height: 90px; background: var(--bg3); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.ro-atom { width: 44px; height: 44px; border-radius: 7px; transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1); font-family: var(--mono); font-size: 9px; color: #fff; display: flex; align-items: center; justify-content: center; }
+.ro-stage:hover .ro-45  { transform: rotate(45deg); }
+.ro-stage:hover .ro-180 { transform: rotate(180deg); }
+.ro-stage:hover .ro-360 { transform: rotate(360deg); }
+.ro-stage:hover .ro-neg { transform: rotate(-90deg); }
+.ro-45  { background: var(--accent); }
+.ro-180 { background: var(--accent2); }
+.ro-360 { background: var(--accent3); }
+.ro-neg { background: var(--accent4); }
+
+/* 3d. skew */
+.sk-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; width: 100%; }
+.sk-cell { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.sk-stage { width: 100%; height: 90px; background: var(--bg3); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.sk-atom { width: 48px; height: 36px; border-radius: 5px; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); font-family: var(--mono); font-size: 9px; color: #fff; display: flex; align-items: center; justify-content: center; }
+.sk-stage:hover .sk-x  { transform: skewX(20deg); }
+.sk-stage:hover .sk-y  { transform: skewY(15deg); }
+.sk-stage:hover .sk-xy { transform: skewX(15deg) skewY(5deg); }
+.sk-x  { background: var(--accent); }
+.sk-y  { background: var(--accent2); }
+.sk-xy { background: var(--accent3); }
+
+/* 3e. transform-origin */
+.to-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; width: 100%; }
+.to-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.to-stage { width: 100%; height: 90px; background: var(--bg3); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: default; }
+.to-atom {
+  width: 42px; height: 42px; border-radius: 7px; background: var(--accent);
+  transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+}
+/* dot showing origin */
+.to-atom::after {
+  content: ''; position: absolute; width: 6px; height: 6px;
+  border-radius: 50%; background: #fff; opacity: 0.8;
+}
+.to-center::after  { top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.to-tl::after      { top: 2px; left: 2px; }
+.to-tr::after      { top: 2px; right: 2px; }
+.to-bl::after      { bottom: 2px; left: 2px; }
+.to-custom::after  { bottom: 6px; left: 50%; transform: translateX(-50%); }
+
+.to-center { transform-origin: center center; }
+.to-tl     { transform-origin: top left; }
+.to-tr     { transform-origin: top right; }
+.to-bl     { transform-origin: bottom left; }
+.to-custom { transform-origin: 50% 100%; }
+
+.to-stage:hover .to-center { transform: rotate(180deg); }
+.to-stage:hover .to-tl     { transform: rotate(180deg); }
+.to-stage:hover .to-tr     { transform: rotate(180deg); }
+.to-stage:hover .to-bl     { transform: rotate(180deg); }
+.to-stage:hover .to-custom { transform: rotate(180deg) scale(0.8); }
+
+/* 3f. GPU vs CPU */
+.gpu-track { height: 72px; position: relative; background: var(--bg3); border-radius: 8px; overflow: hidden; margin-bottom: 8px; }
+.gpu-ball {
+  width: 52px; height: 52px; border-radius: 8px;
+  position: absolute; top: 10px; left: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px; color: #fff; text-align: center; line-height: 1.3;
+}
+.gpu-badge {
+  position: absolute; top: -8px; right: -8px;
+  font-size: 9px; padding: 2px 6px; border-radius: 8px; font-family: var(--mono); font-weight: 500;
+}
+.ball-bad  { background: rgba(226,75,74,0.35); border: 1px solid #e24b4a; }
+.ball-bad .gpu-badge  { background: #e24b4a; color: #fff; }
+.ball-good { background: rgba(91,141,238,0.35); border: 1px solid var(--accent); }
+.ball-good .gpu-badge { background: var(--accent3); color: #000; }
+
+@keyframes gpuMoveLeft { from { left: 0 } to { left: calc(100% - 60px) } }
+@keyframes gpuMoveTransform { from { transform: translateX(0) } to { transform: translateX(calc(100% + 60px)) } }
+
+.ball-bad.gpu-running  { animation: gpuMoveLeft 1.4s linear infinite alternate; }
+.ball-good.gpu-running { animation: gpuMoveTransform 1.4s linear infinite alternate; }
+
+/* render pipeline diagram */
+.pipeline { display: flex; align-items: center; gap: 0; margin-top: 1rem; flex-wrap: wrap; }
+.pipe-step {
+  padding: 6px 12px; border-radius: 4px; font-family: var(--mono); font-size: 11px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.pipe-arrow { font-size: 14px; color: var(--muted); margin: 0 2px; }
+.pipe-label { font-size: 9px; color: var(--muted); }
+.pipe-active { font-weight: 500; }
+
+/* 3g. combo playground */
+.combo-stage {
+  width: 100%; height: 200px; background: var(--bg3); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; overflow: hidden;
+}
+.combo-el {
+  width: 64px; height: 64px; border-radius: 10px; background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), border-radius 0.5s ease;
+}
+.combo-controls { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.combo-ctrl { display: flex; flex-direction: column; gap: 4px; }
+.combo-ctrl label { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.combo-ctrl input[type=range] { width: 100%; }
+.combo-ctrl .val { font-family: var(--mono); font-size: 11px; color: var(--text); font-weight: 500; }
+
+/* ── 4. TIMING FUNCTIONS ───────────────────────────── */
+.timing-lanes { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 560px; }
+.lane {
+  display: flex; align-items: center; gap: 12px; height: 36px;
+}
+.lane-name {
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+  min-width: 110px; text-align: right;
+}
+.lane-track {
+  flex: 1; height: 36px; background: var(--bg3);
+  border-radius: 4px; border: 1px solid var(--border); position: relative;
+  overflow: hidden;
+}
+.lane-ball {
+  width: 28px; height: 28px; border-radius: 50%;
+  position: absolute; top: 50%; left: 4px; transform: translateY(-50%);
+  transition: left 0s;
+}
+.lane:nth-child(1) .lane-ball { background: var(--accent); }
+.lane:nth-child(2) .lane-ball { background: var(--accent2); }
+.lane:nth-child(3) .lane-ball { background: var(--accent3); }
+.lane:nth-child(4) .lane-ball { background: var(--accent4); }
+.lane:nth-child(5) .lane-ball { background: #8d5bee; }
+.lane:nth-child(6) .lane-ball { background: #ee8d5b; }
+
+/* ── 5. STAGGER ────────────────────────────────────── */
+.stagger-grid {
+  display: flex; gap: 8px; align-items: flex-end;
+}
+.stagger-bar {
+  width: 32px; border-radius: 4px 4px 0 0;
+  background: var(--accent); opacity: 0; transform: scaleY(0);
+  transform-origin: bottom;
+  transition: opacity 0.4s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── 6. SCROLL-TRIGGER ─────────────────────────────── */
+.scroll-demo-wrap {
+  height: 320px; overflow-y: auto;
+  background: var(--bg3); border-radius: var(--radius-sm);
+  position: relative;
+}
+.scroll-inner { padding: 2rem; }
+.scroll-spacer { height: 60px; display: flex; align-items: center; justify-content: center; }
+.scroll-hint { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.scroll-item {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border-left: 2px solid var(--accent);
+  background: var(--bg2);
+  opacity: 0; transform: translateX(-24px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+.scroll-item.visible { opacity: 1; transform: translateX(0); }
+.scroll-item h4 { font-family: var(--display); font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.scroll-item p  { font-size: 13px; color: var(--muted); }
+
+/* ── 7. PERFORMANCE ────────────────────────────────── */
+.perf-row { display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
+.perf-col { flex: 1; min-width: 200px; }
+.perf-title { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+.perf-box {
+  width: 64px; height: 64px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-family: var(--mono); color: #fff;
+  cursor: pointer; position: relative;
+}
+.perf-badge {
+  position: absolute; top: -8px; right: -8px;
+  font-size: 9px; padding: 2px 6px; border-radius: 10px;
+  font-family: var(--mono); font-weight: 500;
+}
+.bad  { background: #e24b4a44; border: 1px solid #e24b4a; }
+.bad .perf-badge  { background: #e24b4a; color: #fff; }
+.good { background: #5b8dee44; border: 1px solid #5b8dee; }
+.good .perf-badge { background: #5beeb4; color: #000; }
+
+.bad.moving  { animation: moveLeft 1.2s linear infinite alternate; }
+.good.moving { animation: moveTransform 1.2s linear infinite alternate; }
+/* 🔴 bad: animates left — triggers layout */
+@keyframes moveLeft { from { left: 0 } to { left: calc(100% - 80px) } }
+/* 🟢 good: animates transform — only composite */
+@keyframes moveTransform {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100% - 0px)); }
+}
+.bad-wrap, .good-wrap {
+  position: relative; height: 80px; background: var(--bg3);
+  border-radius: var(--radius-sm); overflow: hidden;
+}
+.bad-wrap .perf-box  { position: absolute; left: 0; top: 50%; margin-top: -32px; }
+.good-wrap .perf-box { position: relative; top: 50%; margin-top: -32px; display: inline-flex; }
+
+/* ── 8. MICRO-INTERACTIONS ─────────────────────────── */
+.mi-row {
+  display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; justify-content: center;
+}
+
+/* Magnetic button */
+.mag-btn {
+  padding: 12px 28px; border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--bg3); color: var(--text);
+  font-family: var(--mono); font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1),
+              background 0.15s, border-color 0.15s;
+  display: inline-block;
+}
+.mag-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* Toggle switch */
+.toggle-wrap { display: flex; align-items: center; gap: 12px; }
+.toggle {
+  width: 52px; height: 28px; border-radius: 14px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  position: relative; cursor: pointer;
+  transition: background 0.3s ease;
+}
+.toggle.on { background: var(--accent); border-color: var(--accent); }
+.toggle-knob {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--text); position: absolute;
+  top: 2px; left: 2px;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.toggle.on .toggle-knob { transform: translateX(24px); }
+
+/* Heart like */
+.like-btn {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--bg3); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 22px;
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), background 0.2s;
+}
+.like-btn:hover { transform: scale(1.1); }
+.like-btn.liked { background: rgba(238,91,141,0.15); border-color: var(--accent2); animation: likeAnim 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes likeAnim { 0%,100%{transform:scale(1)} 50%{transform:scale(1.35)} }
+
+/* Input focus */
+.fancy-input {
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 10px 14px;
+  color: var(--text); font-family: var(--sans); font-size: 14px;
+  outline: none; width: 200px;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.fancy-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(91,141,238,0.2);
+  transform: translateY(-1px);
+}
+
+/* Ripple button */
+.ripple-btn {
+  padding: 11px 24px; border-radius: 8px;
+  border: 1px solid var(--accent); background: transparent;
+  color: var(--accent); font-family: var(--mono); font-size: 13px;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: background 0.2s, color 0.2s;
+}
+.ripple-btn:hover { background: rgba(91,141,238,0.08); }
+.ripple {
+  position: absolute; border-radius: 50%;
+  background: rgba(91,141,238,0.3);
+  transform: scale(0); pointer-events: none;
+  animation: rippleOut 0.6s ease-out forwards;
+}
+@keyframes rippleOut {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* ── 9. LOADING STATES ─────────────────────────────── */
+.loader-row { display: flex; gap: 2rem; flex-wrap: wrap; align-items: center; justify-content: center; }
+
+.spinner {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 3px solid var(--bg3);
+  border-top-color: var(--accent);
+  animation: spin 0.7s linear infinite;
+}
+
+.dots-wrap { display: flex; gap: 6px; }
+.dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent2);
+  animation: dotBounce 1.2s ease-in-out infinite;
+}
+.dot:nth-child(2) { animation-delay: 0.16s; }
+.dot:nth-child(3) { animation-delay: 0.32s; }
+@keyframes dotBounce {
+  0%,80%,100% { transform: scale(0.8); opacity: 0.4; }
+  40%         { transform: scale(1.2); opacity: 1; }
+}
+
+.skeleton-wrap { display: flex; flex-direction: column; gap: 8px; width: 200px; }
+.skel {
+  height: 12px; border-radius: 4px;
+  position: relative; overflow: hidden;
+  background: var(--bg3);
+}
+.skel::after {
+  content: "";
+  position: absolute; inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  animation: shimmer 1.6s infinite linear;
+  will-change: transform;
+}
+.skel.wide  { width: 100%; }
+.skel.med   { width: 75%; }
+.skel.short { width: 50%; }
+@keyframes shimmer {
+  to { transform: translateX(100%); }
+}
+
+.progress-wrap { width: 200px; }
+.progress-bar {
+  width: 100%; height: 6px; background: var(--bg3);
+  border-radius: 3px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: var(--accent3); border-radius: 3px;
+  transition: width 0.1s linear;
+}
+.progress-label { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 6px; text-align: center; }
+
+/* ── FOOTER ────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  font-size: 12px; color: var(--muted);
+  font-family: var(--mono);
+}
+footer span { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      Animation Lab
+    </div>
+    <nav>
+      <a href="#transitions">Transition</a>
+      <a href="#keyframes">@keyframes</a>
+      <a href="#transform">Transform</a>
+      <a href="#timing">Timing</a>
+      <a href="#stagger">Stagger</a>
+      <a href="#scroll">Scroll</a>
+      <a href="#micro">Micro</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<main class="main">
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">// css &amp; js animation</div>
+    <h1>Học animation<br><span>bằng cách làm</span></h1>
+    <p>Mỗi section là một demo tương tác — hover, click, cuộn để xem animation hoạt động. Kèm code snippet để đọc ngay.</p>
+    <div class="pill-row">
+      <span class="pill">transition</span>
+      <span class="pill">@keyframes</span>
+      <span class="pill">transform</span>
+      <span class="pill">cubic-bezier</span>
+      <span class="pill">stagger</span>
+      <span class="pill">scroll-trigger</span>
+      <span class="pill">micro-interactions</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── 1. TRANSITIONS ──────────────────── -->
+<section class="section" id="transitions">
+  <div class="section-label">
+    <span class="section-num">01</span>
+    <span class="section-title">CSS Transitions</span>
+  </div>
+  <p class="section-desc">
+    <code>transition</code> tạo animation khi property thay đổi (ví dụ khi hover). Cú pháp: <code>property duration timing delay</code>.
+  </p>
+
+  <div class="demo-card">
+    <div class="demo-area" style="gap:2rem">
+      <!-- Hover box -->
+      <div style="text-align:center">
+        <div class="t-box">hover</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px">hover để xem</div>
+      </div>
+      <!-- Delay row -->
+      <div style="text-align:center">
+        <div id="delayRow" style="display:flex;gap:8px;cursor:default">
+          <div class="t-box-delay">0s</div>
+          <div class="t-box-delay">.08s</div>
+          <div class="t-box-delay">.16s</div>
+          <div class="t-box-delay">.24s</div>
+          <div class="t-box-delay">.32s</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px">hover row → stagger bằng delay</div>
+      </div>
+    </div>
+    <div class="demo-footer">
+      <div class="code-block">
+        <span class="k">.box</span> {<br>
+        &nbsp;&nbsp;<span class="p">transition</span>: <span class="v">border-radius 0.4s ease, background 0.4s ease</span>;<br>
+        }<br>
+        <span class="k">.box</span>:<span class="p">hover</span> { <span class="p">border-radius</span>: <span class="v">50%</span>; }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 2. KEYFRAMES (expanded) ──────────────────── -->
+<section class="section" id="keyframes">
+  <div class="section-label">
+    <span class="section-num">02</span>
+    <span class="section-title">@keyframes Animation — chuyên sâu</span>
+  </div>
+  <p class="section-desc">
+    <code>@keyframes</code> định nghĩa các bước trung gian của animation. Khác với <code>transition</code> (chỉ phản ứng khi state thay đổi), keyframe animation chạy độc lập, có thể lặp vô hạn, đi ngược chiều, và kiểm soát chính xác trạng thái trước/sau khi chạy qua <code>fill-mode</code>.
+  </p>
+
+  <div class="demo-card">
+    <!-- TAB NAV -->
+    <div class="kf-tabs">
+      <div class="kf-tab active" onclick="kfTab(0,this)">anatomy</div>
+      <div class="kf-tab" onclick="kfTab(1,this)">multi-step %</div>
+      <div class="kf-tab" onclick="kfTab(2,this)">fill-mode</div>
+      <div class="kf-tab" onclick="kfTab(3,this)">iteration & direction</div>
+      <div class="kf-tab" onclick="kfTab(4,this)">stagger</div>
+      <div class="kf-tab" onclick="kfTab(5,this)">real-world patterns</div>
+    </div>
+
+    <!-- PANEL 0: ANATOMY -->
+    <div class="kf-panel active" id="kfp0">
+      <div class="demo-area" style="gap:3rem;height:190px;align-items:center">
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div style="height:80px;display:flex;align-items:flex-end">
+            <div class="kf-orb" id="kfBounce"></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">bounce + color</div>
+        </div>
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div class="kf-spin" id="kfSpin"></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">spin · linear</div>
+        </div>
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div class="kf-flash" id="kfFlash">flash!</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">color flash</div>
+        </div>
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div class="kf-shake-el" id="kfShakeEl">⚠️</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">shake</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* cú pháp đầy đủ */</span><br>
+          <span class="k">@keyframes</span> <span class="p">bounce</span> {<br>
+          &nbsp;&nbsp;<span class="v">from</span> { <span class="p">transform</span>: translateY(0); }<br>
+          &nbsp;&nbsp;<span class="v">to</span>   { <span class="p">transform</span>: translateY(-50px); }<br>
+          }<br>
+          <span class="k">.el</span> { <span class="p">animation</span>: <span class="v">bounce 1s ease infinite alternate</span>; }
+        </div>
+        <button class="btn" onclick="toggleKF()">▶ Play / Pause</button>
+      </div>
+    </div>
+
+    <!-- PANEL 1: MULTI-STEP -->
+    <div class="kf-panel" id="kfp1">
+      <div class="demo-area" style="gap:3rem;height:190px;align-items:center">
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div class="ms-box" id="msBox1" style="background:var(--accent)">0%→60%<br>→80%→100%</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">bounceIn</div>
+        </div>
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div class="ms-box playing-pop" style="background:var(--accent3)">0%,100%<br>= same</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">pulse loop</div>
+        </div>
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div class="ms-box playing-walk" style="background:var(--accent4)">4-step<br>walk</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">multi-keyframe</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* overshoot: 0→60% scale up vượt, 80% bounce back */</span><br>
+          <span class="k">@keyframes</span> <span class="p">bounceIn</span> {<br>
+          &nbsp;&nbsp;<span class="v">0%</span>   { <span class="p">transform</span>: scale(<span class="v">0</span>); }<br>
+          &nbsp;&nbsp;<span class="v">60%</span>  { <span class="p">transform</span>: scale(<span class="v">1.2</span>); }<br>
+          &nbsp;&nbsp;<span class="v">80%</span>  { <span class="p">transform</span>: scale(<span class="v">0.9</span>); }<br>
+          &nbsp;&nbsp;<span class="v">100%</span> { <span class="p">transform</span>: scale(<span class="v">1</span>); }<br>
+          }<br>
+          <span class="c">/* gộp 2 mốc cùng trạng thái */</span><br>
+          <span class="v">0%, 100%</span> { <span class="p">background</span>: <span class="v">blue</span>; } <span class="v">50%</span> { <span class="p">background</span>: <span class="v">red</span>; }
+        </div>
+        <button class="btn" onclick="restartBounceIn()">▶ BounceIn</button>
+      </div>
+    </div>
+
+    <!-- PANEL 2: FILL-MODE -->
+    <div class="kf-panel" id="kfp2">
+      <div class="demo-area" style="flex-direction:column;align-items:flex-start;gap:1.25rem;padding:1.5rem 2rem">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">delay = 0.7s — quan sát trước (trong delay) và sau khi animation kết thúc</div>
+        <div class="fm-row" id="fmRow">
+          <div class="fm-col">
+            <div class="fm-box fm-none">none</div>
+            <div class="fm-label">none<br><span style="color:var(--muted);font-size:9px">quay về CSS gốc</span></div>
+          </div>
+          <div class="fm-col">
+            <div class="fm-box fm-forwards">forwards</div>
+            <div class="fm-label">forwards<br><span style="color:var(--muted);font-size:9px">giữ frame cuối</span></div>
+          </div>
+          <div class="fm-col">
+            <div class="fm-box fm-backwards">backwards</div>
+            <div class="fm-label">backwards<br><span style="color:var(--muted);font-size:9px">ẩn trong delay</span></div>
+          </div>
+          <div class="fm-col">
+            <div class="fm-box fm-both" style="outline:1.5px solid var(--accent2);outline-offset:3px">both ✓</div>
+            <div class="fm-label">both<br><span style="color:var(--accent2);font-size:9px">dùng nhiều nhất</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* forwards: giữ trạng thái to{} sau khi xong */</span><br>
+          <span class="k">.el</span> { <span class="p">opacity</span>: <span class="v">0</span>; <span class="p">animation</span>: <span class="v">flyIn 0.6s ease 1s forwards</span>; }<br>
+          <span class="c">/* both = backwards + forwards — pattern chuẩn nhất */</span><br>
+          <span class="k">.el</span> { <span class="p">opacity</span>: <span class="v">0</span>; <span class="p">animation</span>: <span class="v">flyIn 0.6s ease 1s both</span>; }
+        </div>
+        <button class="btn" onclick="runFillMode()">▶ Play</button>
+      </div>
+    </div>
+
+    <!-- PANEL 3: ITERATION & DIRECTION -->
+    <div class="kf-panel" id="kfp3">
+      <div class="demo-area" style="gap:2.5rem;height:180px;align-items:center;flex-wrap:wrap">
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="id-box spin-inf" style="background:var(--accent3);border-radius:50%;width:44px;height:44px">♻</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">infinite</div>
+        </div>
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="id-box" id="spinThree" style="background:var(--accent2);border-radius:50%;width:44px;height:44px">3×</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">count: 3</div>
+          <button class="btn" style="font-size:10px;padding:3px 10px" onclick="restartSpin3()">▶</button>
+        </div>
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+          <span class="id-swing alt" style="font-size:28px">🎵</span>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">alternate</div>
+        </div>
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+          <span class="id-swing alt-rev" style="font-size:28px">🔔</span>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">alt-reverse</div>
+        </div>
+        <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="id-box hover-pause" style="background:var(--accent4);border-radius:50%;width:44px;height:44px;font-size:9px">hover<br>pause</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">CSS pause</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* alternate: lần 1 xuôi, lần 2 ngược — không cần 2 @keyframes */</span><br>
+          <span class="p">animation</span>: <span class="v">swing 0.7s ease-in-out infinite alternate</span>;<br>
+          <span class="c">/* pause bằng CSS */</span><br>
+          <span class="k">.el</span>:<span class="p">hover</span> { <span class="p">animation-play-state</span>: <span class="v">paused</span>; }<br>
+          <span class="c">/* pause bằng JS */</span><br>
+          el.style.animationPlayState = <span class="v">'paused'</span>;
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 4: STAGGER -->
+    <div class="kf-panel" id="kfp4">
+      <div class="demo-area" style="flex-direction:column;gap:1.25rem;align-items:flex-start;padding:1.5rem 2rem">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">bar chart — mỗi cột delay tăng thêm 0.07s</div>
+        <div class="kf-stagger-grid" id="kfStaggerGrid">
+          <div class="kf-stagger-bar" style="height:80px"></div>
+          <div class="kf-stagger-bar" style="height:52px"></div>
+          <div class="kf-stagger-bar" style="height:112px"></div>
+          <div class="kf-stagger-bar" style="height:68px"></div>
+          <div class="kf-stagger-bar" style="height:96px"></div>
+          <div class="kf-stagger-bar" style="height:44px"></div>
+          <div class="kf-stagger-bar" style="height:104px"></div>
+          <div class="kf-stagger-bar" style="height:72px"></div>
+          <div class="kf-stagger-bar" style="height:60px"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px">word reveal — stagger bằng JS</div>
+        <div id="kfWordReveal" style="font-family:var(--display);font-size:20px;font-weight:700;display:flex;gap:8px;flex-wrap:wrap"></div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* CSS: nth-child — đơn giản khi số item cố định */</span><br>
+          <span class="k">.bar:nth-child(n)</span> { <span class="p">animation-delay</span>: <span class="v">calc(n * 0.07s)</span>; }<br>
+          <span class="c">/* JS: linh hoạt hơn khi số item động */</span><br>
+          items.forEach((el, i) => el.style.animationDelay = (i * <span class="v">0.07</span>) + <span class="v">'s'</span>);
+        </div>
+        <button class="btn" onclick="runKfStagger()">▶ Play</button>
+      </div>
+    </div>
+
+    <!-- PANEL 5: REAL-WORLD -->
+    <div class="kf-panel" id="kfp5">
+      <div class="demo-area" style="gap:2.5rem;flex-wrap:wrap;align-items:center">
+        <!-- skeleton -->
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+          <div class="rw-skeleton" style="width:160px"></div>
+          <div class="rw-skeleton" style="width:120px"></div>
+          <div class="rw-skeleton" style="width:140px"></div>
+          <div class="rw-skeleton" style="width:80px"></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px">skeleton shimmer</div>
+        </div>
+        <!-- spinner -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="rw-spinner"></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">spinner</div>
+        </div>
+        <!-- typing dots -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="rw-dots"><div class="rw-dot"></div><div class="rw-dot"></div><div class="rw-dot"></div></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">typing dots</div>
+        </div>
+        <!-- shake input -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <input class="rw-shake-input" id="rwShakeInput" value="wrong-pass" readonly>
+          <button class="btn" style="font-size:11px" onclick="triggerRwShake()">▶ Shake</button>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">error shake</div>
+        </div>
+        <!-- hero word -->
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+          <div class="rw-hero" id="rwHero">
+            <span>Build</span>&nbsp;<span>great</span>&nbsp;<span>UX.</span>
+          </div>
+          <button class="btn" style="font-size:11px" onclick="restartHero()">▶ Replay</button>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">hero word reveal</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* shake: thêm class → lắng nghe animationend → xoá class */</span><br>
+          el.classList.add(<span class="v">'shaking'</span>);<br>
+          el.addEventListener(<span class="v">'animationend'</span>, () => el.classList.remove(<span class="v">'shaking'</span>), { <span class="p">once</span>: <span class="v">true</span> });<br>
+          <span class="c">/* force-restart: void el.offsetWidth trước khi thêm class lại */</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end demo-card -->
+</section>
+
+<!-- ── 3. TRANSFORM (expanded) ──────────────────── -->
+<section class="section" id="transform">
+  <div class="section-label">
+    <span class="section-num">03</span>
+    <span class="section-title">CSS Transform — chuyên sâu</span>
+  </div>
+  <p class="section-desc">
+    <code>transform</code> là backbone của mọi animation hiệu quả: <code>translate</code>, <code>scale</code>, <code>rotate</code>, <code>skew</code> — tất cả chạy trên GPU compositor, không trigger layout reflow. Hiểu <code>transform-origin</code> và render pipeline là chìa khoá viết animation đúng cách.
+  </p>
+
+  <div class="demo-card">
+    <!-- TAB NAV -->
+    <div class="tf-tabs">
+      <div class="tf-tab active"  onclick="tfTab(0,this)">translate</div>
+      <div class="tf-tab" onclick="tfTab(1,this)">scale</div>
+      <div class="tf-tab" onclick="tfTab(2,this)">rotate</div>
+      <div class="tf-tab" onclick="tfTab(3,this)">skew</div>
+      <div class="tf-tab" onclick="tfTab(4,this)">transform-origin</div>
+      <div class="tf-tab" onclick="tfTab(5,this)">GPU vs CPU</div>
+      <div class="tf-tab" onclick="tfTab(6,this)">combo playground</div>
+    </div>
+
+    <!-- PANEL 0: TRANSLATE -->
+    <div class="tf-panel active" id="tfp0">
+      <div class="demo-area" style="padding:1.5rem 2rem">
+        <div class="tl-grid">
+          <div class="tl-cell">
+            <div class="tl-stage"><div class="tl-atom tl-tx">X</div></div>
+            <div class="tl-label">translateX(24px)<br><span style="color:var(--accent)">trái ↔ phải</span></div>
+          </div>
+          <div class="tl-cell">
+            <div class="tl-stage"><div class="tl-atom tl-ty">Y</div></div>
+            <div class="tl-label">translateY(-24px)<br><span style="color:var(--accent2)">lên ↕ xuống</span></div>
+          </div>
+          <div class="tl-cell">
+            <div class="tl-stage"><div class="tl-atom tl-txy">XY</div></div>
+            <div class="tl-label">translate(18px,-18px)<br><span style="color:var(--accent3)">shorthand 2 trục</span></div>
+          </div>
+          <div class="tl-cell">
+            <div class="tl-stage"><div class="tl-atom tl-t3d">3D</div></div>
+            <div class="tl-label">translate3d(x,y,0)<br><span style="color:var(--accent4)">force GPU layer</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* translate không thay đổi vị trí trong document flow */</span><br>
+          <span class="p">transform</span>: <span class="v">translateX(24px)</span>;&nbsp;&nbsp; <span class="c">/* trái/phải */</span><br>
+          <span class="p">transform</span>: <span class="v">translateY(-24px)</span>;&nbsp; <span class="c">/* lên/xuống */</span><br>
+          <span class="p">transform</span>: <span class="v">translate(18px,-18px)</span>; <span class="c">/* cả 2 */</span><br>
+          <span class="p">transform</span>: <span class="v">translate3d(x,y,0)</span>;&nbsp; <span class="c">/* force GPU composite layer */</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 1: SCALE -->
+    <div class="tf-panel" id="tfp1">
+      <div class="demo-area" style="padding:1.5rem 2rem">
+        <div class="sc-grid">
+          <div class="sc-cell">
+            <div class="sc-stage"><div class="sc-atom sc-up"></div></div>
+            <div class="tl-label">scale(1.6)<br><span style="color:var(--accent)">phóng to đều</span></div>
+          </div>
+          <div class="sc-cell">
+            <div class="sc-stage"><div class="sc-atom sc-down"></div></div>
+            <div class="tl-label">scale(0.5)<br><span style="color:var(--accent2)">thu nhỏ</span></div>
+          </div>
+          <div class="sc-cell">
+            <div class="sc-stage"><div class="sc-atom sc-x"></div></div>
+            <div class="tl-label">scaleX(2)<br><span style="color:var(--accent3)">chỉ trục X</span></div>
+          </div>
+          <div class="sc-cell">
+            <div class="sc-stage"><div class="sc-atom sc-y"></div></div>
+            <div class="tl-label">scaleY(2)<br><span style="color:var(--accent4)">chỉ trục Y</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="p">transform</span>: <span class="v">scale(1.6)</span>;&nbsp;&nbsp;&nbsp; <span class="c">/* đều cả 2 trục */</span><br>
+          <span class="p">transform</span>: <span class="v">scale(1.5, 0.8)</span>; <span class="c">/* X khác Y */</span><br>
+          <span class="p">transform</span>: <span class="v">scaleX(2)</span>;&nbsp;&nbsp;&nbsp; <span class="c">/* chỉ trục X — dùng cho reveal effect */</span><br>
+          <span class="c">/* scale(0) → scale(1): pattern phổ biến cho modal, tooltip appear */</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 2: ROTATE -->
+    <div class="tf-panel" id="tfp2">
+      <div class="demo-area" style="padding:1.5rem 2rem">
+        <div class="ro-grid">
+          <div class="ro-cell">
+            <div class="ro-stage"><div class="ro-atom ro-45">45°</div></div>
+            <div class="tl-label">rotate(45deg)</div>
+          </div>
+          <div class="ro-cell">
+            <div class="ro-stage"><div class="ro-atom ro-180">180°</div></div>
+            <div class="tl-label">rotate(180deg)<br><span style="color:var(--accent2)">flip</span></div>
+          </div>
+          <div class="ro-cell">
+            <div class="ro-stage"><div class="ro-atom ro-360">360°</div></div>
+            <div class="tl-label">rotate(360deg)<br><span style="color:var(--accent3)">full spin</span></div>
+          </div>
+          <div class="ro-cell">
+            <div class="ro-stage"><div class="ro-atom ro-neg">-90°</div></div>
+            <div class="tl-label">rotate(-90deg)<br><span style="color:var(--accent4)">ngược chiều</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="p">transform</span>: <span class="v">rotate(45deg)</span>;&nbsp;&nbsp; <span class="c">/* deg, turn, rad đều được */</span><br>
+          <span class="p">transform</span>: <span class="v">rotate(0.5turn)</span>; <span class="c">/* 0.5turn = 180deg */</span><br>
+          <span class="p">transform</span>: <span class="v">rotate(-90deg)</span>;&nbsp; <span class="c">/* âm = ngược chiều kim đồng hồ */</span><br>
+          <span class="c">/* kết hợp với transform-origin để xoay quanh điểm tuỳ chọn */</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 3: SKEW -->
+    <div class="tf-panel" id="tfp3">
+      <div class="demo-area" style="padding:1.5rem 2rem">
+        <div class="sk-grid">
+          <div class="sk-cell">
+            <div class="sk-stage"><div class="sk-atom sk-x">skewX</div></div>
+            <div class="tl-label">skewX(20deg)<br><span style="color:var(--accent)">nghiêng theo X</span></div>
+          </div>
+          <div class="sk-cell">
+            <div class="sk-stage"><div class="sk-atom sk-y">skewY</div></div>
+            <div class="tl-label">skewY(15deg)<br><span style="color:var(--accent2)">nghiêng theo Y</span></div>
+          </div>
+          <div class="sk-cell">
+            <div class="sk-stage"><div class="sk-atom sk-xy">XY</div></div>
+            <div class="tl-label">skewX + skewY<br><span style="color:var(--accent3)">kết hợp</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="p">transform</span>: <span class="v">skewX(20deg)</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="c">/* nghiêng ngang */</span><br>
+          <span class="p">transform</span>: <span class="v">skewY(15deg)</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="c">/* nghiêng dọc */</span><br>
+          <span class="p">transform</span>: <span class="v">skewX(15deg) skewY(5deg)</span>;&nbsp;&nbsp; <span class="c">/* kết hợp */</span><br>
+          <span class="c">/* skew thường dùng cho hero sections, italic-style headings */</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 4: TRANSFORM-ORIGIN -->
+    <div class="tf-panel" id="tfp4">
+      <div class="demo-area" style="padding:1.5rem 2rem;flex-direction:column;gap:1rem">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">hover → cùng rotate(180deg) nhưng khác transform-origin — chấm trắng = điểm pivot</div>
+        <div class="to-grid">
+          <div class="to-cell">
+            <div class="to-stage"><div class="to-atom to-center"></div></div>
+            <div class="tl-label">center center<br><span style="color:var(--accent)">mặc định</span></div>
+          </div>
+          <div class="to-cell">
+            <div class="to-stage"><div class="to-atom to-tl"></div></div>
+            <div class="tl-label">top left</div>
+          </div>
+          <div class="to-cell">
+            <div class="to-stage"><div class="to-atom to-tr"></div></div>
+            <div class="tl-label">top right</div>
+          </div>
+          <div class="to-cell">
+            <div class="to-stage"><div class="to-atom to-bl"></div></div>
+            <div class="tl-label">bottom left</div>
+          </div>
+          <div class="to-cell">
+            <div class="to-stage"><div class="to-atom to-custom"></div></div>
+            <div class="tl-label">50% 100%<br><span style="color:var(--accent3)">custom %</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* mặc định: center center = 50% 50% */</span><br>
+          <span class="p">transform-origin</span>: <span class="v">top left</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="c">/* góc trên trái */</span><br>
+          <span class="p">transform-origin</span>: <span class="v">50% 100%</span>;&nbsp;&nbsp;&nbsp;&nbsp; <span class="c">/* giữa đáy — pendulum */</span><br>
+          <span class="p">transform-origin</span>: <span class="v">0 0</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="c">/* góc trên trái bằng px */</span><br>
+          <span class="c">/* dùng khi làm fold, hinge, dropdown reveal effects */</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 5: GPU vs CPU -->
+    <div class="tf-panel" id="tfp5">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <!-- pipeline diagram -->
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:4px">render pipeline — animate property nào sẽ kích hoạt những bước nào</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <div style="flex:1;min-width:220px">
+            <div style="font-family:var(--mono);font-size:10px;color:#e24b4a;margin-bottom:6px">🔴 left / top / width / height</div>
+            <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+              <span style="padding:4px 10px;background:rgba(226,75,74,0.2);border:1px solid #e24b4a44;border-radius:4px;font-family:var(--mono);font-size:10px;color:#e24b4a">JavaScript</span>
+              <span style="color:var(--muted);font-size:12px">→</span>
+              <span style="padding:4px 10px;background:rgba(226,75,74,0.2);border:1px solid #e24b4a44;border-radius:4px;font-family:var(--mono);font-size:10px;color:#e24b4a">Style</span>
+              <span style="color:var(--muted);font-size:12px">→</span>
+              <span style="padding:4px 10px;background:rgba(226,75,74,0.3);border:1px solid #e24b4a;border-radius:4px;font-family:var(--mono);font-size:10px;color:#e24b4a;font-weight:600">Layout ⚠</span>
+              <span style="color:var(--muted);font-size:12px">→</span>
+              <span style="padding:4px 10px;background:rgba(226,75,74,0.2);border:1px solid #e24b4a44;border-radius:4px;font-family:var(--mono);font-size:10px;color:#e24b4a">Paint</span>
+              <span style="color:var(--muted);font-size:12px">→</span>
+              <span style="padding:4px 10px;background:rgba(226,75,74,0.2);border:1px solid #e24b4a44;border-radius:4px;font-family:var(--mono);font-size:10px;color:#e24b4a">Composite</span>
+            </div>
+          </div>
+          <div style="flex:1;min-width:220px">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--accent3);margin-bottom:6px">🟢 transform / opacity</div>
+            <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+              <span style="padding:4px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--muted)">JavaScript</span>
+              <span style="color:var(--muted);font-size:12px">→</span>
+              <span style="padding:4px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--muted)">Style</span>
+              <span style="color:var(--muted);font-size:12px">→</span>
+              <span style="padding:4px 10px;background:rgba(91,238,180,0.15);border:1px solid var(--accent3);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--accent3);font-weight:600">Composite ✓ GPU</span>
+            </div>
+          </div>
+        </div>
+        <!-- live race -->
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">live demo — bấm Start để xem cả hai chạy</div>
+        <div style="margin-bottom:4px;font-family:var(--mono);font-size:10px;color:#e24b4a">🔴 animate <code>left</code> — Main Thread</div>
+        <div class="gpu-track">
+          <div class="gpu-ball ball-bad" id="gpuBad">left<div class="gpu-badge">CPU</div></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--accent3)">🟢 animate <code>transform</code> — GPU Compositor Thread</div>
+        <div class="gpu-track">
+          <div class="gpu-ball ball-good" id="gpuGood">transform<div class="gpu-badge">GPU</div></div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* 🔴 BAD — triggers Layout + Paint mỗi frame */</span><br>
+          <span class="k">@keyframes</span> { <span class="k">from</span> { <span class="p">left</span>: <span class="v">0</span> } <span class="k">to</span> { <span class="p">left</span>: <span class="v">100%</span> } }<br>
+          <span class="c">/* 🟢 GOOD — chỉ Composite, GPU xử lý riêng thread */</span><br>
+          <span class="k">@keyframes</span> { <span class="k">from</span> { <span class="p">transform</span>: <span class="v">translateX(0)</span> } <span class="k">to</span> { <span class="p">transform</span>: <span class="v">translateX(300px)</span> } }
+        </div>
+        <button class="btn" onclick="toggleGPU()">▶ Start / Stop</button>
+      </div>
+    </div>
+
+    <!-- PANEL 6: COMBO PLAYGROUND -->
+    <div class="tf-panel" id="tfp6">
+      <div class="demo-area" style="flex-direction:column;padding:1.5rem 2rem;gap:1rem">
+        <div class="combo-stage">
+          <div class="combo-el" id="comboEl">🎯</div>
+        </div>
+        <div class="combo-controls">
+          <div class="combo-ctrl">
+            <label>translateX &nbsp;<span class="val" id="txVal">0px</span></label>
+            <input type="range" min="-120" max="120" value="0" id="txSlider" oninput="updateCombo()">
+          </div>
+          <div class="combo-ctrl">
+            <label>translateY &nbsp;<span class="val" id="tyVal">0px</span></label>
+            <input type="range" min="-60" max="60" value="0" id="tySlider" oninput="updateCombo()">
+          </div>
+          <div class="combo-ctrl">
+            <label>rotate &nbsp;<span class="val" id="roVal">0deg</span></label>
+            <input type="range" min="-180" max="180" value="0" id="roSlider" oninput="updateCombo()">
+          </div>
+          <div class="combo-ctrl">
+            <label>scale &nbsp;<span class="val" id="scVal">1</span></label>
+            <input type="range" min="20" max="200" value="100" id="scSlider" oninput="updateCombo()">
+          </div>
+          <div class="combo-ctrl">
+            <label>skewX &nbsp;<span class="val" id="skVal">0deg</span></label>
+            <input type="range" min="-40" max="40" value="0" id="skSlider" oninput="updateCombo()">
+          </div>
+          <div class="combo-ctrl">
+            <label>border-radius &nbsp;<span class="val" id="brVal">10px</span></label>
+            <input type="range" min="0" max="50" value="10" id="brSlider" oninput="updateCombo()">
+          </div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px">
+          <span style="color:var(--muted)">generated:</span>
+          <span id="comboOutput" style="color:var(--accent3)">transform: translateX(0px) translateY(0px) rotate(0deg) scale(1) skewX(0deg)</span>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="code-block">
+          <span class="c">/* thứ tự trong transform shorthand quan trọng! */</span><br>
+          <span class="c">/* translate trước rotate: di chuyển rồi xoay tại chỗ mới */</span><br>
+          <span class="p">transform</span>: <span class="v">translateX(50px) rotate(45deg)</span>;<br>
+          <span class="c">/* rotate trước translate: xoay hệ trục rồi di chuyển theo hệ trục mới */</span><br>
+          <span class="p">transform</span>: <span class="v">rotate(45deg) translateX(50px)</span>;
+        </div>
+        <button class="btn" onclick="resetCombo()">↺ Reset</button>
+      </div>
+    </div>
+
+  </div><!-- end demo-card -->
+</section>
+
+<!-- ── 4. TIMING FUNCTIONS ──────────────────── -->
+<section class="section" id="timing">
+  <div class="section-label">
+    <span class="section-num">04</span>
+    <span class="section-title">Timing Functions</span>
+  </div>
+  <p class="section-desc">
+    Timing function quyết định <em>tốc độ thay đổi</em> của animation theo thời gian. Cùng duration nhưng khác timing function cho cảm giác hoàn toàn khác.
+  </p>
+  <div class="demo-card">
+    <div class="demo-area" style="justify-content:flex-start;padding:1.5rem 2rem">
+      <div class="timing-lanes" id="timingLanes">
+        <div class="lane"><span class="lane-name">linear</span><div class="lane-track"><div class="lane-ball" id="lb0"></div></div></div>
+        <div class="lane"><span class="lane-name">ease</span><div class="lane-track"><div class="lane-ball" id="lb1"></div></div></div>
+        <div class="lane"><span class="lane-name">ease-in</span><div class="lane-track"><div class="lane-ball" id="lb2"></div></div></div>
+        <div class="lane"><span class="lane-name">ease-out</span><div class="lane-track"><div class="lane-ball" id="lb3"></div></div></div>
+        <div class="lane"><span class="lane-name">ease-in-out</span><div class="lane-track"><div class="lane-ball" id="lb4"></div></div></div>
+        <div class="lane"><span class="lane-name">spring</span><div class="lane-track"><div class="lane-ball" id="lb5"></div></div></div>
+      </div>
+    </div>
+    <div class="demo-footer">
+      <div class="code-block">
+        <span class="k">/* spring = overshoot */</span><br>
+        <span class="p">transition</span>: <span class="v">left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)</span>;
+      </div>
+      <button class="btn" onclick="runTimingRace()">▶ Race!</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5. STAGGER ──────────────────── -->
+<section class="section" id="stagger">
+  <div class="section-label">
+    <span class="section-num">05</span>
+    <span class="section-title">Stagger Animation</span>
+  </div>
+  <p class="section-desc">
+    Stagger = delay tăng dần giữa các phần tử. Tạo cảm giác "sóng" rất tự nhiên. Trong CSS thuần, dùng <code>animation-delay</code>. GSAP có built-in stagger.
+  </p>
+  <div class="demo-card">
+    <div class="demo-area" style="flex-direction:column;gap:1.5rem">
+      <!-- Bar chart stagger -->
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:8px">bar chart stagger</div>
+        <div class="stagger-grid" id="staggerGrid">
+          <div class="stagger-bar" style="height:80px"></div>
+          <div class="stagger-bar" style="height:50px"></div>
+          <div class="stagger-bar" style="height:110px"></div>
+          <div class="stagger-bar" style="height:65px"></div>
+          <div class="stagger-bar" style="height:90px"></div>
+          <div class="stagger-bar" style="height:45px"></div>
+          <div class="stagger-bar" style="height:100px"></div>
+          <div class="stagger-bar" style="height:75px"></div>
+        </div>
+      </div>
+
+      <!-- Text stagger -->
+      <div id="textStagger" style="font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-0.02em;display:flex;gap:6px;flex-wrap:wrap;justify-content:center">
+      </div>
+    </div>
+    <div class="demo-footer">
+      <div class="code-block">
+        <span class="c">/* CSS: delay tăng theo index */</span><br>
+        <span class="k">.bar</span>:nth-child(n) { <span class="p">transition-delay</span>: <span class="v">calc(n * 0.06s)</span>; }<br>
+        <span class="c">/* GSAP: */</span>&nbsp; gsap.to('.bar', { <span class="p">stagger</span>: <span class="v">0.06</span>, scaleY: <span class="v">1</span> });
+      </div>
+      <button class="btn" onclick="runStagger()">▶ Play</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── 6. SCROLL TRIGGER ──────────────────── -->
+<section class="section" id="scroll">
+  <div class="section-label">
+    <span class="section-num">06</span>
+    <span class="section-title">Scroll-triggered Animation</span>
+  </div>
+  <p class="section-desc">
+    Dùng <code>IntersectionObserver</code> để trigger animation khi element vào viewport. GSAP ScrollTrigger làm điều tương tự nhưng mạnh hơn nhiều.
+  </p>
+  <div class="demo-card">
+    <div class="demo-area" style="padding:0">
+      <div class="scroll-demo-wrap" id="scrollWrap">
+        <div class="scroll-inner">
+          <div class="scroll-spacer"><div class="scroll-hint">↓ cuộn xuống trong khung này</div></div>
+          <div class="scroll-item">
+            <h4>Concept 01 — Translate + Fade</h4>
+            <p>Element trượt vào từ trái, đồng thời opacity tăng từ 0 lên 1.</p>
+          </div>
+          <div class="scroll-item">
+            <h4>Concept 02 — Staggered reveal</h4>
+            <p>Mỗi card có delay khác nhau, tạo cảm giác từng item xuất hiện theo lượt.</p>
+          </div>
+          <div class="scroll-item">
+            <h4>Concept 03 — Spring easing</h4>
+            <p>Dùng <code>cubic-bezier(0.34, 1.56, 0.64, 1)</code> để có hiệu ứng overshoot nhẹ.</p>
+          </div>
+          <div class="scroll-item">
+            <h4>Concept 04 — Intersection threshold</h4>
+            <p>Có thể cấu hình bao nhiêu % element vào viewport thì trigger animation.</p>
+          </div>
+          <div class="scroll-item">
+            <h4>Concept 05 — Once or repeat</h4>
+            <p>Có thể animate một lần (removeObserver sau khi trigger) hoặc mỗi lần scroll.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-footer">
+      <div class="code-block">
+        <span class="k">const</span> obs = <span class="k">new</span> <span class="p">IntersectionObserver</span>((entries) => {<br>
+        &nbsp;&nbsp;entries.forEach(e => {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="k">if</span> (e.isIntersecting) e.target.classList.add(<span class="v">'visible'</span>);<br>
+        &nbsp;&nbsp;});<br>
+        }, { <span class="p">threshold</span>: <span class="v">0.2</span>, <span class="p">root</span>: scrollContainer });
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 7. PERFORMANCE ──────────────────── -->
+<section class="section" id="performance">
+  <div class="section-label">
+    <span class="section-num">07</span>
+    <span class="section-title">Performance — GPU vs CPU</span>
+  </div>
+  <p class="section-desc">
+    Chỉ <code>transform</code> và <code>opacity</code> chạy trên GPU compositor. Animate <code>left/top/width</code> sẽ trigger layout reflow, gây jank ở 60fps.
+  </p>
+  <div class="demo-card">
+    <div class="demo-area" style="flex-direction:column;align-items:stretch;gap:1rem;padding:1.5rem">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">🔴 bad — animate <code style="color:var(--accent2)">left</code> (layout reflow)</div>
+      <div class="bad-wrap">
+        <div class="perf-box bad" id="badBox">left
+          <span class="perf-badge">CPU</span>
+        </div>
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:8px">🟢 good — animate <code style="color:var(--accent3)">transform</code> (GPU composite)</div>
+      <div class="good-wrap">
+        <div class="perf-box good" id="goodBox">transform
+          <span class="perf-badge">GPU</span>
+        </div>
+      </div>
+    </div>
+    <div class="demo-footer">
+      <div class="code-block">
+        <span class="c">/* 🔴 Tránh */</span> <span class="k">@keyframes</span> { <span class="v">from</span> { <span class="p">left</span>: 0 } <span class="v">to</span> { <span class="p">left</span>: 100% } }<br>
+        <span class="c">/* 🟢 Dùng */</span> <span class="k">@keyframes</span> { <span class="v">from</span> { <span class="p">transform</span>: <span class="v">translateX(0)</span> } <span class="v">to</span> { <span class="p">transform</span>: <span class="v">translateX(300px)</span> } }
+      </div>
+      <button class="btn" onclick="togglePerf()">▶ Start / Stop</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── 8. MICRO-INTERACTIONS ──────────────────── -->
+<section class="section" id="micro">
+  <div class="section-label">
+    <span class="section-num">08</span>
+    <span class="section-title">Micro-interactions</span>
+  </div>
+  <p class="section-desc">
+    Animation nhỏ nhưng có vai trò lớn: feedback cho user, tạo cảm giác "sống". Đây là những pattern dùng thực tế nhất.
+  </p>
+  <div class="demo-card">
+    <div class="demo-area" style="gap:2rem;flex-wrap:wrap">
+      <!-- Magnetic button -->
+      <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <button class="mag-btn" id="magBtn" onmousemove="magnetEffect(event,this)" onmouseleave="resetMagnet(this)">
+          magnetic ✦
+        </button>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">magnetic hover</span>
+      </div>
+
+      <!-- Toggle -->
+      <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="toggle" id="toggle" onclick="toggleSwitch()">
+          <div class="toggle-knob"></div>
+        </div>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">spring toggle</span>
+      </div>
+
+      <!-- Like -->
+      <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="like-btn" id="likeBtn" onclick="toggleLike()">🤍</div>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">like button</span>
+      </div>
+
+      <!-- Input -->
+      <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <input class="fancy-input" placeholder="focus me..." type="text">
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">focus lift</span>
+      </div>
+
+      <!-- Ripple -->
+      <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <button class="ripple-btn" onclick="createRipple(event,this)">ripple click</button>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">material ripple</span>
+      </div>
+    </div>
+    <div class="demo-footer">
+      <div class="code-block">
+        <span class="c">/* ripple: tạo element → animate → remove */</span><br>
+        <span class="k">const</span> r = document.createElement(<span class="v">'span'</span>);<br>
+        r.style.cssText = <span class="v">`left:${x}px;top:${y}px;width:${size}px`</span>;<br>
+        btn.appendChild(r); setTimeout(() => r.remove(), <span class="v">600</span>);
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 9. LOADING STATES ──────────────────── -->
+<section class="section" id="loading">
+  <div class="section-label">
+    <span class="section-num">09</span>
+    <span class="section-title">Loading States</span>
+  </div>
+  <p class="section-desc">
+    Loading animations giúp user biết hệ thống đang xử lý. Skeleton loader tốt hơn spinner vì giữ layout ổn định.
+  </p>
+  <div class="demo-card">
+    <div class="demo-area" style="gap:3rem;flex-wrap:wrap">
+      <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <div class="spinner"></div>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">spinner</span>
+      </div>
+      <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <div class="dots-wrap">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">typing dots</span>
+      </div>
+      <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <div class="skeleton-wrap">
+          <div class="skel wide" style="height:16px"></div>
+          <div class="skel med"></div>
+          <div class="skel wide"></div>
+          <div class="skel short"></div>
+        </div>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">skeleton shimmer</span>
+      </div>
+      <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+          <div class="progress-label" id="progLabel">0%</div>
+        </div>
+        <button class="btn" style="margin-top:4px" onclick="runProgress()">▶ Run</button>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">progress bar</span>
+      </div>
+    </div>
+    <div class="demo-footer">
+      <div class="code-block">
+        <span class="k">.skel</span> { <span class="p">position</span>: relative; <span class="p">overflow</span>: hidden; }<br>
+        <span class="k">.skel::after</span> {<br>
+        &nbsp;&nbsp;<span class="p">content</span>: ""; <span class="p">position</span>: absolute; <span class="p">inset</span>: 0;<br>
+        &nbsp;&nbsp;<span class="p">transform</span>: translateX(-100%);<br>
+        &nbsp;&nbsp;<span class="p">background</span>: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);<br>
+        &nbsp;&nbsp;<span class="p">animation</span>: <span class="v">shimmer 1.6s infinite</span>;<br>
+        &nbsp;&nbsp;<span class="p">will-change</span>: transform;<br>
+        }<br>
+        <span class="k">@keyframes</span> shimmer { <span class="v">to</span> { <span class="p">transform</span>: translateX(100%); } }
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Animation Lab &nbsp;·&nbsp; CSS &amp; JS &nbsp;·&nbsp; made for learning &nbsp;<span>✦</span></p>
+</footer>
+
+<script>
+/* ── KEYFRAMES TAB SYSTEM ── */
+function kfTab(idx, el) {
+  document.querySelectorAll('.kf-tab').forEach((t,i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.kf-panel').forEach((p,i) => p.classList.toggle('active', i === idx));
+}
+
+/* panel 0: anatomy play/pause */
+let kfOn = false;
+function toggleKF() {
+  kfOn = !kfOn;
+  document.getElementById('kfBounce').classList.toggle('playing', kfOn);
+  document.getElementById('kfSpin').classList.toggle('playing', kfOn);
+  document.getElementById('kfFlash').classList.toggle('playing', kfOn);
+  document.getElementById('kfShakeEl').classList.toggle('playing', kfOn);
+}
+
+/* panel 1: multi-step bounceIn restart */
+function restartBounceIn() {
+  const el = document.getElementById('msBox1');
+  el.classList.remove('playing-bounce');
+  void el.offsetWidth;
+  el.classList.add('playing-bounce');
+}
+
+/* panel 2: fill-mode */
+function runFillMode() {
+  const row = document.getElementById('fmRow');
+  row.classList.remove('fm-running');
+  void row.offsetWidth;
+  /* reset opacity on forwards/both boxes */
+  row.querySelectorAll('.fm-forwards, .fm-both').forEach(b => { b.style.opacity = '0'; });
+  void row.offsetWidth;
+  row.classList.add('fm-running');
+  /* after animation ends restore for re-run */
+  setTimeout(() => {
+    row.querySelectorAll('.fm-forwards, .fm-both').forEach(b => { b.style.opacity = ''; });
+  }, 2200);
+}
+
+/* panel 3: spin 3× restart */
+function restartSpin3() {
+  const el = document.getElementById('spinThree');
+  el.classList.remove('spin-3');
+  void el.offsetWidth;
+  el.classList.add('spin-3');
+}
+
+/* panel 4: stagger bars + word reveal */
+const KF_WORDS = ['Animation', 'brings', 'interfaces', 'to', 'life.'];
+function buildKfWords() {
+  const wrap = document.getElementById('kfWordReveal');
+  wrap.innerHTML = '';
+  KF_WORDS.forEach(w => {
+    const span = document.createElement('span');
+    span.textContent = w;
+    span.style.cssText = 'display:inline-block;opacity:0;transform:translateY(14px);transition:opacity 0.4s ease,transform 0.45s cubic-bezier(0.34,1.56,0.64,1)';
+    wrap.appendChild(span);
+  });
+}
+buildKfWords();
+
+function runKfStagger() {
+  /* reset bars */
+  const bars = document.querySelectorAll('.kf-stagger-bar');
+  bars.forEach(b => { b.classList.remove('revealed'); b.style.animationDelay = ''; });
+  void document.getElementById('kfStaggerGrid').offsetWidth;
+  bars.forEach((b, i) => {
+    b.style.animationDelay = (i * 0.07) + 's';
+    b.classList.add('revealed');
+  });
+  /* reset words */
+  const words = document.querySelectorAll('#kfWordReveal span');
+  words.forEach(s => { s.style.opacity = '0'; s.style.transform = 'translateY(14px)'; });
+  words.forEach((s, i) => {
+    setTimeout(() => { s.style.opacity = '1'; s.style.transform = 'translateY(0)'; }, i * 100 + 700);
+  });
+}
+
+/* panel 5: shake input */
+function triggerRwShake() {
+  const el = document.getElementById('rwShakeInput');
+  el.classList.remove('shaking', 'error');
+  void el.offsetWidth;
+  el.classList.add('shaking', 'error');
+  el.addEventListener('animationend', () => {
+    el.classList.remove('shaking');
+    setTimeout(() => el.classList.remove('error'), 600);
+  }, { once: true });
+}
+
+/* panel 5: hero replay */
+function restartHero() {
+  const spans = document.querySelectorAll('#rwHero span');
+  spans.forEach(s => {
+    s.style.animation = 'none';
+    void s.offsetWidth;
+    s.style.animation = '';
+  });
+}
+
+/* ── TIMING RACE ── */
+const TIMINGS = [
+  'linear',
+  'ease',
+  'ease-in',
+  'ease-out',
+  'ease-in-out',
+  'cubic-bezier(0.34,1.56,0.64,1)'
+];
+let raceRunning = false;
+function runTimingRace() {
+  if (raceRunning) return;
+  raceRunning = true;
+  const dur = 1.2;
+  TIMINGS.forEach((fn, i) => {
+    const ball = document.getElementById('lb' + i);
+    const track = ball.parentElement;
+    const maxLeft = track.clientWidth - 36;
+    ball.style.transition = 'none';
+    ball.style.left = '4px';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      ball.style.transition = `left ${dur}s ${fn}`;
+      ball.style.left = maxLeft + 'px';
+    }));
+  });
+  setTimeout(() => { raceRunning = false; }, (dur + 0.5) * 1000);
+}
+
+/* ── STAGGER ── */
+let staggerDone = false;
+const WORDS = ['Animation','is','how','interfaces','come','to','life.'];
+function buildTextStagger() {
+  const wrap = document.getElementById('textStagger');
+  wrap.innerHTML = '';
+  WORDS.forEach((w, i) => {
+    const span = document.createElement('span');
+    span.textContent = w;
+    span.style.cssText = 'opacity:0;transform:translateY(20px);transition:opacity 0.4s ease,transform 0.4s cubic-bezier(0.34,1.56,0.64,1);display:inline-block';
+    wrap.appendChild(span);
+  });
+}
+buildTextStagger();
+
+function runStagger() {
+  const bars = document.querySelectorAll('.stagger-bar');
+  bars.forEach((b, i) => { b.style.opacity = '0'; b.style.transform = 'scaleY(0)'; });
+  document.querySelectorAll('#textStagger span').forEach(s => {
+    s.style.opacity = '0'; s.style.transform = 'translateY(20px)';
+  });
+  setTimeout(() => {
+    bars.forEach((b, i) => {
+      b.style.transitionDelay = (i * 0.06) + 's';
+      setTimeout(() => { b.style.opacity = '1'; b.style.transform = 'scaleY(1)'; }, 50);
+    });
+    document.querySelectorAll('#textStagger span').forEach((s, i) => {
+      setTimeout(() => { s.style.opacity = '1'; s.style.transform = 'translateY(0)'; }, i * 80 + 600);
+    });
+  }, 50);
+}
+
+/* ── SCROLL OBSERVER ── */
+const scrollItems = document.querySelectorAll('.scroll-item');
+const scrollRoot = document.getElementById('scrollWrap');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      const idx = Array.from(scrollItems).indexOf(e.target);
+      setTimeout(() => e.target.classList.add('visible'), idx * 80);
+    }
+  });
+}, { threshold: 0.25, root: scrollRoot });
+scrollItems.forEach(el => obs.observe(el));
+
+/* ── PERFORMANCE DEMO ── */
+let perfOn = false;
+function togglePerf() {
+  perfOn = !perfOn;
+  document.getElementById('badBox').classList.toggle('moving', perfOn);
+  document.getElementById('goodBox').classList.toggle('moving', perfOn);
+}
+
+/* ── MICRO: MAGNETIC ── */
+function magnetEffect(e, btn) {
+  const rect = btn.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const dx = (e.clientX - cx) * 0.28;
+  const dy = (e.clientY - cy) * 0.28;
+  btn.style.transform = `translate(${dx}px, ${dy}px)`;
+}
+function resetMagnet(btn) {
+  btn.style.transform = '';
+}
+
+/* ── MICRO: TOGGLE ── */
+function toggleSwitch() {
+  document.getElementById('toggle').classList.toggle('on');
+}
+
+/* ── MICRO: LIKE ── */
+let liked = false;
+function toggleLike() {
+  liked = !liked;
+  const btn = document.getElementById('likeBtn');
+  btn.textContent = liked ? '❤️' : '🤍';
+  btn.classList.toggle('liked', liked);
+  if (liked) setTimeout(() => btn.classList.remove('liked'), 400);
+}
+
+/* ── MICRO: RIPPLE ── */
+function createRipple(e, btn) {
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(btn.clientWidth, btn.clientHeight) * 2;
+  const x = e.clientX - rect.left - size / 2;
+  const y = e.clientY - rect.top - size / 2;
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+  btn.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 700);
+}
+
+/* ── TRANSFORM TAB SYSTEM ── */
+function tfTab(idx, el) {
+  document.querySelectorAll('.tf-tab').forEach((t,i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.tf-panel').forEach((p,i) => p.classList.toggle('active', i === idx));
+}
+
+/* panel 5: GPU toggle */
+let gpuOn = false;
+function toggleGPU() {
+  gpuOn = !gpuOn;
+  document.getElementById('gpuBad').classList.toggle('gpu-running', gpuOn);
+  document.getElementById('gpuGood').classList.toggle('gpu-running', gpuOn);
+}
+
+/* panel 6: combo playground */
+function updateCombo() {
+  const tx = document.getElementById('txSlider').value;
+  const ty = document.getElementById('tySlider').value;
+  const ro = document.getElementById('roSlider').value;
+  const sc = (document.getElementById('scSlider').value / 100).toFixed(2);
+  const sk = document.getElementById('skSlider').value;
+  const br = document.getElementById('brSlider').value;
+
+  document.getElementById('txVal').textContent = tx + 'px';
+  document.getElementById('tyVal').textContent = ty + 'px';
+  document.getElementById('roVal').textContent = ro + 'deg';
+  document.getElementById('scVal').textContent = sc;
+  document.getElementById('skVal').textContent = sk + 'deg';
+  document.getElementById('brVal').textContent = br + 'px';
+
+  const tfStr = `translateX(${tx}px) translateY(${ty}px) rotate(${ro}deg) scale(${sc}) skewX(${sk}deg)`;
+  document.getElementById('comboEl').style.transform = tfStr;
+  document.getElementById('comboEl').style.borderRadius = br + 'px';
+  document.getElementById('comboOutput').textContent = 'transform: ' + tfStr;
+}
+
+function resetCombo() {
+  ['txSlider','tySlider','roSlider','skSlider'].forEach(id => document.getElementById(id).value = 0);
+  document.getElementById('scSlider').value = 100;
+  document.getElementById('brSlider').value = 10;
+  updateCombo();
+}
+
+let progRunning = false;
+function runProgress() {
+  if (progRunning) return;
+  progRunning = true;
+  let val = 0;
+  const fill = document.getElementById('progFill');
+  const label = document.getElementById('progLabel');
+  fill.style.width = '0%';
+  label.textContent = '0%';
+  const interval = setInterval(() => {
+    val += Math.random() * 4 + 1;
+    if (val >= 100) { val = 100; clearInterval(interval); progRunning = false; }
+    fill.style.width = val + '%';
+    label.textContent = Math.round(val) + '%';
+  }, 80);
+}
+</script>
+</body>
+</html>

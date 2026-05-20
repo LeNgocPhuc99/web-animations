@@ -1,17 +1,18 @@
 import { useRef, useState } from "react";
 
-import { DemoCard } from "../components";
 import {
   ui,
   laneClass,
   laneNameClass,
   laneBallClass,
   laneTrackClass,
-} from "../classes";
+} from "~/css-animations/classes";
+import { timings } from "~/css-animations/data";
+import { DemoCard } from "~/css-animations/components";
 
-import { timings } from "../data";
+import LessonSection from "../LessonSection";
 
-import LessonSection from "./LessonSection";
+import "./timing.css";
 
 const TimingSection = () => {
   const ballRefs = useRef<Array<HTMLDivElement | null>>([]);

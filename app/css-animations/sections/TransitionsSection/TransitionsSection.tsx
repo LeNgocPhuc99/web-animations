@@ -1,10 +1,12 @@
-import { ui } from "../classes";
+import { ui } from "../../classes";
 
-import { DemoCard } from "../components";
+import { DemoCard } from "../../components";
 
-import LessonSection from "./LessonSection";
+import LessonSection from "../LessonSection";
 
 import { cn } from "~/lib/utils";
+
+import './transition.css'
 
 const TransitionsSection = () => {
   return (

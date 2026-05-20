@@ -1,0 +1,42 @@
+.toggle.on {
+    background: var(--lab-accent);
+    border-color: var(--lab-accent);
+}
+
+.toggle.on .toggle-knob {
+    transform: translateX(24px);
+}
+
+.like-btn.liked {
+    background: rgba(238, 91, 141, 0.15);
+    border-color: var(--lab-accent-2);
+    animation: likeAnim 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes likeAnim {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.35);
+    }
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 999px;
+    background: rgba(91, 141, 238, 0.3);
+    pointer-events: none;
+    transform: scale(0);
+    animation: rippleOut 0.6s ease-out forwards;
+}
+
+@keyframes rippleOut {
+    to {
+        opacity: 0;
+        transform: scale(4);
+    }
+}

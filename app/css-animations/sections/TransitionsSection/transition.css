@@ -1,0 +1,28 @@
+.delay-row:hover .t-box-delay {
+    border-radius: 50%;
+}
+
+.delay-row .t-box-delay:nth-child(1) {
+    background: var(--lab-accent);
+    transition: border-radius 0.3s ease 0s;
+}
+
+.delay-row .t-box-delay:nth-child(2) {
+    background: var(--lab-accent-2);
+    transition: border-radius 0.3s ease 0.08s;
+}
+
+.delay-row .t-box-delay:nth-child(3) {
+    background: var(--lab-accent-3);
+    transition: border-radius 0.3s ease 0.16s;
+}
+
+.delay-row .t-box-delay:nth-child(4) {
+    background: var(--lab-accent-4);
+    transition: border-radius 0.3s ease 0.24s;
+}
+
+.delay-row .t-box-delay:nth-child(5) {
+    background: #8d5bee;
+    transition: border-radius 0.3s ease 0.32s;
+}

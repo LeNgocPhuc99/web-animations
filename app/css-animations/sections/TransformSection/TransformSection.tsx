@@ -1,12 +1,14 @@
-import { DemoCard } from "../components";
+import { DemoCard } from "~/css-animations/components";
 import {
   ui,
   transformBoxClass,
   transformItemClass,
   transformLabelClass,
-} from "../classes";
+} from "~/css-animations/classes";
 
-import LessonSection from "./LessonSection";
+import LessonSection from "../LessonSection";
+
+import './transform.css'
 
 const TransformSection = () => {
   const boxes = [
