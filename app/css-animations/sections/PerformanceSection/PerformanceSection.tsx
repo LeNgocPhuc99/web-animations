@@ -7,7 +7,7 @@ import LessonSection from "../LessonSection";
 
 import { cn } from "~/lib/utils";
 
-import './performance.css'
+import "./performance.css";
 
 const PerformanceSection = () => {
   const [running, setRunning] = useState(false);
@@ -34,7 +34,7 @@ const PerformanceSection = () => {
             <div className="font-mono text-[11px] text-[#85859a]">
               Avoid: animate <code>left</code> vì dễ trigger layout reflow
             </div>
-            <div className="relative h-20 overflow-hidden rounded-md bg-[#1a1a24]">
+            <div className="perf-track relative h-20 overflow-hidden rounded-md bg-[#1a1a24]">
               <div
                 className={cn(
                   "bad absolute left-0 top-1/2 -mt-8 flex h-16 w-16 items-center justify-center",
@@ -52,10 +52,10 @@ const PerformanceSection = () => {
               Prefer: animate <code>transform</code> để browser composite tốt
               hơn
             </div>
-            <div className="relative h-20 overflow-hidden rounded-md bg-[#1a1a24]">
+            <div className="perf-track relative h-20 overflow-hidden rounded-md bg-[#1a1a24]">
               <div
                 className={cn(
-                  "good relative top-1/2 -mt-8 flex h-16 w-16 items-center justify-center ",
+                  "good relative top-1/2 -mt-8 flex h-16 w-16 items-center justify-center",
                   "rounded-lg border border-[#5b8dee] bg-[#5b8dee44] font-mono text-[10px] text-white",
                   running && "moving",
                 )}

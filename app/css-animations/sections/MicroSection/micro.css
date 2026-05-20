@@ -1,6 +1,6 @@
 .toggle.on {
-    background: var(--lab-accent);
-    border-color: var(--lab-accent);
+    background: var(--accent);
+    border-color: var(--accent);
 }
 
 .toggle.on .toggle-knob {
@@ -9,7 +9,7 @@
 
 .like-btn.liked {
     background: rgba(238, 91, 141, 0.15);
-    border-color: var(--lab-accent-2);
+    border-color: var(--accent-2);
     animation: likeAnim 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 

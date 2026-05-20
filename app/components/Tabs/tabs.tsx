@@ -79,7 +79,16 @@ export const Tabs = ({
 type TabListProps = HTMLAttributes<HTMLDivElement>;
 
 export const TabList = ({ className, ...props }: TabListProps) => {
-  return <div className={className} role="tablist" {...props} />;
+  return (
+    <div
+      className={cn(
+        "flex flex-wrap gap-1 border-b border-white/10 px-6 pt-4",
+        className,
+      )}
+      role="tablist"
+      {...props}
+    />
+  );
 };
 
 type TabItemProps = ButtonHTMLAttributes<HTMLButtonElement> & {

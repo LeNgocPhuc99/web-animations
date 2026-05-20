@@ -8,12 +8,12 @@
 @keyframes bounce {
     from {
         transform: translateY(0);
-        background: var(--lab-accent);
+        background: var(--accent);
     }
 
     to {
         transform: translateY(-50px);
-        background: var(--lab-accent-2);
+        background: var(--accent-2);
     }
 }
 
@@ -41,7 +41,7 @@
     }
 
     50% {
-        background: var(--lab-accent-4);
+        background: var(--accent-4);
         color: #08080c;
     }
 }
@@ -126,12 +126,12 @@
 
     0%,
     100% {
-        background: var(--lab-accent);
+        background: var(--accent);
         transform: scale(1);
     }
 
     50% {
-        background: var(--lab-accent-2);
+        background: var(--accent-2);
         transform: scale(1.3);
     }
 }
@@ -199,16 +199,16 @@
 }
 
 .fm-forwards {
-    background: var(--lab-accent);
+    background: var(--accent);
     opacity: 0;
 }
 
 .fm-backwards {
-    background: var(--lab-accent-3);
+    background: var(--accent-3);
 }
 
 .fm-both {
-    background: var(--lab-accent-2);
+    background: var(--accent-2);
     opacity: 0;
 }
 
@@ -296,7 +296,7 @@
 .kf-stagger-bar {
     width: 30px;
     border-radius: 4px 4px 0 0;
-    background: var(--lab-accent);
+    background: var(--accent);
     opacity: 0;
     transform: scaleY(0);
     transform-origin: bottom;
@@ -366,7 +366,7 @@
     width: 32px;
     height: 32px;
     border: 3px solid #1a1a24;
-    border-top-color: var(--lab-accent);
+    border-top-color: var(--accent);
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
 }
@@ -382,7 +382,7 @@
     height: 8px;
     border-radius: 50%;
     animation: rwDotBounce 1.2s ease-in-out infinite;
-    background: var(--lab-accent-2);
+    background: var(--accent-2);
 }
 
 .rw-dot:nth-child(2) {

@@ -1,3 +1,8 @@
+.perf-track {
+    /* CSS container query: style dựa trên kích thước cả parent thay vì viewport*/
+    container-type: inline-size;
+}
+
 .bad.moving {
     animation: moveLeft 1.2s linear infinite alternate;
 }
@@ -22,6 +27,6 @@
     }
 
     to {
-        transform: translateX(calc(100% - 64px));
+        transform: translateX(calc(100cqw - 64px));
     }
 }

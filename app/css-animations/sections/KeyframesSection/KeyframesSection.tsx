@@ -144,10 +144,10 @@ const KeyframesSection = () => {
     <LessonSection id="keyframes">
       <DemoCard code={panelCode[activeTab]} action={action}>
         <Tabs
-          onValueChange={(value) => setActiveTab(value as KeyframeTab)}
           value={activeTab}
+          onValueChange={(value) => setActiveTab(value as KeyframeTab)}
         >
-          <TabList className="flex flex-wrap gap-1 border-b border-white/10 px-6 pt-4">
+          <TabList>
             {tabs.map((tab) => (
               <TabItem key={tab.value} value={tab.value}>
                 {tab.label}

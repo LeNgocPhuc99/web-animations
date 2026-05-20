@@ -1,44 +1,215 @@
-#tfTranslate:hover {
-    transform: translateX(16px);
+/* 3a. translate */
+.tl-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
 }
 
-#tfScale:hover {
+.tl-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.tl-stage {
+    width: 100%;
+    height: 90px;
+    background: var(--bg3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.tl-atom {
+    width: 44px;
+    height: 44px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #fff;
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: default;
+}
+
+.tl-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.5;
+}
+
+.tl-stage:hover .tl-tx {
+    transform: translateX(24px);
+}
+
+.tl-stage:hover .tl-ty {
+    transform: translateY(-24px);
+}
+
+.tl-stage:hover .tl-txy {
+    transform: translate(18px, -18px);
+}
+
+.tl-stage:hover .tl-t3d {
+    transform: translate3d(16px, -12px, 0) scale(1.05);
+}
+
+.tl-tx {
+    background: var(--accent);
+}
+
+.tl-ty {
+    background: var(--accent2);
+}
+
+.tl-txy {
+    background: var(--accent3);
+}
+
+.tl-t3d {
+    background: var(--accent4);
+}
+
+/* 3b. scale */
+.sc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+.sc-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.sc-stage {
+    width: 100%;
+    height: 90px;
+    background: var(--bg3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.sc-atom {
+    width: 40px;
+    height: 40px;
+    border-radius: 7px;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sc-stage:hover .sc-up {
     transform: scale(1.6);
 }
 
-#tfRotate:hover {
-    transform: rotate(135deg);
+.sc-stage:hover .sc-down {
+    transform: scale(0.5);
 }
 
-#tfSkew:hover {
-    transform: skewX(20deg);
+.sc-stage:hover .sc-x {
+    transform: scaleX(2);
 }
 
-#tfCombo:hover {
-    transform: translateY(-8px) scale(1.1) rotate(15deg);
+.sc-stage:hover .sc-y {
+    transform: scaleY(2);
 }
 
-#tfTranslate {
-    background: linear-gradient(135deg, #5b8dee22, #5b8dee44);
-    border-color: #5b8dee55;
+.sc-up {
+    background: var(--accent);
 }
 
-#tfScale {
-    background: linear-gradient(135deg, #ee5b8d22, #ee5b8d44);
-    border-color: #ee5b8d55;
+.sc-down {
+    background: var(--accent2);
 }
 
-#tfRotate {
-    background: linear-gradient(135deg, #5beeb422, #5beeb444);
-    border-color: #5beeb455;
+.sc-x {
+    background: var(--accent3);
 }
 
-#tfSkew {
-    background: linear-gradient(135deg, #eec85b22, #eec85b44);
-    border-color: #eec85b55;
+.sc-y {
+    background: var(--accent4);
 }
 
-#tfCombo {
-    background: linear-gradient(135deg, #ee5b8d22, #5b8dee44);
-    border-color: #8d5bee55;
+/* 3c. rotate */
+.ro-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+.ro-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.ro-stage {
+    width: 100%;
+    height: 90px;
+    background: var(--bg3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.ro-atom {
+    width: 44px;
+    height: 44px;
+    border-radius: 7px;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ro-stage:hover .ro-45 {
+    transform: rotate(45deg);
+}
+
+.ro-stage:hover .ro-180 {
+    transform: rotate(180deg);
+}
+
+.ro-stage:hover .ro-360 {
+    transform: rotate(360deg);
+}
+
+.ro-stage:hover .ro-neg {
+    transform: rotate(-90deg);
+}
+
+.ro-45 {
+    background: var(--accent);
+}
+
+.ro-180 {
+    background: var(--accent2);
+}
+
+.ro-360 {
+    background: var(--accent3);
+}
+
+.ro-neg {
+    background: var(--accent4);
 }
