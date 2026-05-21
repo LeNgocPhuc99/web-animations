@@ -1,12 +1,7 @@
 import { useState } from "react";
 
 import { DemoCard } from "~/css-animations/components";
-import {
-  ui,
-  transformBoxClass,
-  transformItemClass,
-  transformLabelClass,
-} from "~/css-animations/classes";
+import { ui } from "~/css-animations/classes";
 
 import { TabItem, TabList, TabPanel, Tabs } from "~/components/Tabs";
 
@@ -27,6 +22,24 @@ const tabs = [
 ] as const;
 
 type TransformTab = (typeof tabs)[number]["value"];
+
+type ComboState = {
+  tx: number;
+  ty: number;
+  ro: number;
+  sc: number;
+  sk: number;
+  br: number;
+};
+
+const initialCombo: ComboState = {
+  tx: 0,
+  ty: 0,
+  ro: 0,
+  sc: 100,
+  sk: 0,
+  br: 10,
+};
 
 const panelCode: Record<TransformTab, string> = {
   translate: `
@@ -74,9 +87,31 @@ const panelCode: Record<TransformTab, string> = {
   `,
 };
 
+const pipelineClasses = {
+  badBox: `py-1 px-2.5 bg-(--bg4) border border-(--border3) rounded-sm font-mono text-[10px] text-(--accent7)`,
+  arrow: `text-(--muted) text-[12px]`,
+  goodBox: `py-1 px-2.5 bg-(--bg5) border border-(--accent3) rounded-sm font-mono text-[10px] text-(--accent3)`,
+  disabledBox: `"py-1 px-2.5 bg-(--bg3) border border-(--border) rounded-sm text-mono text-[10px] text-(--muted)`,
+};
+
 const TransformSection = () => {
   const [activeTab, setActiveTab] = useState<TransformTab>("translate");
   const [playing, setPlaying] = useState<boolean>(false);
+  const [combo, setCombo] = useState<ComboState>(initialCombo);
+
+  const scale = (combo.sc / 100).toFixed(2);
+  const comboTransform = `translateX(${combo.tx}px) translateY(${combo.ty}px) rotate(${combo.ro}deg) scale(${scale}) skewX(${combo.sk}deg)`;
+
+  const updateCombo = (key: keyof ComboState, value: number) => {
+    setCombo((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  };
+
+  const resetCombo = () => {
+    setCombo(initialCombo);
+  };
 
   const action = (() => {
     if (activeTab === "GPU vs CPU") {
@@ -92,7 +127,7 @@ const TransformSection = () => {
     }
     if (activeTab === "combo playground") {
       return (
-        <button className={ui.button} type="button">
+        <button className={ui.button} onClick={resetCombo} type="button">
           ↺ Reset
         </button>
       );
@@ -252,10 +287,303 @@ const TransformSection = () => {
               </div>
             </div>
           </TabPanel>
-          <TabPanel value="skew"></TabPanel>
-          <TabPanel value="transform-origin"></TabPanel>
-          <TabPanel value="GPU vs CPU"></TabPanel>
-          <TabPanel value="combo playground"></TabPanel>
+          {/* PANEL 3: SKEW */}
+          <TabPanel value="skew">
+            <div className={cn(ui.demoArea, "py-6 px-8")}>
+              <div className="sk-grid">
+                <div className="sk-cell">
+                  <div className="sk-stage">
+                    <div className="sk-atom sk-x">skewX</div>
+                  </div>
+                  <div className="tl-label">
+                    skewX(20deg)
+                    <br />
+                    <span className="text-(--accent)">nghiêng theo X</span>
+                  </div>
+                </div>
+                <div className="sk-cell">
+                  <div className="sk-stage">
+                    <div className="sk-atom sk-y">skewY</div>
+                  </div>
+                  <div className="tl-label">
+                    skewY(15deg)
+                    <br />
+                    <span className="text-(--accent2)">nghiêng theo Y</span>
+                  </div>
+                </div>
+                <div className="sk-cell">
+                  <div className="sk-stage">
+                    <div className="sk-atom sk-xy">XY</div>
+                  </div>
+                  <div className="tl-label">
+                    skewX + skewY
+                    <br />
+                    <span className="text-(--accent3)">kết hợp</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabPanel>
+          {/* PANEL 4: TRANSFORM-ORIGIN */}
+          <TabPanel value="transform-origin">
+            <div className={cn(ui.demoArea, "py-6 px-8")}>
+              <div className="font-mono text-[11px] text-[#85859a]">
+                hover → cùng rotate(180deg) nhưng khác transform-origin — chấm
+                trắng = điểm pivot
+              </div>
+              <div className="to-grid">
+                <div className="to-cell">
+                  <div className="to-stage">
+                    <div className="to-atom to-center" />
+                  </div>
+                  <div className="tl-label">
+                    center center <br />
+                    <span className="text-(--accent)">mặc định</span>
+                  </div>
+                </div>
+                <div className="to-cell">
+                  <div className="to-stage">
+                    <div className="to-atom to-tl" />
+                  </div>
+                  <div className="tl-label">top left</div>
+                </div>
+                <div className="to-cell">
+                  <div className="to-stage">
+                    <div className="to-atom to-tr" />
+                  </div>
+                  <div className="tl-label">top right</div>
+                </div>
+                <div className="to-cell">
+                  <div className="to-stage">
+                    <div className="to-atom to-bl" />
+                  </div>
+                  <div className="tl-label">bottom lef</div>
+                </div>
+                <div className="to-cell">
+                  <div className="to-stage">
+                    <div className="to-atom to-custom" />
+                  </div>
+                  <div className="tl-label">
+                    50% 100% <br />
+                    <span className="text-(--accent3)">custom %</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </TabPanel>
+          {/* PANEL 5: GPU vs CPU */}
+          <TabPanel value="GPU vs CPU">
+            <div
+              className={cn(ui.demoArea, "py-6 px-8 flex-col items-stretch")}
+            >
+              {/* pipeline diagram */}
+              <div className="font-mono text-[11px] text-(--muted)">
+                render pipeline — animate property nào sẽ kích hoạt những bước
+                nào
+              </div>
+              <div className="flex gap-3 flex-wrap mb-2">
+                <div className="flex-1 min-w-55">
+                  <div className="font-mono text-[10px] text-(--accent7) mb-1">
+                    🔴 left / top / width / height
+                  </div>
+                  <div className="flex items-center gap-1 flex-wrap">
+                    <span className={pipelineClasses.badBox}>JavaScript</span>
+                    <span className={pipelineClasses.arrow}>→</span>
+                    <span className={pipelineClasses.badBox}>Style</span>
+                    <span className={pipelineClasses.arrow}>→</span>
+                    <span
+                      className={cn(
+                        pipelineClasses.badBox,
+                        "bg-[rgba(226,75,74,0.3)] border-(--accent7) font-semibold",
+                      )}
+                    >
+                      Layout ⚠
+                    </span>
+                    <span className={pipelineClasses.arrow}>→</span>
+                    <span className={pipelineClasses.badBox}>Paint</span>
+                    <span className={pipelineClasses.arrow}>→</span>
+                    <span className={pipelineClasses.badBox}>Composite</span>
+                  </div>
+                </div>
+                <div className="flex-1 min-w-55">
+                  <div className="font-mono text-[10px] text-(--accent3) mb-1">
+                    🟢 transform / opacity
+                  </div>
+                  <div className="flex items-center gap-1 flex-wrap">
+                    <span className={pipelineClasses.disabledBox}>
+                      JavaScript
+                    </span>
+                    <span className={pipelineClasses.arrow}>→</span>
+                    <span className={pipelineClasses.disabledBox}>Style</span>
+                    <span className={pipelineClasses.arrow}>→</span>
+                    <span className={pipelineClasses.goodBox}>
+                      Composite ✓ GPU
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {/* live race */}
+              <div className="font-mono text-[11px] text-(--muted)">
+                live demo — bấm Start để xem cả hai chạy
+              </div>
+              <div className="font-mono text-[10px] text-(--accent7)">
+                🔴 animate <code>left</code> — Main Thread
+              </div>
+              <div className="gpu-track">
+                <div
+                  className={cn("gpu-ball ball-bad", playing && "gpu-running")}
+                  id="gpuBad"
+                >
+                  left<div className="gpu-badge">CPU</div>
+                </div>
+              </div>
+              <div className="font-mono text-[10px] text-(--accent3)">
+                🟢 animate <code>transform</code> — GPU Compositor Thread
+              </div>
+              <div className="gpu-track">
+                <div
+                  className={cn("gpu-ball ball-good", playing && "gpu-running")}
+                  id="gpuGood"
+                >
+                  transform<div className="gpu-badge">GPU</div>
+                </div>
+              </div>
+            </div>
+          </TabPanel>
+          {/* PANEL 6: COMBO PLAYGROUND */}
+          <TabPanel value="combo playground">
+            <div className={cn(ui.demoArea, "py-6 px-8 flex-col")}>
+              <div className="combo-stage">
+                <div
+                  className="combo-el"
+                  id="comboEl"
+                  style={{
+                    borderRadius: `${combo.br}px`,
+                    transform: comboTransform,
+                  }}
+                >
+                  🎯
+                </div>
+              </div>
+              <div className="combo-controls">
+                <div className="combo-ctrl">
+                  <label>
+                    translateX &nbsp;
+                    <span className="val" id="txVal">
+                      {combo.tx}px
+                    </span>
+                  </label>
+                  <input
+                    type="range"
+                    min="-120"
+                    max="120"
+                    value={combo.tx}
+                    id="txSlider"
+                    onChange={(e) =>
+                      updateCombo("tx", e.currentTarget.valueAsNumber)
+                    }
+                  />
+                </div>
+                <div className="combo-ctrl">
+                  <label>
+                    translateY &nbsp;
+                    <span className="val" id="tyVal">
+                      {combo.ty}px
+                    </span>
+                  </label>
+                  <input
+                    type="range"
+                    min="-60"
+                    max="60"
+                    value={combo.ty}
+                    id="tySlider"
+                    onChange={(e) =>
+                      updateCombo("ty", e.currentTarget.valueAsNumber)
+                    }
+                  />
+                </div>
+                <div className="combo-ctrl">
+                  <label>
+                    rotate &nbsp;
+                    <span className="val" id="roVal">
+                      {combo.ro}deg
+                    </span>
+                  </label>
+                  <input
+                    type="range"
+                    min="-180"
+                    max="180"
+                    value={combo.ro}
+                    id="roSlider"
+                    onChange={(e) =>
+                      updateCombo("ro", e.currentTarget.valueAsNumber)
+                    }
+                  />
+                </div>
+                <div className="combo-ctrl">
+                  <label>
+                    scale &nbsp;
+                    <span className="val" id="scVal">
+                      {scale}
+                    </span>
+                  </label>
+                  <input
+                    type="range"
+                    min="20"
+                    max="200"
+                    value={combo.sc}
+                    id="scSlider"
+                    onChange={(e) =>
+                      updateCombo("sc", e.currentTarget.valueAsNumber)
+                    }
+                  />
+                </div>
+                <div className="combo-ctrl">
+                  <label>
+                    skewX &nbsp;
+                    <span className="val" id="skVal">
+                      {combo.sk}deg
+                    </span>
+                  </label>
+                  <input
+                    type="range"
+                    min="-40"
+                    max="40"
+                    value={combo.sk}
+                    id="skSlider"
+                    onChange={(e) =>
+                      updateCombo("sk", e.currentTarget.valueAsNumber)
+                    }
+                  />
+                </div>
+                <div className="combo-ctrl">
+                  <label>
+                    border-radius &nbsp;
+                    <span className="val" id="brVal">
+                      {combo.br}px
+                    </span>
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="50"
+                    value={combo.br}
+                    id="brSlider"
+                    onChange={(e) =>
+                      updateCombo("br", e.currentTarget.valueAsNumber)
+                    }
+                  />
+                </div>
+              </div>
+              {/* font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px */}
+              <div className="font-mono text-[11px] text-(--muted) mt-1">
+                <span>generated:</span>
+                <span id="comboOutput" className="text-(--accent3)">
+                  transform: {comboTransform}
+                </span>
+              </div>
+            </div>
+          </TabPanel>
         </Tabs>
       </DemoCard>
     </LessonSection>

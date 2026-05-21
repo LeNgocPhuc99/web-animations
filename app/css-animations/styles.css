@@ -2,8 +2,11 @@
   --bg: #0a0a0f;
   --bg2: #111118;
   --bg3: #1a1a24;
+  --bg4: rgba(226,75,74,0.2);
+  --bg5: rgba(91,238,180,0.15);
   --border: rgba(255, 255, 255, 0.08);
   --border2: rgba(255, 255, 255, 0.15);
+  --border3: #e24b4a44;
   --text: #e8e8f0;
   --muted: #6b6b80;
   --accent: #5b8dee;
@@ -12,6 +15,8 @@
   --accent4: #eec85b;
   --accent5: #8d5bee;
   --accent6: #ee8d5b;
+  --accent7: #e24b4a;
+
   --mono: 'DM Mono', monospace;
   --sans: 'DM Sans', sans-serif;
   --display: 'Syne', sans-serif;

@@ -161,7 +161,7 @@ const KeyframesSection = () => {
                 <div className="flex h-20 items-end">
                   <div
                     className={cn(
-                      "kf-orb h-15 w-15 rounded-full bg-[#5b8dee]",
+                      "kf-orb h-15 w-15 rounded-full bg-(--accent)",
                       playing && "playing",
                     )}
                   />
@@ -171,7 +171,7 @@ const KeyframesSection = () => {
               <div className={ui.stack}>
                 <div
                   className={cn(
-                    "kf-spin h-12 w-12 rounded-full border-[3px] border-white/15 border-t-[#5beeb4]",
+                    "kf-spin h-12 w-12 rounded-full border-[3px] border-white/15 border-t-(--accent3)",
                     playing && "playing",
                   )}
                 />
@@ -180,7 +180,7 @@ const KeyframesSection = () => {
               <div className={ui.stack}>
                 <div
                   className={cn(
-                    "kf-flash rounded-lg border border-white/15 bg-[#1a1a24] px-6 py-2.5 font-mono text-[13px] text-[#e8e8f0]",
+                    "kf-flash rounded-lg border border-white/15 bg-(--bg3) px-6 py-2.5 font-mono text-[13px] text-(--text)",
                     playing && "playing",
                   )}
                 >
@@ -207,7 +207,7 @@ const KeyframesSection = () => {
               <div className={ui.stack}>
                 <div
                   className={cn(
-                    "ms-box bg-[#5b8dee]",
+                    "ms-box bg-(--accent)",
                     bounceRunId > 0 && "playing-bounce",
                   )}
                   key={bounceRunId}
@@ -219,14 +219,14 @@ const KeyframesSection = () => {
                 <div className={ui.caption}>bounceIn</div>
               </div>
               <div className={ui.stack}>
-                <div className="ms-box playing-pop bg-[#5beeb4]">
+                <div className="ms-box playing-pop bg-(--accent3)">
                   0%,100%
                   <br />= same
                 </div>
                 <div className={ui.caption}>pulse loop</div>
               </div>
               <div className={ui.stack}>
-                <div className="ms-box playing-walk bg-[#eec85b]">
+                <div className="ms-box playing-walk bg-(--accent4)">
                   4-step
                   <br />
                   walk
@@ -243,7 +243,7 @@ const KeyframesSection = () => {
                 ui.demoArea,
               )}
             >
-              <div className="font-mono text-[11px] text-[#85859a]">
+              <div className="font-mono text-[11px] text-(--muted)">
                 delay = 0.7s - quan sat truoc delay va sau khi animation ket
                 thuc
               </div>
@@ -267,10 +267,10 @@ const KeyframesSection = () => {
                   note="an trong delay"
                 />
                 <FillModeItem
-                  className="fm-both outline outline-offset-3 outline-[#ee5b8d]"
+                  className="fm-both outline outline-offset-3 outline-(--accent2)"
                   label="both"
                   note="dung nhieu nhat"
-                  noteClassName="text-[#ee5b8d]"
+                  noteClassName="text-(--accent2)"
                 />
               </div>
             </div>
@@ -279,13 +279,13 @@ const KeyframesSection = () => {
           <TabPanel value="iteration">
             <div className={cn("min-h-45 gap-10", ui.demoArea)}>
               <div className={ui.stack}>
-                <div className="id-box spin-inf bg-[#5beeb4]">inf</div>
+                <div className="id-box spin-inf bg-(--accent3)">inf</div>
                 <div className={ui.caption}>infinite</div>
               </div>
               <div className={ui.stack}>
                 <div
                   className={cn(
-                    "id-box bg-[#ee5b8d]",
+                    "id-box bg-(--accent2)",
                     spinRunId > 0 && "spin-3",
                   )}
                   key={spinRunId}
@@ -310,7 +310,7 @@ const KeyframesSection = () => {
                 <div className={ui.caption}>alt-reverse</div>
               </div>
               <div className={ui.stack}>
-                <div className="id-box hover-pause bg-[#eec85b] text-[9px]">
+                <div className="id-box hover-pause bg-(--accent4) text-[9px]">
                   hover
                   <br />
                   pause
@@ -327,7 +327,7 @@ const KeyframesSection = () => {
                 ui.demoArea,
               )}
             >
-              <div className="font-mono text-[11px] text-[#85859a]">
+              <div className="font-mono text-[11px] text-(--muted)">
                 bar chart - moi cot delay tang them 0.07s
               </div>
               <div className="kf-stagger-grid" key={`bars-${staggerRunId}`}>
@@ -345,7 +345,7 @@ const KeyframesSection = () => {
                   />
                 ))}
               </div>
-              <div className="mt-1 font-mono text-[11px] text-[#85859a]">
+              <div className="mt-1 font-mono text-[11px] text-(--muted)">
                 word reveal - stagger bang JS
               </div>
               <div
@@ -375,7 +375,7 @@ const KeyframesSection = () => {
                 <div className="rw-skeleton w-30" />
                 <div className="rw-skeleton w-35" />
                 <div className="rw-skeleton w-20" />
-                <div className="mt-1 font-mono text-[10px] text-[#85859a]">
+                <div className="mt-1 font-mono text-[10px] text-(--muted)">
                   skeleton shimmer
                 </div>
               </div>
