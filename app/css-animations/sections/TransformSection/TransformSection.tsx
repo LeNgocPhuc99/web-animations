@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { DemoCard } from "~/css-animations/components";
 import { ui } from "~/css-animations/classes";
+import { DemoCard } from "~/css-animations/components";
 
 import { TabItem, TabList, TabPanel, Tabs } from "~/components/Tabs";
 

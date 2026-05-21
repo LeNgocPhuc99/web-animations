@@ -60,7 +60,7 @@ export const lessons = [
     id: "performance",
     num: "07",
     title: "Performance",
-    desc: "Animation tốt thường chỉ thay đổi <code>transform</code> và <code>opacity</code>. Animate layout property dễ gây reflow và làm rơi frame.",
+    desc: "Browser render theo pipeline 5 bước: <strong>JavaScript → Style → Layout → Paint → Composite</strong>. Chỉ <code>transform</code> và <code>opacity</code> bỏ qua Layout và Paint, chạy thẳng trên GPU Compositor Thread — đây là lý do chúng không bao giờ gây jank.",
   },
   {
     id: "micro",
