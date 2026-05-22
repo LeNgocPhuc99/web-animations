@@ -2,10 +2,10 @@ import { pillClass, sidebarLinkClass } from "./classes";
 
 import { lessonIds } from "./types";
 
-import { lessons } from "./data";
+import { lessons, sectionLinks } from "./data";
 import { useActiveSection } from "./interactions";
 
-import { Navbar } from "./components";
+import { Navbar } from "~/components";
 
 import {
   MicroSection,
@@ -35,13 +35,13 @@ const CSSAnimationsLab = () => {
   const activeId = useActiveSection(lessonIds);
 
   return (
-    <div className="css-lab min-h-screen bg-[#0a0a0f] font-sans text-[15px] leading-relaxed text-[#e8e8f0]">
-      <Navbar />
+    <div className="css-lab min-h-screen bg-bg-main font-sans text-[15px] leading-relaxed text-text-base">
+      <Navbar links={sectionLinks} />
       <main className="mx-auto w-full max-w-295 px-6 pb-18 max-sm:px-4">
         <section className="relative overflow-hidden py-14 text-center">
           <div className="lab-hero-grid absolute inset-0" />
           <div className="relative z-10">
-            <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-[#5b8dee]">
+            <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-primary">
               // css animation foundations
             </div>
             <div className="lab-fade-3 flex flex-wrap justify-center gap-2">
@@ -57,9 +57,9 @@ const CSSAnimationsLab = () => {
         <div className="mt-6 grid grid-cols-[250px_minmax(0,1fr)] items-start gap-8 max-lg:grid-cols-1">
           <aside
             aria-label="Mục lục CSS Animation"
-            className="sticky top-21 rounded-lg border border-white/10 bg-[#111118] p-3.5 max-lg:static"
+            className="sticky top-21 rounded-lg border border-white/10 bg-bg-main p-3.5 max-lg:static"
           >
-            <p className="mb-2.5 font-mono text-[11px] uppercase tracking-[0.08em] text-[#b7b7c8]">
+            <p className="mb-2.5 font-mono text-xs uppercase tracking-[0.08em] text-text-muted">
               Learning path
             </p>
             <nav className="lab-section-list grid gap-1 max-lg:grid-cols-2 max-sm:grid-cols-1">
@@ -72,7 +72,7 @@ const CSSAnimationsLab = () => {
                   href={`#${lesson.id}`}
                   key={lesson.id}
                 >
-                  <span className="font-mono text-[10px] text-[#5b8dee]">
+                  <span className="font-mono text-[10px] text-primary">
                     {lesson.num}
                   </span>
                   {lesson.title}
@@ -95,7 +95,7 @@ const CSSAnimationsLab = () => {
         </div>
       </main>
 
-      <footer className="border-t border-white/10 px-6 py-7 text-center font-mono text-xs text-[#85859a]">
+      <footer className="border-t border-white/10 px-6 py-7 text-center font-mono text-xs text-text-muted">
         Animation Lab · CSS foundations before GSAP
       </footer>
     </div>

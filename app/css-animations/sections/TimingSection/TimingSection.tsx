@@ -1,16 +1,19 @@
 import { useRef, useState } from "react";
 
 import {
-  ui,
   laneClass,
   laneNameClass,
   laneBallClass,
   laneTrackClass,
 } from "~/css-animations/classes";
+
+import { ui } from "~/styles/classes";
+import { DemoCard } from "~/components";
 import { timings } from "~/css-animations/data";
-import { DemoCard } from "~/css-animations/components";
 
 import LessonSection from "../LessonSection";
+
+import { timingPanelCode } from "./data";
 
 import "./timing.css";
 
@@ -54,10 +57,7 @@ const TimingSection = () => {
   return (
     <LessonSection id="timing">
       <DemoCard
-        code={`
-          <span class="k">/* spring = overshoot */</span><br>
-          <span class="p">transition</span>: <span class="v">left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)</span>;
-        `}
+        code={timingPanelCode}
         action={
           <button className={ui.button} onClick={runRace} type="button">
             Race

@@ -1,23 +1,23 @@
 .lane:nth-child(1) .lane-ball {
-    background: var(--accent);
+    background: var(--color-primary);
 }
 
 .lane:nth-child(2) .lane-ball {
-    background: var(--accent2);
+    background: var(--color-secondary);
 }
 
 .lane:nth-child(3) .lane-ball {
-    background: var(--accent3);
+    background: var(--color-success);
 }
 
 .lane:nth-child(4) .lane-ball {
-    background: var(--accent4);
+    background: var(--color-warning);
 }
 
 .lane:nth-child(5) .lane-ball {
-    background: var(--accent5);
+    background: var(--color-accent-purple);
 }
 
 .lane:nth-child(6) .lane-ball {
-    background: var(--accent6);
+    background: var(--color-accent-orange);
 }

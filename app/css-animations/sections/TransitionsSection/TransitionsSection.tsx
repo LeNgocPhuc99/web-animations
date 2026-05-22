@@ -1,30 +1,24 @@
-import { ui } from "../../classes";
-
-import { DemoCard } from "../../components";
+import { ui } from "~/styles/classes";
+import { DemoCard } from "~/components";
 
 import LessonSection from "../LessonSection";
 
 import { cn } from "~/lib/utils";
 
-import './transition.css'
+import { transitionPanelCode } from "./data";
+
+import "./transition.css";
 
 const TransitionsSection = () => {
   return (
     <LessonSection id="transitions">
-      <DemoCard
-        code={`
-          <span class="k">.box</span> {<br>
-          &nbsp;&nbsp;<span class="p">transition</span>: <span class="v">border-radius 0.4s ease, background 0.4s ease</span>;<br>
-          }<br>
-          <span class="k">.box</span>:<span class="p">hover</span> { <span class="p">border-radius</span>: <span class="v">50%</span>; }
-        `}
-      >
+      <DemoCard code={transitionPanelCode}>
         <div className={ui.demoArea}>
           <div className={ui.stack}>
             <div
               className={cn(
-                "flex h-18 w-18 cursor-pointer items-center justify-center rounded-[10px] font-mono text-[11px]",
-                "text-white bg-[#5b8dee] transition-all duration-500 ease-out hover:scale-120 hover:rounded-full hover:bg-[#ee5b8d]",
+                "flex h-18 w-18 cursor-pointer items-center justify-center rounded-[10px] font-mono text-xs",
+                "text-white bg-primary transition-all duration-500 ease-out hover:scale-120 hover:rounded-full hover:bg-secondary",
               )}
             >
               hover

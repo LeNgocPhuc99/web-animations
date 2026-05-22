@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
-import { ui } from "~/css-animations/classes";
-import { DemoCard } from "~/css-animations/components";
+import { ui } from "~/styles/classes";
+import { DemoCard } from "~/components";
 import { staggerBars, staggerWords } from "~/css-animations/data";
 
 import LessonSection from "../LessonSection";
+
+import { staggerPanelCode } from "./data";
 
 const StaggerSection = () => {
   const [isRevealed, setIsRevealed] = useState(false);
@@ -36,11 +38,7 @@ const StaggerSection = () => {
   return (
     <LessonSection id="stagger">
       <DemoCard
-        code={`
-          <span class="c">/* CSS: delay tăng theo index */</span><br>
-          <span class="k">.bar</span>:nth-child(n) { <span class="p">transition-delay</span>: <span class="v">calc(n * 0.06s)</span>; }<br>
-          <span class="c">/* GSAP: */</span> gsap.to(".bar", { <span class="p">stagger</span>: <span class="v">0.06</span>, scaleY: <span class="v">1</span> });
-        `}
+        code={staggerPanelCode}
         action={
           <button className={ui.button} onClick={playStagger} type="button">
             Play
@@ -53,7 +51,7 @@ const StaggerSection = () => {
             <div className="flex items-end gap-2">
               {staggerBars.map((height, index) => (
                 <div
-                  className={`w-8 origin-bottom rounded-t bg-[#5b8dee] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                  className={`w-8 origin-bottom rounded-t bg-primary duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
                     isResetting ? "transition-none" : "transition"
                   }`}
                   key={`${height}-${index}`}

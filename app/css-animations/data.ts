@@ -7,18 +7,6 @@ export const timings = [
   "cubic-bezier(0.34,1.56,0.64,1)",
 ] as const;
 
-export const sectionLinks = [
-  ["transitions", "Transition"],
-  ["keyframes", "Keyframes"],
-  ["transform", "Transform"],
-  ["timing", "Timing"],
-  ["stagger", "Stagger"],
-  ["scroll", "Scroll"],
-  ["performance", "Performance"],
-  ["micro", "Micro"],
-  ["loading", "Loading"],
-] as const;
-
 export const lessons = [
   {
     id: "transitions",
@@ -75,6 +63,22 @@ export const lessons = [
     desc: "Loading animation giúp người dùng hiểu hệ thống đang xử lý. Skeleton thường tốt hơn spinner vì giữ bố cục ổn định.",
   },
 ] as const;
+
+export type Lesson = (typeof lessons)[number];
+export type LessonId = Lesson["id"];
+export type SectionLink = readonly [id: LessonId, label: string];
+
+export const sectionLinks = [
+  ["transitions", "Transition"],
+  ["keyframes", "Keyframes"],
+  ["transform", "Transform"],
+  ["timing", "Timing"],
+  ["stagger", "Stagger"],
+  ["scroll", "Scroll"],
+  ["performance", "Performance"],
+  ["micro", "Micro"],
+  ["loading", "Loading"],
+] as const satisfies readonly SectionLink[];
 
 export const staggerBars = [80, 50, 110, 65, 90, 45, 100, 75] as const;
 export const staggerWords = [

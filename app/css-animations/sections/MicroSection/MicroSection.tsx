@@ -1,13 +1,15 @@
 import { useState } from "react";
 
-import { ui } from "~/css-animations/classes";
+import { ui } from "~/styles/classes";
+import { DemoCard } from "~/components";
 import { createRipple } from "~/css-animations/interactions";
-import { DemoCard, MagneticButton } from "~/css-animations/components";
+import { MagneticButton } from "~/css-animations/components";
 
 import LessonSection from "../LessonSection";
 
 import { cn } from "~/lib/utils";
 
+import { microPanelCode } from "./data";
 import "./micro.css";
 
 const MicroSection = () => {
@@ -16,13 +18,7 @@ const MicroSection = () => {
 
   return (
     <LessonSection id="micro">
-      <DemoCard
-        code={`
-          <span class="c">/* ripple: tạo element, animate, remove */</span><br>
-          <span class="k">const</span> r = document.createElement(<span class="v">"span"</span>);<br>
-          btn.appendChild(r); setTimeout(() => r.remove(), <span class="v">700</span>);
-        `}
-      >
+      <DemoCard code={microPanelCode}>
         <div className={ui.demoArea}>
           <div className="flex flex-wrap items-center justify-center gap-7">
             <div className={ui.stack}>
@@ -42,7 +38,7 @@ const MicroSection = () => {
               >
                 <span
                   className={cn(
-                    "toggle-knob absolute left-0.5 top-0.5 h-5.5 w-5.5 rounded-full bg-[#e8e8f0]",
+                    "toggle-knob absolute left-0.5 top-0.5 h-5.5 w-5.5 rounded-full bg-bg-foreground",
                     "shadow transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
                   )}
                 />
@@ -54,7 +50,7 @@ const MicroSection = () => {
                 aria-label="Like demo"
                 className={cn(
                   "like-btn flex h-12 w-12 cursor-pointer items-center justify-center rounded-full",
-                  "border border-white/15 bg-[#1a1a24] text-xl leading-none text-[#ee5b8d] transition hover:scale-110",
+                  "border border-white/15 bg-bg-surface text-xl leading-none text-secondary transition hover:scale-110",
                   liked && "liked",
                 )}
                 onClick={() => setLiked((value) => !value)}
@@ -67,8 +63,8 @@ const MicroSection = () => {
             <div className={ui.stack}>
               <input
                 className={cn(
-                  "w-50 rounded-lg border border-white/15 bg-[#1a1a24] px-3.5 py-2.5 text-sm text-[#e8e8f0]",
-                  "outline-none transition focus:-translate-y-px focus:border-[#5b8dee] focus:shadow-[0_0_0_3px_rgba(91,141,238,0.2)]",
+                  "w-50 rounded-lg border border-white/15 bg-bg-surface px-3.5 py-2.5 text-sm text-text-base",
+                  "outline-none transition focus:-translate-y-px focus:border-primary focus:shadow-[0_0_0_3px_rgba(91,141,238,0.2)]",
                 )}
                 placeholder="focus me..."
                 type="text"
@@ -78,8 +74,8 @@ const MicroSection = () => {
             <div className={ui.stack}>
               <button
                 className={cn(
-                  "px-6 py-2.5 font-mono text-[13px] text-[#5b8dee] transition hover:bg-[#5b8dee14]",
-                  "relative cursor-pointer overflow-hidden rounded-lg border border-[#5b8dee] bg-transparent",
+                  "px-6 py-2.5 font-mono text-[13px] text-primary transition hover:bg-bg-surface",
+                  "relative cursor-pointer overflow-hidden rounded-lg border border-primary bg-transparent",
                 )}
                 onClick={createRipple}
                 type="button"

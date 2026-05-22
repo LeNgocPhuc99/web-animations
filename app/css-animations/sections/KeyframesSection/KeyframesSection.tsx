@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { ui } from "~/css-animations/classes";
-import { DemoCard } from "~/css-animations/components";
+import { ui } from "~/styles/classes";
+import { DemoCard } from "~/components";
 import { TabItem, TabList, TabPanel, Tabs } from "~/components/Tabs";
 
 import LessonSection from "../LessonSection";
@@ -10,73 +10,13 @@ import { cn } from "~/lib/utils";
 
 import "./keyframes.css";
 
-const tabs = [
-  { label: "anatomy", value: "anatomy" },
-  { label: "multi-step %", value: "multi-step" },
-  { label: "fill-mode", value: "fill-mode" },
-  { label: "iteration & direction", value: "iteration" },
-  { label: "stagger", value: "stagger" },
-  { label: "real-world patterns", value: "real-world" },
-] as const;
-
-type KeyframeTab = (typeof tabs)[number]["value"];
-
-const keyframeBars = [80, 52, 112, 68, 96, 44, 104, 72, 60] as const;
-const keyframeWords = [
-  "Animation",
-  "brings",
-  "interfaces",
-  "to",
-  "life.",
-] as const;
-
-const panelCode: Record<KeyframeTab, string> = {
-  anatomy: `
-    <span class="c">/* cú pháp đầy đủ */</span><br>
-    <span class="k">@keyframes</span> <span class="p">bounce</span> {<br>
-    &nbsp;&nbsp;<span class="v">from</span> { <span class="p">transform</span>: translateY(0); }<br>
-    &nbsp;&nbsp;<span class="v">to</span>&nbsp;&nbsp; { <span class="p">transform</span>: translateY(-50px); }<br>
-    }<br>
-    <span class="k">.el</span> { <span class="p">animation</span>: <span class="v">bounce 1s ease infinite alternate</span>; }
-  `,
-  "multi-step": `
-    <span class="c">/* overshoot: 0→60% scale up vượt, 80% bounce back */</span><br>
-    <span class="k">@keyframes</span> <span class="p">bounceIn</span> {<br>
-    &nbsp;&nbsp;<span class="v">0%</span>&nbsp;&nbsp; { <span class="p">transform</span>: scale(<span class="v">0</span>); }<br>
-    &nbsp;&nbsp;<span class="v">60%</span>&nbsp; { <span class="p">transform</span>: scale(<span class="v">1.2</span>); }<br>
-    &nbsp;&nbsp;<span class="v">80%</span>&nbsp; { <span class="p">transform</span>: scale(<span class="v">0.9</span>); }<br>
-    &nbsp;&nbsp;<span class="v">100%</span> { <span class="p">transform</span>: scale(<span class="v">1</span>); }<br>
-    }<br>
-    <span class="c">/* gộp 2 mốc cùng trạng thái */</span><br>
-    <span class="v">0%, 100%</span> { <span class="p">background</span>: <span class="v">blue</span>; } <span class="v">50%</span> { <span class="p">background</span>: <span class="v">red</span>; }
-  `,
-  "fill-mode": `
-    <span class="c">/* forwards: giữ trạng thái to{} sau khi xong */</span><br>
-    <span class="k">.el</span> { <span class="p">opacity</span>: <span class="v">0</span>; <span class="p">animation</span>: <span class="v">flyIn 0.6s ease 1s forwards</span>; }<br>
-    <span class="c">/* both = backwards + forwards — pattern chuẩn nhất */</span><br>
-    <span class="k">.el</span> { <span class="p">opacity</span>: <span class="v">0</span>; <span class="p">animation</span>: <span class="v">flyIn 0.6s ease 1s both</span>; }
-  `,
-  iteration: `
-    <span class="c">/* alternate: lần 1 xuôi, lần 2 ngược — không cần 2 @keyframes */</span><br>
-    <span class="p">animation</span>: <span class="v">swing 0.7s ease-in-out infinite alternate</span>;<br>
-    <span class="c">/* pause bằng CSS */</span><br>
-    <span class="k">.el</span>:<span class="p">hover</span> { <span class="p">animation-play-state</span>: <span class="v">paused</span>; }<br>
-    <span class="c">/* pause bằng JS */</span><br>
-    el.style.animationPlayState = <span class="v">'paused'</span>;
-  `,
-  stagger: `
-    <span class="c">/* CSS: nth-child — đơn giản khi số item cố định */</span><br>
-    <span class="k">.bar:nth-child(n)</span> { <span class="p">animation-delay</span>: <span class="v">calc(n * 0.07s)</span>; }<br>
-    <span class="c">/* JS: linh hoạt hơn khi số item động */</span><br>
-    items.forEach((el, i) => el.style.animationDelay = (i * <span class="v">0.07</span>) + <span class="v">'s'</span>);
-  `,
-  "real-world": `
-    <span class="c">/* shake: thêm class → lắng nghe animationend → xoá class */</span><br>
-    el.classList.add(<span class="v">'shaking'</span>);<br>
-    el.addEventListener(<span class="v">'animationend'</span>, () => el.classList.remove(<span class="v">'shaking'</span>), { <span class="p">once</span>: <span class="v">true</span> });<br>
-    <span class="c">/* force-restart: void el.offsetWidth trước khi thêm class lại */</span>
-  `,
-};
+import {
+  kfTabs,
+  kfPanelCode,
+  keyframeBars,
+  keyframeWords,
+  type KeyframeTab,
+} from "./data";
 
 const KeyframesSection = () => {
   const [activeTab, setActiveTab] = useState<KeyframeTab>("anatomy");
@@ -142,13 +82,13 @@ const KeyframesSection = () => {
 
   return (
     <LessonSection id="keyframes">
-      <DemoCard code={panelCode[activeTab]} action={action}>
+      <DemoCard code={kfPanelCode[activeTab]} action={action}>
         <Tabs
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as KeyframeTab)}
         >
           <TabList>
-            {tabs.map((tab) => (
+            {kfTabs.map((tab) => (
               <TabItem key={tab.value} value={tab.value}>
                 {tab.label}
               </TabItem>
@@ -161,7 +101,7 @@ const KeyframesSection = () => {
                 <div className="flex h-20 items-end">
                   <div
                     className={cn(
-                      "kf-orb h-15 w-15 rounded-full bg-(--accent)",
+                      "kf-orb h-15 w-15 rounded-full bg-primary",
                       playing && "playing",
                     )}
                   />
@@ -171,7 +111,7 @@ const KeyframesSection = () => {
               <div className={ui.stack}>
                 <div
                   className={cn(
-                    "kf-spin h-12 w-12 rounded-full border-[3px] border-white/15 border-t-(--accent3)",
+                    "kf-spin h-12 w-12 rounded-full border-[3px] border-white/15 border-t-success",
                     playing && "playing",
                   )}
                 />
@@ -180,7 +120,7 @@ const KeyframesSection = () => {
               <div className={ui.stack}>
                 <div
                   className={cn(
-                    "kf-flash rounded-lg border border-white/15 bg-(--bg3) px-6 py-2.5 font-mono text-[13px] text-(--text)",
+                    "kf-flash rounded-lg border border-white/15 bg-bg-surface px-6 py-2.5 font-mono text-[13px] text-text-base",
                     playing && "playing",
                   )}
                 >
@@ -207,7 +147,7 @@ const KeyframesSection = () => {
               <div className={ui.stack}>
                 <div
                   className={cn(
-                    "ms-box bg-(--accent)",
+                    "ms-box bg-primary",
                     bounceRunId > 0 && "playing-bounce",
                   )}
                   key={bounceRunId}
@@ -219,14 +159,14 @@ const KeyframesSection = () => {
                 <div className={ui.caption}>bounceIn</div>
               </div>
               <div className={ui.stack}>
-                <div className="ms-box playing-pop bg-(--accent3)">
+                <div className="ms-box playing-pop bg-success">
                   0%,100%
                   <br />= same
                 </div>
                 <div className={ui.caption}>pulse loop</div>
               </div>
               <div className={ui.stack}>
-                <div className="ms-box playing-walk bg-(--accent4)">
+                <div className="ms-box playing-walk bg-warning">
                   4-step
                   <br />
                   walk
@@ -243,7 +183,7 @@ const KeyframesSection = () => {
                 ui.demoArea,
               )}
             >
-              <div className="font-mono text-[11px] text-(--muted)">
+              <div className="font-mono text-xs text-text-muted">
                 delay = 0.7s - quan sat truoc delay va sau khi animation ket
                 thuc
               </div>
@@ -267,10 +207,10 @@ const KeyframesSection = () => {
                   note="an trong delay"
                 />
                 <FillModeItem
-                  className="fm-both outline outline-offset-3 outline-(--accent2)"
+                  className="fm-both outline outline-offset-3 outline-secondary"
                   label="both"
                   note="dung nhieu nhat"
-                  noteClassName="text-(--accent2)"
+                  noteClassName="text-secondary"
                 />
               </div>
             </div>
@@ -279,13 +219,13 @@ const KeyframesSection = () => {
           <TabPanel value="iteration">
             <div className={cn("min-h-45 gap-10", ui.demoArea)}>
               <div className={ui.stack}>
-                <div className="id-box spin-inf bg-(--accent3)">inf</div>
+                <div className="id-box spin-inf bg-success)">inf</div>
                 <div className={ui.caption}>infinite</div>
               </div>
               <div className={ui.stack}>
                 <div
                   className={cn(
-                    "id-box bg-(--accent2)",
+                    "id-box bg-secondary",
                     spinRunId > 0 && "spin-3",
                   )}
                   key={spinRunId}
@@ -310,7 +250,7 @@ const KeyframesSection = () => {
                 <div className={ui.caption}>alt-reverse</div>
               </div>
               <div className={ui.stack}>
-                <div className="id-box hover-pause bg-(--accent4) text-[9px]">
+                <div className="id-box hover-pause bg-warning text-[9px]">
                   hover
                   <br />
                   pause
@@ -327,7 +267,7 @@ const KeyframesSection = () => {
                 ui.demoArea,
               )}
             >
-              <div className="font-mono text-[11px] text-(--muted)">
+              <div className="font-mono text-xs text-text-muted">
                 bar chart - moi cot delay tang them 0.07s
               </div>
               <div className="kf-stagger-grid" key={`bars-${staggerRunId}`}>
@@ -345,7 +285,7 @@ const KeyframesSection = () => {
                   />
                 ))}
               </div>
-              <div className="mt-1 font-mono text-[11px] text-(--muted)">
+              <div className="mt-1 font-mono text-xs text-text-muted">
                 word reveal - stagger bang JS
               </div>
               <div
@@ -375,7 +315,7 @@ const KeyframesSection = () => {
                 <div className="rw-skeleton w-30" />
                 <div className="rw-skeleton w-35" />
                 <div className="rw-skeleton w-20" />
-                <div className="mt-1 font-mono text-[10px] text-(--muted)">
+                <div className="mt-1 font-mono text-[10px] text-text-muted">
                   skeleton shimmer
                 </div>
               </div>
@@ -402,7 +342,7 @@ const KeyframesSection = () => {
                   value="wrong-pass"
                 />
                 <button
-                  className={cn("px-3 py-1.5 text-[11px]", ui.button)}
+                  className={cn("px-3 py-1.5 text-xs", ui.button)}
                   onClick={() => setShakeRunId((value) => value + 1)}
                   type="button"
                 >
@@ -416,7 +356,7 @@ const KeyframesSection = () => {
                   <span>UX.</span>
                 </div>
                 <button
-                  className={cn("px-3 py-1.5 text-[11px]", ui.button)}
+                  className={cn("px-3 py-1.5 text-xs", ui.button)}
                   onClick={() => setHeroRunId((value) => value + 1)}
                   type="button"
                 >

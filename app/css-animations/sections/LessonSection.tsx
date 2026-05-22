@@ -1,10 +1,9 @@
 import type { ReactNode } from "react";
 
+import { Section } from "~/components";
+
 import type { LessonId } from "../types";
-
-import { ui } from "../classes";
-
-import { SectionHeader } from "../components";
+import { lessonById } from "../utils";
 
 const LessonSection = ({
   id,
@@ -13,11 +12,17 @@ const LessonSection = ({
   id: LessonId;
   children: ReactNode;
 }) => {
+  const lesson = lessonById(id);
+
   return (
-    <section className={ui.section} id={id}>
-      <SectionHeader id={id} />
+    <Section
+      id={id}
+      title={lesson.title}
+      num={lesson.num}
+      description={lesson.desc}
+    >
       {children}
-    </section>
+    </Section>
   );
 };
 

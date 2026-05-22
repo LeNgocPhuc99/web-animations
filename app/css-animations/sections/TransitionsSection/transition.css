@@ -3,26 +3,26 @@
 }
 
 .delay-row .t-box-delay:nth-child(1) {
-    background: var(--accent);
+    background: var(--color-primary);
     transition: border-radius 0.3s ease 0s;
 }
 
 .delay-row .t-box-delay:nth-child(2) {
-    background: var(--accent2);
+    background: var(--color-secondary);
     transition: border-radius 0.3s ease 0.08s;
 }
 
 .delay-row .t-box-delay:nth-child(3) {
-    background: var(--accent3);
+    background: var(--color-success);
     transition: border-radius 0.3s ease 0.16s;
 }
 
 .delay-row .t-box-delay:nth-child(4) {
-    background: var(--accent4);
+    background: var(--color-warning);
     transition: border-radius 0.3s ease 0.24s;
 }
 
 .delay-row .t-box-delay:nth-child(5) {
-    background: #8d5bee;
+    background: var(--color-accent-purple);
     transition: border-radius 0.3s ease 0.32s;
 }

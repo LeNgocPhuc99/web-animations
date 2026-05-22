@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { ui } from "../classes";
+import { ui } from "~/styles/classes";
 
 import CodeBlock from "./CodeBlock";
 

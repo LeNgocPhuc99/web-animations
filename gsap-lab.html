@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSAP Lab — Core Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+
+/* ══════════════════════════════════════════════════
+   RESET & TOKENS
+══════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #07070d;
+  --bg2:     #0e0e18;
+  --bg3:     #161624;
+  --bg4:     #1e1e30;
+  --border:  rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text:    #eaeaf5;
+  --muted:   #64647a;
+  --gsap:    #88ce02;   /* GSAP green */
+  --blue:    #5b8dee;
+  --pink:    #ee5b8d;
+  --teal:    #5beeb4;
+  --yellow:  #eec85b;
+  --purple:  #9b5bee;
+  --mono:    'DM Mono', monospace;
+  --sans:    'DM Sans', sans-serif;
+  --display: 'Syne', sans-serif;
+  --radius:  12px;
+  --rsm:     7px;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.65; }
+::selection { background: rgba(136,206,2,0.2); }
+code { font-family: var(--mono); font-size: 0.88em; color: var(--gsap); }
+
+/* ══════════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════════ */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(7,7,13,0.88); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.logo {
+  font-family: var(--display); font-weight: 800; font-size: 17px;
+  letter-spacing: -0.03em; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-chip {
+  background: var(--gsap); color: #000;
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 4px; letter-spacing: 0.05em;
+}
+nav { display: flex; gap: 2px; flex-wrap: wrap; }
+nav a {
+  font-size: 12px; color: var(--muted); text-decoration: none;
+  padding: 5px 11px; border-radius: 20px;
+  transition: color .2s, background .2s;
+}
+nav a:hover { color: var(--text); background: var(--bg3); }
+
+/* ══════════════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════════════ */
+.main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+
+/* ══════════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════════ */
+.hero {
+  padding: 4rem 0 5rem; text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(136,206,2,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(136,206,2,0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 12px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gsap);
+  margin-bottom: 1rem;
+  animation: fadeUp .6s ease-out both;
+}
+.hero h1 {
+  font-family: var(--display); font-size: clamp(2.4rem,5.5vw,4.2rem);
+  font-weight: 800; line-height: 1.06; letter-spacing: -.04em;
+  margin-bottom: 1.25rem;
+  animation: fadeUp .6s .1s ease-out both;
+}
+.hero h1 em { font-style: normal; color: var(--gsap); }
+.hero p {
+  font-size: 16px; color: var(--muted); max-width: 500px; margin: 0 auto 2.5rem;
+  animation: fadeUp .6s .2s ease-out both;
+}
+.pill-row {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  animation: fadeUp .6s .3s ease-out both;
+}
+.pill {
+  font-family: var(--mono); font-size: 12px; padding: 4px 12px;
+  border-radius: 20px; border: 1px solid var(--border2); color: var(--muted);
+}
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(18px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════
+   SECTION CHROME
+══════════════════════════════════════════════════ */
+.section { margin-bottom: 4rem; }
+.section-label { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; }
+.section-num { font-family: var(--mono); font-size: 12px; color: var(--gsap); opacity: .7; min-width: 28px; }
+.section-title { font-family: var(--display); font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
+.section-desc { font-size: 14px; color: var(--muted); max-width: 640px; margin-bottom: 1.5rem; line-height: 1.75; }
+
+.demo-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.demo-area {
+  padding: 2.5rem 2rem; min-height: 140px;
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 16px;
+  border-bottom: 1px solid var(--border); position: relative;
+}
+.demo-footer {
+  padding: .875rem 1.25rem;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+
+/* code block */
+.cb { font-family: var(--mono); font-size: 12px; color: var(--muted); line-height: 1.9; flex: 1; min-width: 0; }
+.k { color: var(--pink); }
+.fn{ color: var(--gsap); font-weight: 500; }
+.p { color: var(--blue); }
+.v { color: var(--teal); }
+.s { color: var(--yellow); }
+.c { color: #45455a; font-style: italic; }
+
+/* tab system */
+.tabs { display: flex; gap: 4px; padding: 1rem 1.5rem 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.tab {
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  padding: 6px 14px; border-radius: 6px 6px 0 0;
+  cursor: pointer; border: 1px solid transparent; border-bottom: none;
+  transition: color .15s, background .15s; position: relative; bottom: -1px;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--text); background: var(--bg2); border-color: var(--border); border-bottom-color: var(--bg2); }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* button */
+.btn {
+  font-family: var(--mono); font-size: 12px; padding: 7px 16px;
+  border-radius: 6px; border: 1px solid var(--border2);
+  background: transparent; color: var(--text); cursor: pointer;
+  transition: background .15s, border-color .15s, transform .1s;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--bg3); border-color: rgba(255,255,255,.22); }
+.btn:active { transform: scale(.97); }
+.btn-green { border-color: var(--gsap); color: var(--gsap); }
+.btn-green:hover { background: rgba(136,206,2,.1); }
+
+/* stage */
+.stage {
+  width: 100%; background: var(--bg3); border-radius: var(--rsm);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* gsap box */
+.gbox {
+  width: 56px; height: 56px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 10px; font-weight: 500; color: #000;
+  background: var(--gsap); flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════
+   01 — gsap.to / from / fromTo
+══════════════════════════════════════════════════ */
+.tween-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; width: 100%;
+}
+.tween-cell { display: flex; flex-direction: column; gap: 10px; }
+.tween-stage { height: 90px; background: var(--bg3); border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; padding: 0 14px; }
+.tween-label { font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: center; }
+.tween-label strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+/* ══════════════════════════════════════════════════
+   02 — PROPERTIES
+══════════════════════════════════════════════════ */
+.props-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; width: 100%; }
+.prop-card {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px 14px; cursor: pointer; transition: border-color .15s;
+}
+.prop-card:hover { border-color: var(--border2); }
+.prop-card .name { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--gsap); margin-bottom: 4px; }
+.prop-card .desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.prop-stage { height: 72px; background: var(--bg3); border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; padding: 0 14px; margin-bottom: 12px; }
+
+/* ══════════════════════════════════════════════════
+   03 — EASING
+══════════════════════════════════════════════════ */
+.ease-family-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1.25rem; }
+.ease-fam {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 12px; cursor: pointer; transition: border-color .15s;
+  text-align: center;
+}
+.ease-fam:hover, .ease-fam.active { border-color: var(--gsap); }
+.ease-fam.active .ef-name { color: var(--gsap); }
+.ef-name { font-family: var(--mono); font-size: 12px; font-weight: 500; margin-bottom: 3px; }
+.ef-desc { font-size: 12px; color: var(--muted); }
+
+.ease-variant-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+.ease-variant {
+  font-family: var(--mono); font-size: 10px; padding: 4px 10px;
+  border-radius: 4px; border: 1px solid var(--border); cursor: pointer;
+  color: var(--muted); transition: all .15s;
+}
+.ease-variant:hover, .ease-variant.active { border-color: var(--gsap); color: var(--gsap); background: rgba(136,206,2,.08); }
+
+.ease-race-wrap { display: flex; flex-direction: column; gap: 6px; }
+.ease-lane { display: flex; align-items: center; gap: 10px; height: 34px; }
+.ease-lane-name { font-family: var(--mono); font-size: 10px; color: var(--muted); min-width: 130px; text-align: right; }
+.ease-lane-track { flex: 1; height: 34px; background: var(--bg3); border-radius: 4px; position: relative; overflow: hidden; border: 1px solid var(--border); }
+.ease-lane-ball { width: 26px; height: 26px; border-radius: 50%; position: absolute; top: 50%; left: 4px; transform: translateY(-50%); }
+
+/* ══════════════════════════════════════════════════
+   04 — CALLBACKS & CONTROL
+══════════════════════════════════════════════════ */
+.cb-log {
+  background: var(--bg3); border-radius: 8px; border: 1px solid var(--border);
+  padding: 10px 14px; font-family: var(--mono); font-size: 12px;
+  height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px;
+}
+.log-line { color: var(--muted); }
+.log-line.hi { color: var(--gsap); }
+.log-line.err { color: var(--pink); }
+
+.control-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+/* ══════════════════════════════════════════════════
+   05 — STAGGER
+══════════════════════════════════════════════════ */
+.stag-grid { display: flex; gap: 8px; align-items: flex-end; padding: 0 1rem; }
+.stag-bar {
+  flex: 1; border-radius: 4px 4px 0 0; background: var(--gsap);
+  min-height: 20px; opacity: 0; transform: scaleY(0); transform-origin: bottom;
+}
+.stag-dots { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.stag-dot {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--gsap); opacity: 0;
+}
+.stag-from-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; }
+.stag-from-box {
+  height: 40px; border-radius: 6px; background: var(--purple); opacity: 0;
+}
+
+/* ══════════════════════════════════════════════════
+   06 — OVERWRITE & DEFAULTS
+══════════════════════════════════════════════════ */
+.ow-box {
+  width: 60px; height: 60px; border-radius: 10px;
+  background: var(--blue); display: flex; align-items: center;
+  justify-content: center; font-family: var(--mono); font-size: 10px; color: #fff;
+}
+
+/* ══════════════════════════════════════════════════
+   07 — REAL WORLD
+══════════════════════════════════════════════════ */
+.rw-card {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.25rem 1.5rem; transition: transform .4s, box-shadow .4s;
+}
+.rw-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.5);
+}
+.rw-btn {
+  padding: 10px 22px; border-radius: 8px; border: 1px solid var(--gsap);
+  background: transparent; color: var(--gsap); font-family: var(--mono);
+  font-size: 13px; cursor: pointer;
+}
+.rw-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 8px; background: var(--bg3);
+  border: 1px solid var(--border); cursor: pointer;
+  font-family: var(--mono); font-size: 12px;
+  transform: translateX(-20px); opacity: 0;
+}
+.rw-number-wrap { font-family: var(--display); font-size: 48px; font-weight: 800; color: var(--gsap); line-height: 1; }
+.rw-text-line {
+  height: 14px; border-radius: 3px; background: var(--text); margin-bottom: 8px;
+  transform-origin: left; opacity: 0;
+}
+
+/* ══════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border); padding: 2rem;
+  text-align: center; font-size: 12px; color: var(--muted); font-family: var(--mono);
+}
+footer span { color: var(--gsap); }
+</style>
+══════════════════════════════════════════════════ */
+.tl-visual {
+  position: relative; width: 100%; height: 56px;
+  background: var(--bg3); border-radius: 6px; overflow: hidden;
+  margin-bottom: 8px;
+}
+.tl-scrubber {
+  position: absolute; top: 0; left: 0; height: 100%;
+  width: 2px; background: var(--gsap); z-index: 10;
+  box-shadow: 0 0 6px var(--gsap);
+}
+.tl-block {
+  position: absolute; height: 26px; top: 15px;
+  border-radius: 4px; display: flex; align-items: center;
+  padding: 0 8px; font-family: var(--mono); font-size: 9px;
+  font-weight: 600; color: #000; white-space: nowrap; cursor: default;
+}
+.tl-ruler {
+  display: flex; gap: 0; margin-bottom: 12px;
+  border-top: 1px solid var(--border2);
+}
+.tl-tick {
+  flex: 1; font-family: var(--mono); font-size: 9px;
+  color: var(--muted); padding-top: 3px; text-align: center;
+  border-left: 1px solid var(--border);
+}
+
+.pos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.pos-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 12px; cursor: pointer;
+  transition: border-color .15s;
+}
+.pos-card:hover, .pos-card.active { border-color: var(--gsap); }
+.pos-card .pos-name { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--gsap); margin-bottom: 3px; }
+.pos-card .pos-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.pos-stage { height: 80px; background: var(--bg3); border-radius: 8px; position: relative; overflow: hidden; margin-top: 10px; }
+
+/* ══════════════════════════════════════════════════
+   09 — CONTEXT / useGSAP
+══════════════════════════════════════════════════ */
+.ctx-diagram {
+  background: var(--bg3); border-radius: 8px; padding: 1.25rem;
+  font-family: var(--mono); font-size: 12px; line-height: 1.9;
+}
+.ctx-box {
+  border: 1px solid var(--border2); border-radius: 6px; padding: 10px 14px;
+  margin-bottom: 8px; position: relative;
+}
+.ctx-box-label {
+  position: absolute; top: -9px; left: 10px;
+  background: var(--bg3); padding: 0 6px;
+  font-size: 10px; color: var(--muted);
+}
+.ctx-highlight { border-color: var(--gsap); }
+.ctx-highlight .ctx-box-label { color: var(--gsap); }
+.ctx-warn { border-color: #e24b4a; }
+.ctx-warn .ctx-box-label { color: #e24b4a; }
+
+/* ══════════════════════════════════════════════════
+   10 — SCROLLTRIGGER
+══════════════════════════════════════════════════ */
+.st-scroll-wrap {
+  height: 340px; overflow-y: auto; background: var(--bg3);
+  border-radius: 8px; border: 1px solid var(--border);
+  scroll-behavior: smooth;
+}
+.st-scroll-inner { padding: 1.5rem; }
+.st-spacer { height: 56px; display: flex; align-items: center; justify-content: center; }
+.st-scroll-hint { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.st-item {
+  margin-bottom: 1.25rem; padding: 1rem 1.25rem;
+  border-radius: var(--rsm); border-left: 2px solid var(--gsap);
+  background: var(--bg2); opacity: 0; transform: translateX(-20px);
+  transition: opacity .5s ease, transform .5s cubic-bezier(.34,1.56,.64,1);
+}
+.st-item.visible { opacity: 1; transform: translateX(0); }
+.st-item h4 { font-family: var(--display); font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.st-item p  { font-size: 13px; color: var(--muted); }
+
+.scrub-demo { height: 6px; border-radius: 3px; background: var(--bg4); overflow: hidden; margin: 8px 0; }
+.scrub-fill { height: 100%; width: 0%; background: var(--gsap); border-radius: 3px; transition: width .05s; }
+
+.pin-badge {
+  display: inline-block; font-family: var(--mono); font-size: 10px;
+  padding: 2px 8px; border-radius: 4px; margin-top: 4px;
+}
+
+/* ══════════════════════════════════════════════════
+   11 — BEST PRACTICES
+══════════════════════════════════════════════════ */
+.bp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.bp-card {
+  background: var(--bg3); border-radius: 8px; padding: 14px 16px;
+  border-left: 2px solid var(--border2);
+}
+.bp-card.good { border-left-color: var(--gsap); }
+.bp-card.bad  { border-left-color: #e24b4a; }
+.bp-card.tip  { border-left-color: var(--yellow); }
+.bp-title { font-family: var(--mono); font-size: 12px; font-weight: 500; margin-bottom: 6px; }
+.bp-card.good .bp-title { color: var(--gsap); }
+.bp-card.bad  .bp-title { color: #e24b4a; }
+.bp-card.tip  .bp-title { color: var(--yellow); }
+.bp-body { font-size: 12px; color: var(--muted); line-height: 1.65; }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-chip">GSAP</span>
+      Lab — Core Animation
+    </div>
+    <nav>
+      <a href="#tween">Tween</a>
+      <a href="#properties">Properties</a>
+      <a href="#easing">Easing</a>
+      <a href="#callbacks">Callbacks</a>
+      <a href="#stagger">Stagger</a>
+      <a href="#overwrite">Overwrite</a>
+      <a href="#realworld">Real World</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#context">Context</a>
+      <a href="#scrolltrigger">ScrollTrigger</a>
+      <a href="#bestpractices">Best Practices</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- ══ HERO ════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">// greensock animation platform</div>
+    <h1>GSAP <em>Core</em><br>từ zero đến thành thạo</h1>
+    <p>Tất cả những gì bạn cần biết về Tween, Timeline, Easing, Stagger, Callbacks, ScrollTrigger và useGSAP hook trong React.</p>
+    <div class="pill-row">
+      <span class="pill">gsap.to/from/fromTo</span>
+      <span class="pill">ease</span>
+      <span class="pill">stagger</span>
+      <span class="pill">callbacks</span>
+      <span class="pill">timeline</span>
+      <span class="pill">position param</span>
+      <span class="pill">context</span>
+      <span class="pill">useGSAP</span>
+      <span class="pill">ScrollTrigger</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  01 — TWEEN: to / from / fromTo
+══════════════════════════════════════════════════ -->
+<section class="section" id="tween">
+  <div class="section-label">
+    <span class="section-num">01</span>
+    <span class="section-title">gsap.to() · gsap.from() · gsap.fromTo()</span>
+  </div>
+  <p class="section-desc">
+    Ba hàm cốt lõi của GSAP. <code>to()</code> animate từ trạng thái hiện tại đến target. <code>from()</code> animate từ target về trạng thái hiện tại. <code>fromTo()</code> kiểm soát cả điểm đầu lẫn điểm cuối — không phụ thuộc trạng thái CSS.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('tw',0,this)">gsap.to()</div>
+      <div class="tab" onclick="switchTab('tw',1,this)">gsap.from()</div>
+      <div class="tab" onclick="switchTab('tw',2,this)">gsap.fromTo()</div>
+      <div class="tab" onclick="switchTab('tw',3,this)">so sánh</div>
+    </div>
+
+    <!-- to() -->
+    <div class="panel active" id="tw0">
+      <div class="demo-area" style="height:120px">
+        <div class="gbox" id="toBox">to</div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// animate từ vị trí hiện tại → target values</span><br>
+          <span class="fn">gsap.to</span>(<span class="s">'#box'</span>, {<br>
+          &nbsp;&nbsp;<span class="p">x</span>: <span class="v">200</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// translateX — dùng x thay vì left</span><br>
+          &nbsp;&nbsp;<span class="p">rotation</span>: <span class="v">360</span>,<br>
+          &nbsp;&nbsp;<span class="p">scale</span>: <span class="v">1.4</span>,<br>
+          &nbsp;&nbsp;<span class="p">duration</span>: <span class="v">1</span>,&nbsp;&nbsp;&nbsp;<span class="c">// giây</span><br>
+          &nbsp;&nbsp;<span class="p">ease</span>: <span class="s">'power2.out'</span><br>
+          });
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="runTo()">▶ Play</button>
+          <button class="btn" onclick="gsap.set('#toBox',{x:0,rotation:0,scale:1})">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- from() -->
+    <div class="panel" id="tw1">
+      <div class="demo-area" style="height:120px">
+        <div class="gbox" id="fromBox">from</div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// animate từ target values → trạng thái CSS hiện tại</span><br>
+          <span class="c">// dùng cho enter animations: element appear từ ngoài vào</span><br>
+          <span class="fn">gsap.from</span>(<span class="s">'#box'</span>, {<br>
+          &nbsp;&nbsp;<span class="p">x</span>: <span class="v">-200</span>,<br>
+          &nbsp;&nbsp;<span class="p">opacity</span>: <span class="v">0</span>,<br>
+          &nbsp;&nbsp;<span class="p">duration</span>: <span class="v">0.8</span>,<br>
+          &nbsp;&nbsp;<span class="p">ease</span>: <span class="s">'back.out(1.7)'</span><br>
+          });
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="runFrom()">▶ Play</button>
+          <button class="btn" onclick="gsap.set('#fromBox',{x:0,opacity:1})">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- fromTo() -->
+    <div class="panel" id="tw2">
+      <div class="demo-area" style="height:120px">
+        <div class="gbox" id="ftBox">fromTo</div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// kiểm soát HOÀN TOÀN điểm đầu & điểm cuối</span><br>
+          <span class="c">// không phụ thuộc trạng thái CSS — predictable nhất</span><br>
+          <span class="fn">gsap.fromTo</span>(<span class="s">'#box'</span>,<br>
+          &nbsp;&nbsp;{ <span class="p">x</span>: <span class="v">-160</span>, <span class="p">opacity</span>: <span class="v">0</span>, <span class="p">scale</span>: <span class="v">0.5</span> }, <span class="c">// FROM</span><br>
+          &nbsp;&nbsp;{ <span class="p">x</span>: <span class="v">160</span>,&nbsp; <span class="p">opacity</span>: <span class="v">1</span>, <span class="p">scale</span>: <span class="v">1</span>,&nbsp; &nbsp;<span class="c">// TO</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">duration</span>: <span class="v">1</span>, <span class="p">ease</span>: <span class="s">'elastic.out(1,0.5)'</span> }<br>
+          );
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="runFromTo()">▶ Play</button>
+          <button class="btn" onclick="gsap.set('#ftBox',{x:0,opacity:1,scale:1})">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- so sánh -->
+    <div class="panel" id="tw3">
+      <div class="demo-area" style="height:140px;gap:1.5rem">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="cmpTo" style="font-size:9px;text-align:center">.to()</div>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">hiện tại → target</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="cmpFrom" style="background:var(--blue);font-size:9px;text-align:center">.from()</div>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">target → hiện tại</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="cmpFt" style="background:var(--pink);font-size:9px;text-align:center">.fromTo()</div>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">định nghĩa cả 2</span>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// to(): không biết điểm đầu, chỉ biết điểm cuối</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">100</span> });&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// x hiện tại → 100</span><br>
+          <span class="c">// from(): không biết điểm cuối, chỉ biết điểm đầu</span><br>
+          <span class="fn">gsap.from</span>(el, { <span class="p">x</span>: <span class="v">-100</span> });&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// -100 → x hiện tại</span><br>
+          <span class="c">// fromTo(): kiểm soát hoàn toàn — dùng trong Timeline</span><br>
+          <span class="fn">gsap.fromTo</span>(el, {<span class="p">x</span>:<span class="v">-100</span>}, {<span class="p">x</span>:<span class="v">100</span>});
+        </div>
+        <button class="btn btn-green" onclick="runCompare()">▶ Play All</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  02 — PROPERTIES
+══════════════════════════════════════════════════ -->
+<section class="section" id="properties">
+  <div class="section-label">
+    <span class="section-num">02</span>
+    <span class="section-title">Properties — GSAP vs CSS</span>
+  </div>
+  <p class="section-desc">
+    GSAP dùng shorthand riêng cho transform: <code>x</code>, <code>y</code>, <code>rotation</code>, <code>scale</code> thay vì viết cả chuỗi <code>transform: ...</code>. Ngoài ra còn hỗ trợ animate bất kỳ CSS property, attribute, và cả object thuần.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('pr',0,this)">transform shortcuts</div>
+      <div class="tab" onclick="switchTab('pr',1,this)">CSS properties</div>
+      <div class="tab" onclick="switchTab('pr',2,this)">special values</div>
+    </div>
+
+    <!-- transform shortcuts -->
+    <div class="panel active" id="pr0">
+      <div class="demo-area" style="padding:1.5rem 2rem;align-items:flex-start">
+        <div class="props-grid">
+          <div class="prop-card" onclick="demoTransformProp('x')">
+            <div class="name">x / y</div>
+            <div class="desc">translateX / translateY — px mặc định<br><code>x: 100</code> = <code>translateX(100px)</code></div>
+          </div>
+          <div class="prop-card" onclick="demoTransformProp('rotation')">
+            <div class="name">rotation / rotationX / rotationY</div>
+            <div class="desc">Đơn vị deg mặc định. <code>rotation: 360</code><br>Dùng <code>"+=45"</code> để rotate tương đối</div>
+          </div>
+          <div class="prop-card" onclick="demoTransformProp('scale')">
+            <div class="name">scale / scaleX / scaleY</div>
+            <div class="desc"><code>scale: 1.5</code> tương đương <code>scale(1.5)</code><br>Animate từ 0→1 cho pop-in effect</div>
+          </div>
+          <div class="prop-card" onclick="demoTransformProp('skew')">
+            <div class="name">skewX / skewY</div>
+            <div class="desc">Đơn vị deg. Dùng cho kinetic typography<br>hoặc velocity-feel animations</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-area" style="height:90px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0 1.5rem">
+        <div class="gbox" id="propDemoBox" style="font-size:9px">click card</div>
+        <div id="propDemoLabel" style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:1.5rem">← click một card để xem demo</div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// GSAP shorthand — tự động tổng hợp thành transform string</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">100</span>, <span class="p">y</span>: <span class="v">-20</span>, <span class="p">rotation</span>: <span class="v">45</span>, <span class="p">scale</span>: <span class="v">1.2</span> });<br>
+          <span class="c">// tương đương CSS:</span><br>
+          <span class="c">// transform: translateX(100px) translateY(-20px) rotate(45deg) scale(1.2)</span>
+        </div>
+        <button class="btn" onclick="gsap.set('#propDemoBox',{clearProps:'all'})">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- CSS properties -->
+    <div class="panel" id="pr1">
+      <div class="demo-area" style="gap:2rem;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div id="cssP1" style="width:56px;height:56px;border-radius:10px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:#fff">bg color</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">background</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div id="cssP2" style="width:56px;height:56px;border-radius:10px;background:var(--pink);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:#fff">border-r</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">borderRadius</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div id="cssP3" style="width:56px;height:56px;border-radius:10px;background:var(--purple);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:#fff">width</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">width (layout)</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div id="cssP4" style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--gsap)">100</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">counter (object)</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <svg id="cssP5" width="56" height="56" viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="20" fill="none" stroke="var(--bg4)" stroke-width="5"/>
+            <circle id="svgArc" cx="28" cy="28" r="20" fill="none" stroke="var(--teal)" stroke-width="5"
+              stroke-dasharray="0 126" stroke-linecap="round" transform="rotate(-90 28 28)"/>
+          </svg>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">SVG attr</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// camelCase cho CSS props với dấu gạch nối</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">backgroundColor</span>: <span class="s">'#ff0'</span>, <span class="p">borderRadius</span>: <span class="v">'50%'</span> });<br>
+          <span class="c">// animate object thuần (counter, progress, v.v.)</span><br>
+          <span class="fn">gsap.to</span>(obj, { <span class="p">value</span>: <span class="v">100</span>, <span class="p">onUpdate</span>: () => el.textContent = obj.value.toFixed(0) });<br>
+          <span class="c">// SVG attributes</span><br>
+          <span class="fn">gsap.to</span>(circle, { <span class="p">attr</span>: { <span class="p">r</span>: <span class="v">40</span>, <span class="p">'stroke-dasharray'</span>: <span class="s">'126 0'</span> } });
+        </div>
+        <button class="btn btn-green" onclick="runCSSProps()">▶ Play All</button>
+      </div>
+    </div>
+
+    <!-- special values -->
+    <div class="panel" id="pr2">
+      <div class="demo-area" style="gap:2rem;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="sv1" style="font-size:9px">+=</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">relative +=</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="sv2" style="font-size:9px;background:var(--pink)">snap</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">snap to grid</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="sv3" style="font-size:9px;background:var(--purple)">random</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">random range</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="sv4" style="font-size:9px;background:var(--teal);color:#000">func</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">function-based</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// relative: += hoặc -= từ giá trị hiện tại</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="s">'+=100'</span>, <span class="p">rotation</span>: <span class="s">'+=45'</span> });<br>
+          <span class="c">// snap: làm tròn đến giá trị gần nhất trong array</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">300</span>, <span class="p">snap</span>: { <span class="p">x</span>: <span class="v">100</span> } });<span class="c"> // snap mỗi 100px</span><br>
+          <span class="c">// random: gsap.utils.random(min, max)</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="fn">gsap.utils.random</span>(<span class="v">-100</span>, <span class="v">100</span>) });<br>
+          <span class="c">// function-based: nhận (index, target, targets)</span><br>
+          <span class="fn">gsap.to</span>(els, { <span class="p">x</span>: (i) => i * <span class="v">60</span> });
+        </div>
+        <button class="btn btn-green" onclick="runSpecialValues()">▶ Play</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  03 — EASING
+══════════════════════════════════════════════════ -->
+<section class="section" id="easing">
+  <div class="section-label">
+    <span class="section-num">03</span>
+    <span class="section-title">Easing — trái tim của GSAP</span>
+  </div>
+  <p class="section-desc">
+    GSAP có hệ thống ease phong phú hơn CSS nhiều lần. Mỗi family có 3 variant: <code>.in</code>, <code>.out</code>, <code>.inOut</code>. Một số ease nhận parameter để tinh chỉnh cường độ.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('ea',0,this)">ease families</div>
+      <div class="tab" onclick="switchTab('ea',1,this)">race demo</div>
+      <div class="tab" onclick="switchTab('ea',2,this)">special eases</div>
+    </div>
+
+    <!-- ease families -->
+    <div class="panel active" id="ea0">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div class="ease-family-grid" id="easeFamilyGrid">
+          <div class="ease-fam active" data-family="power" onclick="selectEaseFamily(this)">
+            <div class="ef-name">Power</div>
+            <div class="ef-desc">0,1,2,3,4 — chuẩn nhất</div>
+          </div>
+          <div class="ease-fam" data-family="back" onclick="selectEaseFamily(this)">
+            <div class="ef-name">Back</div>
+            <div class="ef-desc">Overshoot nhẹ</div>
+          </div>
+          <div class="ease-fam" data-family="elastic" onclick="selectEaseFamily(this)">
+            <div class="ef-name">Elastic</div>
+            <div class="ef-desc">Rung đàn hồi</div>
+          </div>
+          <div class="ease-fam" data-family="bounce" onclick="selectEaseFamily(this)">
+            <div class="ef-name">Bounce</div>
+            <div class="ef-desc">Nảy như bóng</div>
+          </div>
+          <div class="ease-fam" data-family="expo" onclick="selectEaseFamily(this)">
+            <div class="ef-name">Expo</div>
+            <div class="ef-desc">Rất nhanh</div>
+          </div>
+          <div class="ease-fam" data-family="circ" onclick="selectEaseFamily(this)">
+            <div class="ef-name">Circ</div>
+            <div class="ef-desc">Đường tròn</div>
+          </div>
+          <div class="ease-fam" data-family="sine" onclick="selectEaseFamily(this)">
+            <div class="ef-name">Sine</div>
+            <div class="ef-desc">Mềm mại nhất</div>
+          </div>
+          <div class="ease-fam" data-family="steps" onclick="selectEaseFamily(this)">
+            <div class="ef-name">Steps</div>
+            <div class="ef-desc">Nhảy bậc</div>
+          </div>
+        </div>
+        <div class="ease-variant-row" id="easeVariantRow"></div>
+        <div style="height:80px;background:var(--bg3);border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:center">
+          <div class="gbox" id="easeDemoBox" style="position:absolute;left:14px;font-size:9px;text-align:center"></div>
+          <div id="easeDemoLabel" style="position:absolute;right:14px;font-family:var(--mono);font-size:11px;color:var(--muted)">none.none</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb" id="easeDemoCode">
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">300</span>, <span class="p">duration</span>: <span class="v">1</span>, <span class="p">ease</span>: <span class="s">'power2.out'</span> });
+        </div>
+        <button class="btn btn-green" id="easePlayBtn" onclick="runEaseDemo()">▶ Play</button>
+      </div>
+    </div>
+
+    <!-- race demo -->
+    <div class="panel" id="ea1">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:4px">
+        <div class="ease-race-wrap" id="easeRaceWrap">
+          <!-- generated by JS -->
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// cùng duration=1.2s — ease khác nhau, cảm giác hoàn toàn khác</span><br>
+          RACE_EASES.forEach(e => <span class="fn">gsap.to</span>(ball, { <span class="p">x</span>: <span class="v">maxX</span>, <span class="p">duration</span>: <span class="v">1.2</span>, <span class="p">ease</span>: e }));
+        </div>
+        <button class="btn btn-green" onclick="runEaseRace()">▶ Race!</button>
+      </div>
+    </div>
+
+    <!-- special eases -->
+    <div class="panel" id="ea2">
+      <div class="demo-area" style="gap:2rem;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="se1" style="font-size:8px;text-align:center">elastic<br>param</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">elastic.out(1, 0.3)</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="se2" style="font-size:8px;text-align:center;background:var(--pink)">back<br>param</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">back.out(2.5)</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="se3" style="font-size:8px;text-align:center;background:var(--purple)">steps<br>8</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">steps(8)</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="se4" style="font-size:8px;text-align:center;background:var(--teal);color:#000">rough</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">"rough"</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="se5" style="font-size:8px;text-align:center;background:var(--yellow);color:#000">none<br>linear</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">none (linear)</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// elastic: amplitude (1), period (0.3) — period nhỏ = rung nhanh</span><br>
+          <span class="p">ease</span>: <span class="s">'elastic.out(1, 0.3)'</span><br>
+          <span class="c">// back: overshoot amount — số càng lớn càng vượt quá nhiều</span><br>
+          <span class="p">ease</span>: <span class="s">'back.out(2.5)'</span><br>
+          <span class="c">// steps: nhảy N bước — giống CSS steps(), dùng cho sprite anim</span><br>
+          <span class="p">ease</span>: <span class="s">'steps(8)'</span><br>
+          <span class="c">// none = linear, không có ease</span><br>
+          <span class="p">ease</span>: <span class="s">'none'</span>
+        </div>
+        <button class="btn btn-green" onclick="runSpecialEases()">▶ Play</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  04 — CALLBACKS & CONTROL
+══════════════════════════════════════════════════ -->
+<section class="section" id="callbacks">
+  <div class="section-label">
+    <span class="section-num">04</span>
+    <span class="section-title">Callbacks & Playback Control</span>
+  </div>
+  <p class="section-desc">
+    GSAP tween là object có thể lưu vào biến — từ đó <code>pause()</code>, <code>resume()</code>, <code>reverse()</code>, <code>seek()</code>, và nhận callbacks tại mỗi giai đoạn vòng đời animation.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('cb',0,this)">callbacks</div>
+      <div class="tab" onclick="switchTab('cb',1,this)">playback control</div>
+      <div class="tab" onclick="switchTab('cb',2,this)">delay & repeat</div>
+    </div>
+
+    <!-- callbacks -->
+    <div class="panel active" id="cb0">
+      <div class="demo-area" style="gap:1.5rem;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="gbox" id="cbBox">anim</div>
+        </div>
+        <div style="flex:1;min-width:240px">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:6px">event log</div>
+          <div class="cb-log" id="cbLog">
+            <div class="log-line">— bấm Play để xem callbacks —</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="fn">gsap.to</span>(<span class="s">'#box'</span>, {<br>
+          &nbsp;&nbsp;<span class="p">x</span>: <span class="v">200</span>, <span class="p">duration</span>: <span class="v">1.5</span>,<br>
+          &nbsp;&nbsp;<span class="p">onStart</span>:    () => log(<span class="s">'onStart fired'</span>),<br>
+          &nbsp;&nbsp;<span class="p">onUpdate</span>:   () => log(<span class="s">'onUpdate: '</span> + tween.progress().toFixed(2)),<br>
+          &nbsp;&nbsp;<span class="p">onComplete</span>: () => log(<span class="s">'onComplete ✓'</span>),<br>
+          &nbsp;&nbsp;<span class="p">onRepeat</span>:   () => log(<span class="s">'onRepeat'</span>),<br>
+          &nbsp;&nbsp;<span class="p">onReverseComplete</span>: () => log(<span class="s">'reversed!'</span>)<br>
+          });
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="runCallbackDemo()">▶ Play</button>
+          <button class="btn" onclick="clearLog()">clear log</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- playback control -->
+    <div class="panel" id="cb1">
+      <div class="demo-area" style="gap:1.5rem;flex-wrap:wrap">
+        <div class="gbox" id="ctrlBox" style="font-size:9px">ctrl</div>
+        <div style="display:flex;flex-direction:column;gap:6px;min-width:240px">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">tween state: <span id="ctrlState" style="color:var(--gsap)">idle</span></div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">progress: <span id="ctrlProgress" style="color:var(--text)">0</span></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+            <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">seek</span>
+            <input type="range" min="0" max="100" value="0" id="seekSlider" style="flex:1" oninput="seekTween(this.value)">
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="k">const</span> tween = <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">300</span>, <span class="p">duration</span>: <span class="v">2</span>, <span class="p">paused</span>: <span class="k">true</span> });<br>
+          tween.<span class="fn">play</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// bắt đầu / tiếp tục</span><br>
+          tween.<span class="fn">pause</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// dừng, giữ vị trí</span><br>
+          tween.<span class="fn">reverse</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// chạy ngược về điểm đầu</span><br>
+          tween.<span class="fn">restart</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// về đầu rồi play</span><br>
+          tween.<span class="fn">progress</span>(<span class="v">0.5</span>);&nbsp;<span class="c">// jump đến 50%</span><br>
+          tween.<span class="fn">seek</span>(<span class="v">1</span>);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// jump đến 1s</span>
+        </div>
+        <div class="control-btns">
+          <button class="btn btn-green" onclick="ctrlPlay()">play</button>
+          <button class="btn" onclick="ctrlPause()">pause</button>
+          <button class="btn" onclick="ctrlReverse()">reverse</button>
+          <button class="btn" onclick="ctrlRestart()">restart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- delay & repeat -->
+    <div class="panel" id="cb2">
+      <div class="demo-area" style="flex-direction:column;gap:1rem;align-items:flex-start;padding:1.5rem 2rem">
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;width:100%;align-items:center">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="gbox" id="delayBox" style="font-size:9px">delay</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">delay: 0.8s</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="gbox" id="repeatBox" style="background:var(--blue);font-size:9px">repeat</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">repeat: 2</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="gbox" id="yoyoBox" style="background:var(--pink);font-size:9px">yoyo</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">yoyo: true</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="gbox" id="infBox" style="background:var(--purple);font-size:9px">∞</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">repeat: -1</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// delay: chờ trước khi bắt đầu</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">100</span>, <span class="p">delay</span>: <span class="v">0.8</span> });<br>
+          <span class="c">// repeat: lặp N lần. -1 = infinite</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">100</span>, <span class="p">repeat</span>: <span class="v">2</span> });<br>
+          <span class="c">// yoyo: mỗi lần repeat chạy ngược chiều</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">100</span>, <span class="p">repeat</span>: <span class="v">-1</span>, <span class="p">yoyo</span>: <span class="k">true</span> });<br>
+          <span class="c">// repeatDelay: delay giữa các lần lặp</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">100</span>, <span class="p">repeat</span>: <span class="v">3</span>, <span class="p">repeatDelay</span>: <span class="v">0.5</span> });
+        </div>
+        <button class="btn btn-green" onclick="runRepeatDemo()">▶ Play All</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  05 — STAGGER
+══════════════════════════════════════════════════ -->
+<section class="section" id="stagger">
+  <div class="section-label">
+    <span class="section-num">05</span>
+    <span class="section-title">Stagger — animate nhiều phần tử</span>
+  </div>
+  <p class="section-desc">
+    GSAP <code>stagger</code> tự động thêm delay tăng dần cho mỗi phần tử trong selector. Mạnh hơn CSS <code>nth-child</code> vì hỗ trợ <code>from</code>, <code>grid</code>, và hàm custom.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('st',0,this)">stagger cơ bản</div>
+      <div class="tab" onclick="switchTab('st',1,this)">stagger object</div>
+      <div class="tab" onclick="switchTab('st',2,this)">from: center / end</div>
+    </div>
+
+    <!-- basic stagger -->
+    <div class="panel active" id="st0">
+      <div class="demo-area" style="flex-direction:column;gap:1.5rem;align-items:stretch;padding:1.5rem 2rem">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">bar chart stagger</div>
+        <div class="stag-grid" id="stagBarsBasic">
+          <div class="stag-bar" style="height:90px"></div>
+          <div class="stag-bar" style="height:55px"></div>
+          <div class="stag-bar" style="height:120px"></div>
+          <div class="stag-bar" style="height:70px"></div>
+          <div class="stag-bar" style="height:100px"></div>
+          <div class="stag-bar" style="height:48px"></div>
+          <div class="stag-bar" style="height:110px"></div>
+          <div class="stag-bar" style="height:80px"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">fade up stagger</div>
+        <div class="stag-dots" id="stagDots">
+          <div class="stag-dot"></div><div class="stag-dot"></div><div class="stag-dot"></div>
+          <div class="stag-dot"></div><div class="stag-dot"></div><div class="stag-dot"></div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// stagger: số giây delay giữa mỗi phần tử</span><br>
+          <span class="fn">gsap.from</span>(<span class="s">'.bar'</span>, {<br>
+          &nbsp;&nbsp;<span class="p">scaleY</span>: <span class="v">0</span>, <span class="p">opacity</span>: <span class="v">0</span>, <span class="p">duration</span>: <span class="v">0.6</span>,<br>
+          &nbsp;&nbsp;<span class="p">ease</span>: <span class="s">'back.out(1.5)'</span>,<br>
+          &nbsp;&nbsp;<span class="p">stagger</span>: <span class="v">0.07</span>&nbsp;&nbsp;<span class="c">// mỗi bar delay thêm 0.07s</span><br>
+          });
+        </div>
+        <button class="btn btn-green" onclick="runBasicStagger()">▶ Play</button>
+      </div>
+    </div>
+
+    <!-- stagger object -->
+    <div class="panel" id="st1">
+      <div class="demo-area" style="flex-direction:column;gap:1rem;align-items:stretch;padding:1.5rem 2rem">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">each vs amount</div>
+        <div style="display:flex;gap:2rem;flex-wrap:wrap">
+          <div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px">each: 0.1 — delay giữa các item</div>
+            <div style="display:flex;gap:6px" id="stagEach">
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--blue)"></div>
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--blue)"></div>
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--blue)"></div>
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--blue)"></div>
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--blue)"></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px">amount: 0.5 — tổng thời gian stagger</div>
+            <div style="display:flex;gap:6px" id="stagAmount">
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--pink)"></div>
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--pink)"></div>
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--pink)"></div>
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--pink)"></div>
+              <div class="stag-dot" style="width:32px;height:32px;border-radius:6px;background:var(--pink)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// stagger object — kiểm soát chi tiết hơn</span><br>
+          <span class="p">stagger</span>: {<br>
+          &nbsp;&nbsp;<span class="p">each</span>: <span class="v">0.1</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// delay giữa các phần tử</span><br>
+          &nbsp;&nbsp;<span class="c">// hoặc:</span><br>
+          &nbsp;&nbsp;<span class="p">amount</span>: <span class="v">0.5</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// tổng stagger chia đều cho tất cả</span><br>
+          &nbsp;&nbsp;<span class="p">ease</span>: <span class="s">'power2.in'</span>,&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// ease của chính stagger timing</span><br>
+          &nbsp;&nbsp;<span class="p">from</span>: <span class="s">'center'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// điểm bắt đầu stagger</span><br>
+          }
+        </div>
+        <button class="btn btn-green" onclick="runStaggerObject()">▶ Play</button>
+      </div>
+    </div>
+
+    <!-- stagger from -->
+    <div class="panel" id="st2">
+      <div class="demo-area" style="flex-direction:column;gap:1.5rem;align-items:stretch;padding:1.5rem 2rem">
+        <div id="stagFromGrid" class="stag-from-grid">
+          <div class="stag-from-box"></div><div class="stag-from-box"></div><div class="stag-from-box"></div><div class="stag-from-box"></div><div class="stag-from-box"></div>
+          <div class="stag-from-box"></div><div class="stag-from-box"></div><div class="stag-from-box"></div><div class="stag-from-box"></div><div class="stag-from-box"></div>
+          <div class="stag-from-box"></div><div class="stag-from-box"></div><div class="stag-from-box"></div><div class="stag-from-box"></div><div class="stag-from-box"></div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// from: chỉ định phần tử nào animate trước</span><br>
+          <span class="p">stagger</span>: { <span class="p">each</span>: <span class="v">0.05</span>, <span class="p">from</span>: <span class="s">'start'</span> }&nbsp;&nbsp;<span class="c">// mặc định</span><br>
+          <span class="p">stagger</span>: { <span class="p">each</span>: <span class="v">0.05</span>, <span class="p">from</span>: <span class="s">'end'</span> }&nbsp;&nbsp;&nbsp;<span class="c">// ngược lại</span><br>
+          <span class="p">stagger</span>: { <span class="p">each</span>: <span class="v">0.05</span>, <span class="p">from</span>: <span class="s">'center'</span> }&nbsp;<span class="c">// từ giữa ra</span><br>
+          <span class="p">stagger</span>: { <span class="p">each</span>: <span class="v">0.05</span>, <span class="p">from</span>: <span class="v">7</span> }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// từ index 7</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="runStaggerFrom('start')">start</button>
+          <button class="btn" onclick="runStaggerFrom('end')">end</button>
+          <button class="btn" onclick="runStaggerFrom('center')">center</button>
+          <button class="btn" onclick="runStaggerFrom(7)">index 7</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  06 — OVERWRITE & DEFAULTS
+══════════════════════════════════════════════════ -->
+<section class="section" id="overwrite">
+  <div class="section-label">
+    <span class="section-num">06</span>
+    <span class="section-title">Overwrite & gsap.defaults()</span>
+  </div>
+  <p class="section-desc">
+    Khi hai tween cùng animate một property trên cùng element, GSAP xử lý conflict bằng <code>overwrite</code>. <code>gsap.defaults()</code> và <code>gsap.config()</code> cho phép set giá trị mặc định toàn cục.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('ow',0,this)">overwrite</div>
+      <div class="tab" onclick="switchTab('ow',1,this)">gsap.defaults()</div>
+      <div class="tab" onclick="switchTab('ow',2,this)">gsap.set()</div>
+    </div>
+
+    <!-- overwrite -->
+    <div class="panel active" id="ow0">
+      <div class="demo-area" style="flex-direction:column;gap:1.5rem;align-items:flex-start;padding:1.5rem 2rem">
+        <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="ow-box" id="owNone">none</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">overwrite: false<br>(conflict!)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="ow-box" id="owTrue" style="background:var(--gsap);color:#000">true</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">overwrite: true<br>(kill old)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;min-width:220px">
+            <div style="background:var(--bg3);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);line-height:1.7;width:100%">
+              <strong style="color:var(--text)">overwrite modes:</strong><br>
+              <code>false</code> — không override, cả 2 chạy song song (conflict)<br>
+              <code>true</code> — kill tất cả tween cũ trên cùng target<br>
+              <code>'auto'</code> — chỉ kill các property đang conflict
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// overwrite: 'auto' — chỉ override property đang conflict</span><br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">200</span>, <span class="p">duration</span>: <span class="v">2</span> });<br>
+          <span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">50</span>, <span class="p">duration</span>: <span class="v">0.5</span>, <span class="p">overwrite</span>: <span class="k">true</span> });<br>
+          <span class="c">// set globally để tự động xử lý:</span><br>
+          <span class="fn">gsap.defaults</span>({ <span class="p">overwrite</span>: <span class="s">'auto'</span> });
+        </div>
+        <button class="btn btn-green" onclick="runOverwrite()">▶ Demo</button>
+      </div>
+    </div>
+
+    <!-- defaults -->
+    <div class="panel" id="ow1">
+      <div class="demo-area" style="gap:1.5rem;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="ow-box" id="def1" style="background:var(--teal);color:#000">d1</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">với defaults</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div class="ow-box" id="def2" style="background:var(--yellow);color:#000">d2</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">với defaults</div>
+        </div>
+        <div style="flex:1;min-width:220px;background:var(--bg3);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.8">
+          Cả hai tween chỉ cần chỉ định property animate — <code>duration</code>, <code>ease</code> được tự động áp từ <code>gsap.defaults()</code>.
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// set defaults cho toàn bộ project</span><br>
+          <span class="fn">gsap.defaults</span>({<br>
+          &nbsp;&nbsp;<span class="p">duration</span>: <span class="v">0.8</span>,<br>
+          &nbsp;&nbsp;<span class="p">ease</span>: <span class="s">'power2.out'</span>,<br>
+          &nbsp;&nbsp;<span class="p">overwrite</span>: <span class="s">'auto'</span><br>
+          });<br>
+          <span class="c">// giờ không cần lặp lại duration và ease</span><br>
+          <span class="fn">gsap.to</span>(<span class="s">'#el'</span>, { <span class="p">x</span>: <span class="v">100</span> });&nbsp;<span class="c">// dùng defaults</span>
+        </div>
+        <button class="btn btn-green" onclick="runDefaults()">▶ Play</button>
+      </div>
+    </div>
+
+    <!-- gsap.set() -->
+    <div class="panel" id="ow2">
+      <div class="demo-area" style="gap:1.5rem;flex-wrap:wrap">
+        <div class="ow-box" id="setBox1" style="opacity:0;background:var(--pink)">set 1</div>
+        <div class="ow-box" id="setBox2" style="background:var(--purple);transform:translateX(-60px)">set 2</div>
+        <div style="flex:1;min-width:220px;background:var(--bg3);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.8">
+          <code>gsap.set()</code> là tween với <code>duration: 0</code> — áp giá trị ngay lập tức, không animate. Dùng để set trạng thái ban đầu trước khi animate, hoặc reset sau khi xong.
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// set ngay lập tức — không animate</span><br>
+          <span class="fn">gsap.set</span>(<span class="s">'#el'</span>, { <span class="p">x</span>: <span class="v">0</span>, <span class="p">opacity</span>: <span class="v">0</span>, <span class="p">scale</span>: <span class="v">0.8</span> });<br>
+          <span class="c">// sau đó animate từ trạng thái đã set</span><br>
+          <span class="fn">gsap.to</span>(<span class="s">'#el'</span>, { <span class="p">opacity</span>: <span class="v">1</span>, <span class="p">scale</span>: <span class="v">1</span>, <span class="p">duration</span>: <span class="v">0.5</span> });<br>
+          <span class="c">// clearProps: xoá transform khỏi inline style</span><br>
+          <span class="fn">gsap.set</span>(<span class="s">'#el'</span>, { <span class="p">clearProps</span>: <span class="s">'all'</span> });
+        </div>
+        <button class="btn btn-green" onclick="runSetDemo()">▶ Demo</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  07 — REAL WORLD
+══════════════════════════════════════════════════ -->
+<section class="section" id="realworld">
+  <div class="section-label">
+    <span class="section-num">07</span>
+    <span class="section-title">Real-world Patterns</span>
+  </div>
+  <p class="section-desc">
+    Những pattern hay dùng nhất trong thực tế — page entrance, hover card, counter, nav reveal, text reveal.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('rw',0,this)">page entrance</div>
+      <div class="tab" onclick="switchTab('rw',1,this)">hover card</div>
+      <div class="tab" onclick="switchTab('rw',2,this)">counter</div>
+      <div class="tab" onclick="switchTab('rw',3,this)">nav reveal</div>
+    </div>
+
+    <!-- page entrance -->
+    <div class="panel active" id="rw0">
+      <div class="demo-area" style="flex-direction:column;gap:12px;align-items:stretch;padding:1.5rem 2rem">
+        <div id="rwTitle" style="font-family:var(--display);font-size:26px;font-weight:700;opacity:0">Animation makes it feel alive.</div>
+        <div id="rwSubtitle" style="font-size:14px;color:var(--muted);opacity:0">Sử dụng gsap.from() với stagger để tạo entrance sequence tự nhiên.</div>
+        <div style="display:flex;gap:10px;opacity:0" id="rwBtns">
+          <button class="rw-btn">Get started</button>
+          <button class="btn">Learn more</button>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// entrance sequence — fromTo đảm bảo predictable</span><br>
+          <span class="k">const</span> tl = gsap.<span class="fn">timeline</span>();<br>
+          tl.<span class="fn">from</span>(<span class="s">'#title'</span>, { <span class="p">y</span>:<span class="v">30</span>, <span class="p">opacity</span>:<span class="v">0</span>, <span class="p">duration</span>:<span class="v">0.7</span> })<br>
+          &nbsp;&nbsp;.<span class="fn">from</span>(<span class="s">'#sub'</span>,   { <span class="p">y</span>:<span class="v">20</span>, <span class="p">opacity</span>:<span class="v">0</span>, <span class="p">duration</span>:<span class="v">0.5</span> }, <span class="s">'-=0.3'</span>)<br>
+          &nbsp;&nbsp;.<span class="fn">from</span>(<span class="s">'#btns'</span>,  { <span class="p">y</span>:<span class="v">16</span>, <span class="p">opacity</span>:<span class="v">0</span>, <span class="p">duration</span>:<span class="v">0.4</span> }, <span class="s">'-=0.2'</span>);
+        </div>
+        <button class="btn btn-green" onclick="runPageEntrance()">▶ Play</button>
+      </div>
+    </div>
+
+    <!-- hover card -->
+    <div class="panel" id="rw1">
+      <div class="demo-area" style="gap:1.5rem;flex-wrap:wrap">
+        <div id="hoverCard" class="rw-card" style="width:220px;cursor:pointer"
+          onmouseenter="gsapHoverEnter(this)"
+          onmouseleave="gsapHoverLeave(this)">
+          <div style="font-family:var(--display);font-size:16px;font-weight:700;margin-bottom:6px">Card hover</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6">Hover để xem GSAP animate card lift — mượt hơn CSS transition vì có spring easing.</div>
+        </div>
+        <div style="flex:1;min-width:220px;background:var(--bg3);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.8">
+          Dùng <code>onmouseenter/leave</code> thay CSS <code>:hover</code> khi cần kiểm soát animation — GSAP tự xử lý interrupt nếu hover nhanh.
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// GSAP xử lý interrupt tốt hơn CSS transition</span><br>
+          el.addEventListener(<span class="s">'mouseenter'</span>, () => {<br>
+          &nbsp;&nbsp;<span class="fn">gsap.to</span>(el, { <span class="p">y</span>: <span class="v">-6</span>, <span class="p">scale</span>: <span class="v">1.02</span>, <span class="p">duration</span>: <span class="v">0.4</span>, <span class="p">ease</span>: <span class="s">'back.out(2)'</span> });<br>
+          });<br>
+          el.addEventListener(<span class="s">'mouseleave'</span>, () => {<br>
+          &nbsp;&nbsp;<span class="fn">gsap.to</span>(el, { <span class="p">y</span>: <span class="v">0</span>,  <span class="p">scale</span>: <span class="v">1</span>,    <span class="p">duration</span>: <span class="v">0.3</span>, <span class="p">ease</span>: <span class="s">'power2.out'</span> });<br>
+          });
+        </div>
+      </div>
+    </div>
+
+    <!-- counter -->
+    <div class="panel" id="rw2">
+      <div class="demo-area" style="gap:2.5rem;flex-wrap:wrap">
+        <div style="text-align:center">
+          <div class="rw-number-wrap" id="cnt1">0</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px">users</div>
+        </div>
+        <div style="text-align:center">
+          <div class="rw-number-wrap" id="cnt2" style="color:var(--pink)">0</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px">projects</div>
+        </div>
+        <div style="text-align:center">
+          <div class="rw-number-wrap" id="cnt3" style="color:var(--teal)">0</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px">deploys</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// animate object thuần — GSAP interpolates value</span><br>
+          <span class="k">const</span> obj = { val: <span class="v">0</span> };<br>
+          <span class="fn">gsap.to</span>(obj, {<br>
+          &nbsp;&nbsp;<span class="p">val</span>: <span class="v">12450</span>, <span class="p">duration</span>: <span class="v">2</span>, <span class="p">ease</span>: <span class="s">'power2.out'</span>,<br>
+          &nbsp;&nbsp;<span class="p">onUpdate</span>: () => el.textContent = obj.val.<span class="fn">toLocaleString</span>(<span class="s">'vi'</span>, {maximumFractionDigits:<span class="v">0</span>})<br>
+          });
+        </div>
+        <button class="btn btn-green" onclick="runCounters()">▶ Count</button>
+      </div>
+    </div>
+
+    <!-- nav reveal -->
+    <div class="panel" id="rw3">
+      <div class="demo-area" style="flex-direction:column;gap:8px;align-items:stretch;padding:1.5rem 2rem">
+        <div id="rwNavList" style="display:flex;flex-direction:column;gap:6px;max-width:280px">
+          <div class="rw-nav-item">📁 <span>Projects</span></div>
+          <div class="rw-nav-item">🔔 <span>Notifications</span></div>
+          <div class="rw-nav-item">⚙️ <span>Settings</span></div>
+          <div class="rw-nav-item">📊 <span>Analytics</span></div>
+          <div class="rw-nav-item">👤 <span>Profile</span></div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// sidebar/menu reveal với stagger</span><br>
+          <span class="fn">gsap.from</span>(<span class="s">'.nav-item'</span>, {<br>
+          &nbsp;&nbsp;<span class="p">x</span>: <span class="v">-24</span>, <span class="p">opacity</span>: <span class="v">0</span>, <span class="p">duration</span>: <span class="v">0.4</span>,<br>
+          &nbsp;&nbsp;<span class="p">ease</span>: <span class="s">'power2.out'</span>,<br>
+          &nbsp;&nbsp;<span class="p">stagger</span>: <span class="v">0.07</span>,<br>
+          &nbsp;&nbsp;<span class="p">clearProps</span>: <span class="s">'all'</span>&nbsp;&nbsp;<span class="c">// clean up sau khi xong</span><br>
+          });
+        </div>
+        <button class="btn btn-green" onclick="runNavReveal()">▶ Play</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ══════════════════════════════════════════════
+  08 — TIMELINE
+══════════════════════════════════════════════════ -->
+<section class="section" id="timeline">
+  <div class="section-label">
+    <span class="section-num">08</span>
+    <span class="section-title">GSAP Timeline — orchestrate sequences</span>
+  </div>
+  <p class="section-desc">
+    <code>gsap.timeline()</code> cho phép xâu chuỗi nhiều tween thành một sequence có thể control như một tween. <strong>Position Parameter</strong> là tính năng mạnh nhất — kiểm soát chính xác thời điểm mỗi tween bắt đầu trong timeline.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('tl',0,this)">timeline cơ bản</div>
+      <div class="tab" onclick="switchTab('tl',1,this)">position parameter</div>
+      <div class="tab" onclick="switchTab('tl',2,this)">timeline control</div>
+      <div class="tab" onclick="switchTab('tl',3,this)">nested timeline</div>
+    </div>
+
+    <!-- basic timeline -->
+    <div class="panel active" id="tl0">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <!-- visual timeline bar -->
+        <div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:6px">timeline visualizer</div>
+          <div style="background:var(--bg3);border-radius:8px;padding:12px;position:relative">
+            <div id="tlScrubber" class="tl-scrubber" style="left:0"></div>
+            <div style="height:56px;position:relative">
+              <div class="tl-block" style="left:0%;width:30%;background:var(--gsap)">title</div>
+              <div class="tl-block" style="left:22%;width:25%;background:var(--blue);color:#fff">subtitle</div>
+              <div class="tl-block" style="left:38%;width:20%;background:var(--pink);color:#fff">btn 1</div>
+              <div class="tl-block" style="left:50%;width:20%;background:var(--purple);color:#fff">btn 2</div>
+              <div class="tl-block" style="left:62%;width:20%;background:var(--yellow);color:#000">badge</div>
+            </div>
+            <div class="tl-ruler">
+              <div class="tl-tick">0s</div><div class="tl-tick">.3s</div><div class="tl-tick">.6s</div>
+              <div class="tl-tick">.9s</div><div class="tl-tick">1.2s</div><div class="tl-tick">1.5s</div>
+              <div class="tl-tick">1.8s</div><div class="tl-tick">2.1s</div>
+            </div>
+          </div>
+        </div>
+        <!-- animated elements -->
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap" id="tlBasicRow">
+          <div id="tl-title"  style="font-family:var(--display);font-size:20px;font-weight:700;opacity:0">Hello GSAP</div>
+          <div id="tl-sub"    style="font-size:13px;color:var(--muted);opacity:0">Timeline rocks</div>
+          <div id="tl-btn1"   style="opacity:0"><button class="rw-btn" style="font-size:11px;padding:6px 14px">Primary</button></div>
+          <div id="tl-btn2"   style="opacity:0"><button class="btn" style="font-size:11px;padding:6px 14px">Secondary</button></div>
+          <div id="tl-badge"  style="opacity:0;background:var(--gsap);color:#000;font-family:var(--mono);font-size:10px;padding:3px 10px;border-radius:20px">new</div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// timeline: tweens chạy NỐI TIẾP nhau mặc định</span><br>
+          <span class="k">const</span> tl = <span class="fn">gsap.timeline</span>({ <span class="p">defaults</span>: { <span class="p">ease</span>:<span class="s">'power2.out'</span>, <span class="p">duration</span>:<span class="v">0.6</span> } });<br>
+          tl.<span class="fn">from</span>(<span class="s">'#title'</span>,  { <span class="p">y</span>:<span class="v">24</span>, <span class="p">opacity</span>:<span class="v">0</span> })<br>
+          &nbsp;&nbsp;.<span class="fn">from</span>(<span class="s">'#sub'</span>,    { <span class="p">y</span>:<span class="v">16</span>, <span class="p">opacity</span>:<span class="v">0</span> })<br>
+          &nbsp;&nbsp;.<span class="fn">from</span>(<span class="s">'#btn'</span>,    { <span class="p">y</span>:<span class="v">12</span>, <span class="p">opacity</span>:<span class="v">0</span> });
+        </div>
+        <button class="btn btn-green" onclick="runTlBasic()">▶ Play</button>
+      </div>
+    </div>
+
+    <!-- position parameter -->
+    <div class="panel" id="tl1">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div class="pos-grid">
+          <div class="pos-card active" onclick="selectPos(this,'absolute')" data-pos="absolute">
+            <div class="pos-name">"1.5" — absolute</div>
+            <div class="pos-desc">Bắt đầu tại đúng 1.5s trong timeline</div>
+          </div>
+          <div class="pos-card" onclick="selectPos(this,'relative_minus')" data-pos="relative_minus">
+            <div class="pos-name">"-=0.3" — overlap</div>
+            <div class="pos-desc">Bắt đầu 0.3s TRƯỚC khi tween trước kết thúc</div>
+          </div>
+          <div class="pos-card" onclick="selectPos(this,'relative_plus')" data-pos="relative_plus">
+            <div class="pos-name">"+=0.2" — gap</div>
+            <div class="pos-desc">Bắt đầu 0.2s SAU khi tween trước kết thúc</div>
+          </div>
+          <div class="pos-card" onclick="selectPos(this,'label')" data-pos="label">
+            <div class="pos-name">"myLabel" — label</div>
+            <div class="pos-desc">Nhảy đến named label trong timeline</div>
+          </div>
+          <div class="pos-card" onclick="selectPos(this,'percent')" data-pos="percent">
+            <div class="pos-name">"<50%" — percent</div>
+            <div class="pos-desc">Relative đến tween trước theo %</div>
+          </div>
+          <div class="pos-card" onclick="selectPos(this,'start')" data-pos="start">
+            <div class="pos-name">"<" — same start</div>
+            <div class="pos-desc">Bắt đầu cùng lúc tween trước (parallel)</div>
+          </div>
+        </div>
+        <div class="pos-stage" id="posStage">
+          <div class="gbox" id="posA" style="position:absolute;left:14px;font-size:9px">A</div>
+          <div class="gbox" id="posB" style="position:absolute;left:14px;font-size:9px;background:var(--pink)">B</div>
+        </div>
+        <div id="posDesc" style="font-family:var(--mono);font-size:11px;color:var(--muted);padding:6px 0">
+          "1.5" → B bắt đầu tại 1.5s trong timeline
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb" id="posCb">
+          tl.<span class="fn">to</span>(A, { <span class="p">x</span>:<span class="v">160</span>, <span class="p">duration</span>:<span class="v">1</span> });<br>
+          tl.<span class="fn">to</span>(B, { <span class="p">x</span>:<span class="v">160</span>, <span class="p">duration</span>:<span class="v">0.8</span> }, <span class="s">"1.5"</span>);&nbsp;&nbsp;<span class="c">// absolute 1.5s</span>
+        </div>
+        <button class="btn btn-green" id="posPlayBtn" onclick="runPosDemo()">▶ Play</button>
+      </div>
+    </div>
+
+    <!-- timeline control -->
+    <div class="panel" id="tl2">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;gap:1rem;padding:1.5rem 2rem">
+        <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap">
+          <div class="gbox" id="tlCtrlBox" style="font-size:9px;flex-shrink:0">tl</div>
+          <div style="flex:1;min-width:200px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">progress:</span>
+              <span id="tlProgress" style="font-family:var(--mono);font-size:11px;color:var(--gsap)">0.000</span>
+              <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">time:</span>
+              <span id="tlTime" style="font-family:var(--mono);font-size:11px;color:var(--text)">0.00s</span>
+              <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">timeScale:</span>
+              <span id="tlScale" style="font-family:var(--mono);font-size:11px;color:var(--yellow)">1×</span>
+            </div>
+            <input type="range" min="0" max="100" value="0" style="width:100%" id="tlSeekSlider" oninput="seekTl(this.value)">
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="k">const</span> tl = <span class="fn">gsap.timeline</span>({ <span class="p">paused</span>:<span class="k">true</span> });&nbsp;&nbsp;<span class="c">// start paused</span><br>
+          tl.<span class="fn">timeScale</span>(<span class="v">2</span>);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// 2× speed — debug trick</span><br>
+          tl.<span class="fn">seek</span>(<span class="s">'myLabel'</span>);&nbsp;&nbsp;&nbsp;<span class="c">// jump đến label</span><br>
+          tl.<span class="fn">progress</span>(<span class="v">0.5</span>);&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// jump đến 50%</span><br>
+          tl.<span class="fn">kill</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// destroy hoàn toàn</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="tlCtrlPlay()">play</button>
+          <button class="btn" onclick="tlCtrlPause()">pause</button>
+          <button class="btn" onclick="tlCtrlReverse()">reverse</button>
+          <button class="btn" onclick="tlCtrlSpeed(0.5)">0.5×</button>
+          <button class="btn" onclick="tlCtrlSpeed(1)">1×</button>
+          <button class="btn" onclick="tlCtrlSpeed(2)">2×</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- nested timeline -->
+    <div class="panel" id="tl3">
+      <div class="demo-area" style="flex-direction:column;gap:1rem;align-items:stretch;padding:1.5rem 2rem">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">
+          nested timelines — mỗi row là một sub-timeline, tất cả ghép vào master timeline
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px" id="nestedRows">
+          <div style="display:flex;gap:8px" id="nr1">
+            <div class="gbox" style="font-size:9px;background:var(--gsap);color:#000;width:44px;height:44px;border-radius:7px">tl1</div>
+            <div class="gbox" style="font-size:9px;background:var(--gsap);color:#000;width:44px;height:44px;border-radius:7px">A</div>
+            <div class="gbox" style="font-size:9px;background:var(--gsap);color:#000;width:44px;height:44px;border-radius:7px">B</div>
+          </div>
+          <div style="display:flex;gap:8px" id="nr2">
+            <div class="gbox" style="font-size:9px;background:var(--blue);width:44px;height:44px;border-radius:7px">tl2</div>
+            <div class="gbox" style="font-size:9px;background:var(--blue);width:44px;height:44px;border-radius:7px">C</div>
+            <div class="gbox" style="font-size:9px;background:var(--blue);width:44px;height:44px;border-radius:7px">D</div>
+          </div>
+          <div style="display:flex;gap:8px" id="nr3">
+            <div class="gbox" style="font-size:9px;background:var(--pink);width:44px;height:44px;border-radius:7px">tl3</div>
+            <div class="gbox" style="font-size:9px;background:var(--pink);width:44px;height:44px;border-radius:7px">E</div>
+            <div class="gbox" style="font-size:9px;background:var(--pink);width:44px;height:44px;border-radius:7px">F</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// sub-timelines → dễ quản lý phần complex</span><br>
+          <span class="k">function</span> <span class="fn">buildRow</span>(els) {<br>
+          &nbsp;&nbsp;<span class="k">const</span> tl = <span class="fn">gsap.timeline</span>();<br>
+          &nbsp;&nbsp;<span class="k">return</span> tl.<span class="fn">from</span>(els, { <span class="p">x</span>:<span class="v">-30</span>, <span class="p">opacity</span>:<span class="v">0</span>, <span class="p">stagger</span>:<span class="v">0.1</span> });<br>
+          }<br>
+          <span class="c">// master ghép tất cả</span><br>
+          <span class="k">const</span> master = <span class="fn">gsap.timeline</span>()<br>
+          &nbsp;&nbsp;.<span class="fn">add</span>(<span class="fn">buildRow</span>(<span class="s">'#nr1 .gbox'</span>))<br>
+          &nbsp;&nbsp;.<span class="fn">add</span>(<span class="fn">buildRow</span>(<span class="s">'#nr2 .gbox'</span>), <span class="s">'-=0.2'</span>)<br>
+          &nbsp;&nbsp;.<span class="fn">add</span>(<span class="fn">buildRow</span>(<span class="s">'#nr3 .gbox'</span>), <span class="s">'-=0.2'</span>);
+        </div>
+        <button class="btn btn-green" onclick="runNestedTl()">▶ Play</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  09 — GSAP CONTEXT & useGSAP (React)
+══════════════════════════════════════════════════ -->
+<section class="section" id="context">
+  <div class="section-label">
+    <span class="section-num">09</span>
+    <span class="section-title">gsap.context() & useGSAP — React integration</span>
+  </div>
+  <p class="section-desc">
+    Khi dùng GSAP trong React, <code>gsap.context()</code> và hook <code>useGSAP()</code> (@gsap/react) đảm bảo <strong>cleanup tự động</strong> khi component unmount — tránh memory leak và animation zombie.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('ct',0,this)">vấn đề không cleanup</div>
+      <div class="tab" onclick="switchTab('ct',1,this)">gsap.context()</div>
+      <div class="tab" onclick="switchTab('ct',2,this)">useGSAP hook</div>
+      <div class="tab" onclick="switchTab('ct',3,this)">scope selector</div>
+    </div>
+
+    <!-- problem -->
+    <div class="panel active" id="ct0">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div class="ctx-diagram">
+          <div class="ctx-box ctx-warn" style="margin-bottom:0">
+            <div class="ctx-box-label">❌ Component (unmounted)</div>
+            <div style="color:var(--muted);font-size:12px;line-height:1.8">
+              Component unmount nhưng tween vẫn chạy trong GSAP ticker<br>
+              → Cố update DOM đã bị xoá → Memory leak + console errors
+            </div>
+          </div>
+          <div style="text-align:center;padding:8px 0;font-size:18px;color:#e24b4a">↓ zombie tween</div>
+          <div class="ctx-box ctx-warn" style="margin-bottom:0">
+            <div class="ctx-box-label">GSAP ticker (global)</div>
+            <div style="color:#e24b4a;font-size:12px;font-family:var(--mono)">
+              gsap.to(deadElement, {x:100}) — still running!
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// ❌ Không cleanup — phổ biến nhất khi mới học</span><br>
+          <span class="k">useEffect</span>(() => {<br>
+          &nbsp;&nbsp;<span class="fn">gsap.to</span>(<span class="s">'.box'</span>, { <span class="p">x</span>:<span class="v">100</span>, <span class="p">repeat</span>:<span class="v">-1</span> });<br>
+          &nbsp;&nbsp;<span class="c">// không return cleanup → zombie khi unmount</span><br>
+          }, []);
+        </div>
+      </div>
+    </div>
+
+    <!-- context -->
+    <div class="panel" id="ct1">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div class="ctx-diagram">
+          <div class="ctx-box ctx-highlight">
+            <div class="ctx-box-label">gsap.context()</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.8">
+              Bọc tất cả GSAP calls trong một context.<br>
+              Gọi <code>ctx.revert()</code> → kill tất cả tweens + restore inline styles.<br>
+              <strong style="color:var(--gsap)">Scoped selector:</strong> <code>ctx.selector('.box')</code> chỉ tìm trong element scope.
+            </div>
+          </div>
+          <div style="text-align:center;padding:6px 0;font-size:16px;color:var(--gsap)">↓ clean cleanup</div>
+          <div class="ctx-box ctx-highlight" style="margin-bottom:0">
+            <div class="ctx-box-label">component unmount</div>
+            <div style="font-size:12px;color:var(--gsap);font-family:var(--mono)">ctx.revert() → all tweens killed ✓</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// ✅ gsap.context() — vanilla JS & class components</span><br>
+          <span class="k">useEffect</span>(() => {<br>
+          &nbsp;&nbsp;<span class="k">const</span> ctx = <span class="fn">gsap.context</span>(() => {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">gsap.to</span>(<span class="s">'.box'</span>, { <span class="p">x</span>:<span class="v">100</span>, <span class="p">repeat</span>:<span class="v">-1</span> });<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">gsap.from</span>(<span class="s">'.title'</span>, { <span class="p">opacity</span>:<span class="v">0</span> });<br>
+          &nbsp;&nbsp;}, containerRef);&nbsp;&nbsp;<span class="c">// scope: containerRef.current</span><br>
+          &nbsp;&nbsp;<span class="k">return</span> () => ctx.<span class="fn">revert</span>();&nbsp;&nbsp;<span class="c">// cleanup tự động</span><br>
+          }, []);
+        </div>
+      </div>
+    </div>
+
+    <!-- useGSAP -->
+    <div class="panel" id="ct2">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div class="ctx-diagram">
+          <div class="ctx-box ctx-highlight">
+            <div class="ctx-box-label">useGSAP(@gsap/react) — recommended</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.9">
+              Wrapper chính thức của GSAP cho React.<br>
+              Tự động tạo context + revert khi unmount.<br>
+              Hoạt động với <strong style="color:var(--gsap)">React 18 Strict Mode</strong> đúng cách.<br>
+              Cú pháp giống <code>useEffect</code> — không cần học thêm nhiều.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// npm install @gsap/react</span><br>
+          <span class="k">import</span> { useGSAP } <span class="k">from</span> <span class="s">'@gsap/react'</span>;<br>
+          <br>
+          <span class="k">function</span> <span class="fn">MyComponent</span>() {<br>
+          &nbsp;&nbsp;<span class="k">const</span> container = <span class="fn">useRef</span>();<br>
+          &nbsp;&nbsp;<span class="fn">useGSAP</span>(() => {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">gsap.from</span>(<span class="s">'.box'</span>, { <span class="p">y</span>:<span class="v">30</span>, <span class="p">opacity</span>:<span class="v">0</span>, <span class="p">stagger</span>:<span class="v">0.1</span> });<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// không cần return cleanup — hook tự xử lý</span><br>
+          &nbsp;&nbsp;}, { <span class="p">scope</span>: container });<br>
+          &nbsp;&nbsp;<span class="k">return</span> &lt;div ref={container}&gt;...&lt;/div&gt;;<br>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- scope selector -->
+    <div class="panel" id="ct3">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:8px">Component A (scope A)</div>
+            <div style="background:rgba(136,206,2,0.07);border:1px solid rgba(136,206,2,0.2);border-radius:8px;padding:12px;display:flex;gap:8px">
+              <div class="scope-box-a" style="width:36px;height:36px;border-radius:6px;background:var(--gsap)"></div>
+              <div class="scope-box-a" style="width:36px;height:36px;border-radius:6px;background:var(--gsap)"></div>
+              <div class="scope-box-a" style="width:36px;height:36px;border-radius:6px;background:var(--gsap)"></div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:200px">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:8px">Component B (scope B)</div>
+            <div style="background:rgba(91,141,238,0.07);border:1px solid rgba(91,141,238,0.2);border-radius:8px;padding:12px;display:flex;gap:8px">
+              <div class="scope-box-b" style="width:36px;height:36px;border-radius:6px;background:var(--blue)"></div>
+              <div class="scope-box-b" style="width:36px;height:36px;border-radius:6px;background:var(--blue)"></div>
+              <div class="scope-box-b" style="width:36px;height:36px;border-radius:6px;background:var(--blue)"></div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);background:var(--bg3);border-radius:8px;padding:10px 14px;line-height:1.7">
+          <strong style="color:var(--text)">Scope selector</strong> đảm bảo <code>gsap.to('.box')</code> trong Component A chỉ nhắm vào <code>.box</code> bên trong A, không ảnh hưởng đến B. Tránh selector collision khi cùng class name.
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// scope: containerRef → selector chỉ tìm trong container</span><br>
+          <span class="fn">useGSAP</span>(() => {<br>
+          &nbsp;&nbsp;<span class="fn">gsap.to</span>(<span class="s">'.box'</span>, { <span class="p">x</span>:<span class="v">50</span> });&nbsp;<span class="c">// chỉ .box trong scope A</span><br>
+          }, { <span class="p">scope</span>: containerRefA });<br>
+          <span class="c">// tương đương:</span><br>
+          <span class="k">const</span> ctx = <span class="fn">gsap.context</span>(() => {<br>
+          &nbsp;&nbsp;<span class="fn">gsap.to</span>(<span class="s">'.box'</span>, { <span class="p">x</span>:<span class="v">50</span> });<br>
+          }, containerRefA);
+        </div>
+        <button class="btn btn-green" onclick="runScopeDemo()">▶ Demo</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  10 — SCROLLTRIGGER (cơ bản)
+══════════════════════════════════════════════════ -->
+<section class="section" id="scrolltrigger">
+  <div class="section-label">
+    <span class="section-num">10</span>
+    <span class="section-title">ScrollTrigger — animation theo scroll</span>
+  </div>
+  <p class="section-desc">
+    Plugin mạnh nhất của GSAP. <code>ScrollTrigger</code> kết nối animation với scroll position — từ fade-in đơn giản đến parallax, pin element, và scrub timeline theo scroll bar.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('sc',0,this)">trigger cơ bản</div>
+      <div class="tab" onclick="switchTab('sc',1,this)">scrub</div>
+      <div class="tab" onclick="switchTab('sc',2,this)">markers & debug</div>
+      <div class="tab" onclick="switchTab('sc',3,this)">pin</div>
+    </div>
+
+    <!-- basic trigger -->
+    <div class="panel active" id="sc0">
+      <div class="demo-area" style="padding:0;align-items:stretch">
+        <div class="st-scroll-wrap" id="stWrap0">
+          <div class="st-scroll-inner">
+            <div class="st-spacer"><div class="st-scroll-hint">↓ cuộn xuống trong khung này</div></div>
+            <div class="st-item"><h4>trigger: start "top 80%"</h4><p>Animate khi top của element đến 80% chiều cao viewport (từ trên xuống).</p></div>
+            <div class="st-item"><h4>toggleClass: "active"</h4><p>Thêm/xoá class khi element vào/ra viewport — không cần JS phức tạp.</p></div>
+            <div class="st-item"><h4>once: true</h4><p>Animation chỉ trigger một lần. Sau đó observer được remove, tiết kiệm memory.</p></div>
+            <div class="st-item"><h4>batch() — cho multiple elements</h4><p>Thay vì tạo ScrollTrigger riêng cho từng element, batch() xử lý chúng cùng lúc.</p></div>
+            <div class="st-item"><h4>callbacks: onEnter, onLeave, onEnterBack</h4><p>Chạy code tại từng threshold của scroll — enter, leave, enter back, leave back.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// cần đăng ký plugin trước</span><br>
+          <span class="fn">gsap.registerPlugin</span>(ScrollTrigger);<br>
+          <br>
+          <span class="fn">gsap.from</span>(<span class="s">'.card'</span>, {<br>
+          &nbsp;&nbsp;<span class="p">y</span>: <span class="v">40</span>, <span class="p">opacity</span>: <span class="v">0</span>, <span class="p">stagger</span>: <span class="v">0.1</span>,<br>
+          &nbsp;&nbsp;<span class="p">scrollTrigger</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">trigger</span>: <span class="s">'.card'</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// element kích hoạt</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">start</span>:   <span class="s">"top 80%"</span>,&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// trigger khi top của .card đến 80%vh</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">once</span>:    <span class="k">true</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// chỉ trigger 1 lần</span><br>
+          &nbsp;&nbsp;}<br>
+          });
+        </div>
+      </div>
+    </div>
+
+    <!-- scrub -->
+    <div class="panel" id="sc1">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">scrub — animation tied to scroll position (simulate bằng slider)</div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">scroll</span>
+          <input type="range" min="0" max="100" value="0" style="flex:1" id="scrubSlider" oninput="updateScrub(this.value)">
+          <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">end</span>
+        </div>
+        <!-- scrub demo elements -->
+        <div style="background:var(--bg3);border-radius:8px;padding:16px;overflow:hidden">
+          <div id="scrubBox" style="width:52px;height:52px;border-radius:8px;background:var(--gsap);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:#000">scrub</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:180px">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:4px">rotation</div>
+            <div class="scrub-demo"><div class="scrub-fill" id="sf-rot"></div></div>
+          </div>
+          <div style="flex:1;min-width:180px">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:4px">scale</div>
+            <div class="scrub-demo"><div class="scrub-fill" id="sf-sc" style="background:var(--pink)"></div></div>
+          </div>
+          <div style="flex:1;min-width:180px">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:4px">opacity</div>
+            <div class="scrub-demo"><div class="scrub-fill" id="sf-op" style="background:var(--teal)"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// scrub: true — animation timeline theo scroll position</span><br>
+          <span class="fn">gsap.to</span>(el, {<br>
+          &nbsp;&nbsp;<span class="p">x</span>:<span class="v">300</span>, <span class="p">rotation</span>:<span class="v">360</span>, <span class="p">scale</span>:<span class="v">2</span>,<br>
+          &nbsp;&nbsp;<span class="p">scrollTrigger</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">trigger</span>: el,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">start</span>: <span class="s">"top center"</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">end</span>:   <span class="s">"bottom top"</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">scrub</span>: <span class="v">1</span>&nbsp;&nbsp;&nbsp;<span class="c">// số = smoothing giây (0=instant)</span><br>
+          &nbsp;&nbsp;}<br>
+          });
+        </div>
+      </div>
+    </div>
+
+    <!-- markers & debug -->
+    <div class="panel" id="sc2">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div style="background:var(--bg3);border-radius:8px;padding:1rem;font-size:13px;color:var(--muted);line-height:1.8">
+          <strong style="color:var(--text);display:block;margin-bottom:8px">Debug workflow với markers:</strong>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;gap:10px;align-items:center">
+              <div style="width:8px;height:8px;border-radius:50%;background:#0f0;flex-shrink:0"></div>
+              <span><code>scroller-start</code> — đường xanh lá = điểm bắt đầu trên viewport</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <div style="width:8px;height:8px;border-radius:50%;background:#f00;flex-shrink:0"></div>
+              <span><code>scroller-end</code> — đường đỏ = điểm kết thúc trên viewport</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <div style="width:8px;height:8px;border-radius:50%;background:#0ff;flex-shrink:0"></div>
+              <span><code>trigger-start</code> — điểm start trên element</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <div style="width:8px;height=8px;border-radius:50%;background:#ff0;flex-shrink:0"></div>
+              <span><code>trigger-end</code> — điểm end trên element</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:var(--bg3);border-left:2px solid var(--gsap);border-radius:0 8px 8px 0;padding:10px 12px">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--gsap);margin-bottom:4px">console helpers</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6"><code>ScrollTrigger.getAll()</code> — list tất cả ST<br><code>ScrollTrigger.getById('id')</code><br><code>st.kill()</code> — destroy một trigger</div>
+          </div>
+          <div style="background:var(--bg3);border-left:2px solid var(--yellow);border-radius:0 8px 8px 0;padding:10px 12px">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--yellow);margin-bottom:4px">common pitfalls</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">Quên <code>registerPlugin()</code><br>Tính sai start/end string<br>Không refresh sau layout change</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="p">scrollTrigger</span>: {<br>
+          &nbsp;&nbsp;<span class="p">trigger</span>: <span class="s">'.el'</span>,<br>
+          &nbsp;&nbsp;<span class="p">start</span>: <span class="s">"top 80%"</span>,&nbsp;&nbsp;<span class="c">// "element-edge viewport-edge"</span><br>
+          &nbsp;&nbsp;<span class="p">end</span>:   <span class="s">"bottom 20%"</span>,<br>
+          &nbsp;&nbsp;<span class="p">markers</span>: <span class="k">true</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// chỉ dùng khi dev!</span><br>
+          &nbsp;&nbsp;<span class="p">id</span>: <span class="s">'my-trigger'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// để debug bằng getById</span><br>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- pin -->
+    <div class="panel" id="sc3">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div style="background:var(--bg3);border-radius:8px;padding:1rem;font-size:13px;color:var(--muted);line-height:1.8">
+          <strong style="color:var(--text);display:block;margin-bottom:8px">pin — giữ element cố định trong khi scroll</strong>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+            <div style="background:var(--bg2);border-radius:6px;padding:10px 12px">
+              <div style="font-family:var(--mono);font-size:11px;color:var(--gsap);margin-bottom:4px">pin: true</div>
+              <div style="font-size:12px;color:var(--muted)">Element bị pin (sticky) trong khi trigger active. Thường dùng cho horizontal scroll sections.</div>
+            </div>
+            <div style="background:var(--bg2);border-radius:6px;padding:10px 12px">
+              <div style="font-family:var(--mono);font-size:11px;color:var(--blue);margin-bottom:4px">pinSpacing: false</div>
+              <div style="font-size:12px;color:var(--muted)">Không thêm space sau element bị pin — dùng khi pin header hoặc sticky sidebar.</div>
+            </div>
+            <div style="background:var(--bg2);border-radius:6px;padding:10px 12px">
+              <div style="font-family:var(--mono);font-size:11px;color:var(--pink);margin-bottom:4px">anticipatePin: 1</div>
+              <div style="font-size:12px;color:var(--muted)">Tránh jitter khi pin bắt đầu — thêm khi thấy element nhảy lúc scroll.</div>
+            </div>
+            <div style="background:var(--bg2);border-radius:6px;padding:10px 12px">
+              <div style="font-family:var(--mono);font-size:11px;color:var(--yellow);margin-bottom:4px">pinType: "transform"</div>
+              <div style="font-size:12px;color:var(--muted)">Dùng transform thay position:fixed khi element ở trong container có transform.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// horizontal scroll với pin</span><br>
+          <span class="fn">gsap.to</span>(panels, {<br>
+          &nbsp;&nbsp;<span class="p">xPercent</span>: <span class="v">-100</span> * (panels.length - <span class="v">1</span>),<br>
+          &nbsp;&nbsp;<span class="p">ease</span>: <span class="s">'none'</span>,<br>
+          &nbsp;&nbsp;<span class="p">scrollTrigger</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">trigger</span>: container,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">pin</span>: <span class="k">true</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">scrub</span>: <span class="v">1</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="p">snap</span>: <span class="v">1</span> / (panels.length - <span class="v">1</span>)<br>
+          &nbsp;&nbsp;}<br>
+          });
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+  11 — BEST PRACTICES
+══════════════════════════════════════════════════ -->
+<section class="section" id="bestpractices">
+  <div class="section-label">
+    <span class="section-num">11</span>
+    <span class="section-title">Best Practices & Common Pitfalls</span>
+  </div>
+  <p class="section-desc">
+    Những lỗi hay gặp nhất khi dùng GSAP và cách tránh chúng. Performance tips, cleanup patterns, và mental models đúng để viết animation maintainable.
+  </p>
+
+  <div class="demo-card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('bp',0,this)">dos & don'ts</div>
+      <div class="tab" onclick="switchTab('bp',1,this)">performance</div>
+      <div class="tab" onclick="switchTab('bp',2,this)">debug toolkit</div>
+      <div class="tab" onclick="switchTab('bp',3,this)">mental model</div>
+    </div>
+
+    <!-- dos and don'ts -->
+    <div class="panel active" id="bp0">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div class="bp-grid">
+          <div class="bp-card good">
+            <div class="bp-title">✅ Dùng gsap.set() để init</div>
+            <div class="bp-body">Set trạng thái ban đầu bằng <code>gsap.set()</code> thay vì CSS — đảm bảo GSAP biết điểm xuất phát và không có flash khi animate.</div>
+          </div>
+          <div class="bp-card bad">
+            <div class="bp-title">❌ Mix CSS transition + GSAP</div>
+            <div class="bp-body">Đừng để cùng property có cả CSS <code>transition</code> và GSAP tween — chúng conflict nhau. Chọn một trong hai, thường là GSAP.</div>
+          </div>
+          <div class="bp-card good">
+            <div class="bp-title">✅ Lưu tween vào biến</div>
+            <div class="bp-body">Luôn <code>const tween = gsap.to(...)</code> để có thể <code>pause()</code>, <code>kill()</code>, <code>reverse()</code> sau này. Tránh anonymous tween không quản lý được.</div>
+          </div>
+          <div class="bp-card bad">
+            <div class="bp-title">❌ Tạo tween trong render loop</div>
+            <div class="bp-body">Đừng tạo tween trong <code>onUpdate</code> callback hay RAF loop — mỗi frame tạo một tween mới làm memory leak. Tạo một lần, control nhiều lần.</div>
+          </div>
+          <div class="bp-card good">
+            <div class="bp-title">✅ clearProps sau animation</div>
+            <div class="bp-body"><code>clearProps: 'all'</code> xoá inline styles sau khi xong — trả element về CSS class ban đầu. Quan trọng khi element cần responsive layout sau animation.</div>
+          </div>
+          <div class="bp-card bad">
+            <div class="bp-title">❌ Animate layout properties</div>
+            <div class="bp-body">Tránh animate <code>width</code>, <code>height</code>, <code>top</code>, <code>left</code>, <code>margin</code>. Dùng <code>x/y</code>, <code>scaleX/Y</code>, <code>xPercent</code> thay thế.</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// ✅ pattern chuẩn cho animated component</span><br>
+          <span class="fn">gsap.set</span>(el, { <span class="p">opacity</span>:<span class="v">0</span>, <span class="p">y</span>:<span class="v">20</span> });&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// 1. init state</span><br>
+          <span class="k">const</span> tween = <span class="fn">gsap.to</span>(el, { <span class="p">opacity</span>:<span class="v">1</span>, <span class="p">y</span>:<span class="v">0</span>, <span class="p">duration</span>:<span class="v">0.6</span>,<br>
+          &nbsp;&nbsp;<span class="p">clearProps</span>: <span class="s">'all'</span> });&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// 2. animate + cleanup</span><br>
+          <span class="k">return</span> () => tween.<span class="fn">kill</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// 3. cleanup</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- performance -->
+    <div class="panel" id="bp1">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div class="bp-grid">
+          <div class="bp-card tip">
+            <div class="bp-title">⚡ will-change trước animation</div>
+            <div class="bp-body">Set <code>will-change: transform</code> trên element sắp animate để browser tạo GPU layer trước. Remove sau khi animation kết thúc tránh layer bloat.</div>
+          </div>
+          <div class="bp-card tip">
+            <div class="bp-title">⚡ gsap.killTweensOf()</div>
+            <div class="bp-body">Gọi <code>gsap.killTweensOf(el)</code> trước khi tạo tween mới trên cùng element — tránh stacking tweens không cần thiết, đặc biệt trong event handlers.</div>
+          </div>
+          <div class="bp-card tip">
+            <div class="bp-title">⚡ Dùng ticker của GSAP</div>
+            <div class="bp-body">Thay <code>requestAnimationFrame</code> tự viết, dùng <code>gsap.ticker.add(callback)</code> — GSAP tối ưu ticker để sync với render cycle, tránh double rAF.</div>
+          </div>
+          <div class="bp-card tip">
+            <div class="bp-title">⚡ lazyRender: true (mặc định)</div>
+            <div class="bp-body">GSAP dùng lazy rendering — gộp DOM write cuối mỗi tick để tránh layout thrashing. Đừng override <code>gsap.config({force3D: 'auto'})</code> trừ khi có lý do.</div>
+          </div>
+          <div class="bp-card tip">
+            <div class="bp-title">⚡ Batch ScrollTriggers</div>
+            <div class="bp-body"><code>ScrollTrigger.batch()</code> xử lý nhiều elements trong một trigger thay vì tạo riêng từng cái — giảm số lượng IntersectionObserver đáng kể.</div>
+          </div>
+          <div class="bp-card tip">
+            <div class="bp-title">⚡ prefers-reduced-motion</div>
+            <div class="bp-body">Luôn wrap GSAP animations trong <code>matchMedia('(prefers-reduced-motion: no-preference)')</code> — GSAP 3.x có <code>gsap.matchMedia()</code> để xử lý sạch.</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// gsap.matchMedia() — handle reduced motion + breakpoints</span><br>
+          <span class="k">const</span> mm = <span class="fn">gsap.matchMedia</span>();<br>
+          mm.<span class="fn">add</span>(<span class="s">'(prefers-reduced-motion: no-preference)'</span>, () => {<br>
+          &nbsp;&nbsp;<span class="fn">gsap.from</span>(<span class="s">'.hero'</span>, { <span class="p">y</span>:<span class="v">60</span>, <span class="p">opacity</span>:<span class="v">0</span> });<br>
+          &nbsp;&nbsp;<span class="k">return</span> () => {}&nbsp;&nbsp;<span class="c">// cleanup tự động khi media query thay đổi</span><br>
+          });
+        </div>
+      </div>
+    </div>
+
+    <!-- debug -->
+    <div class="panel" id="bp2">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:var(--bg3);border-radius:8px;padding:12px 14px">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--gsap);margin-bottom:8px">console inspection</div>
+            <div style="font-family:var(--mono);font-size:11px;line-height:2;color:var(--muted)">
+              <span style="color:var(--text)">tween.progress()</span> — 0 đến 1<br>
+              <span style="color:var(--text)">tween.time()</span> — seconds elapsed<br>
+              <span style="color:var(--text)">tween.duration()</span> — total duration<br>
+              <span style="color:var(--text)">tween.isActive()</span> — đang chạy?<br>
+              <span style="color:var(--text)">tween.paused()</span> — đang pause?<br>
+              <span style="color:var(--text)">gsap.globalTimeline</span> — xem tất cả
+            </div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:12px 14px">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--yellow);margin-bottom:8px">GSDevTools (plugin)</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.7">
+              Plugin chính thức (Club GSAP): UI timeline scrubber ngay trên trang — drag để seek, thay speed, xem tất cả tweens đang active. Công cụ debug mạnh nhất cho complex animations.
+            </div>
+            <div style="font-family:var(--mono);font-size:11px;color:var(--yellow);margin-top:8px">timeScale trick</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">
+              <code>gsap.globalTimeline.timeScale(0.2)</code> — slow-mo toàn bộ page để debug
+            </div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:12px 14px;grid-column:span 2">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--pink);margin-bottom:8px">lỗi hay gặp nhất</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--muted);line-height:1.6">
+              <div>• Element không tìm thấy → selector sai hoặc DOM chưa render</div>
+              <div>• Animation flash → thiếu <code>gsap.set()</code> init trước khi <code>from()</code></div>
+              <div>• Tween không chạy → element có <code>display:none</code> hoặc <code>visibility:hidden</code></div>
+              <div>• Conflict với CSS → có CSS transition trên cùng property</div>
+              <div>• Memory leak → không cleanup trong React useEffect</div>
+              <div>• ScrollTrigger sai vị trí → chạy trước khi font/image load xong</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">// slow-mo toàn bộ để debug — đặt trong console</span><br>
+          gsap.globalTimeline.<span class="fn">timeScale</span>(<span class="v">0.2</span>);<br>
+          <span class="c">// xem tất cả tweens đang active</span><br>
+          gsap.globalTimeline.<span class="fn">getChildren</span>(<span class="k">true</span>, <span class="k">true</span>, <span class="k">true</span>).<span class="fn">forEach</span>(t => console.<span class="fn">log</span>(t));<br>
+          <span class="c">// force refresh ScrollTrigger sau dynamic content load</span><br>
+          ScrollTrigger.<span class="fn">refresh</span>();
+        </div>
+      </div>
+    </div>
+
+    <!-- mental model -->
+    <div class="panel" id="bp3">
+      <div class="demo-area" style="flex-direction:column;align-items:stretch;padding:1.5rem 2rem;gap:1rem">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="background:var(--bg3);border-radius:8px;padding:12px 14px;border-left:2px solid var(--gsap)">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--gsap);margin-bottom:5px">GSAP là transport layer, không phải design tool</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.7">GSAP không giúp bạn quyết định animation trông như thế nào — đó là công việc của bạn. GSAP chỉ đảm bảo nó chạy đúng, đủ mượt, và đúng lúc. Thiết kế animation trước trên giấy hoặc Figma, rồi mới code.</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:12px 14px;border-left:2px solid var(--blue)">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--blue);margin-bottom:5px">Tween = mô tả trạng thái, không phải lệnh</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.7"><code>gsap.to(el, {x:100})</code> không nói "di chuyển 100px từ đây". Nó nói "element này phải ở x=100". GSAP tự tính toán từ trạng thái hiện tại đến đó. Đây là lý do <code>fromTo()</code> đáng tin cậy hơn <code>from()</code> trong timeline phức tạp.</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:12px 14px;border-left:2px solid var(--pink)">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--pink);margin-bottom:5px">Timeline = choreographer, Tween = dancer</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.7">Timeline không animate gì cả — nó chỉ điều phối thứ tự và timing của các Tween. Hiểu cái này giúp debug: nếu animation sai, vấn đề thường là ở position parameter trong timeline, không phải tween.</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:12px 14px;border-left:2px solid var(--yellow)">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--yellow);margin-bottom:5px">Lộ trình tiếp theo sau Core</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.7">
+              <strong style="color:var(--text)">ScrollTrigger</strong> chuyên sâu (scrub, pin, parallax) →
+              <strong style="color:var(--text)">Flip plugin</strong> (FLIP technique, shared layout) →
+              <strong style="color:var(--text)">MotionPath</strong> (animate theo đường SVG) →
+              <strong style="color:var(--text)">MorphSVG</strong> (shape morphing) →
+              <strong style="color:var(--text)">SplitText</strong> (text animation theo char/word/line)
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-footer">
+        <div class="cb">
+          <span class="c">/* quick reference — GSAP Core cheat sheet */</span><br>
+          <span class="fn">gsap.to</span>(el, vars)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// hiện tại → target</span><br>
+          <span class="fn">gsap.from</span>(el, vars)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// target → hiện tại</span><br>
+          <span class="fn">gsap.fromTo</span>(el, from, to)<span class="c">// full control</span><br>
+          <span class="fn">gsap.set</span>(el, vars)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// instant, no animation</span><br>
+          <span class="fn">gsap.timeline</span>(config)&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// sequence tweens</span><br>
+          <span class="fn">gsap.killTweensOf</span>(el)&nbsp;&nbsp;&nbsp;<span class="c">// kill specific tweens</span><br>
+          <span class="fn">gsap.globalTimeline</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// master timeline</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>GSAP Lab &nbsp;·&nbsp; Core Animation &nbsp;·&nbsp; <span>next: ScrollTrigger chuyên sâu → Flip → MotionPath</span></p>
+</footer>
+
+<!-- ══════════════════════════════════════════════
+  JAVASCRIPT
+══════════════════════════════════════════════════ -->
+<script>
+
+/* ── TAB SYSTEM ─────────────────────────────────── */
+function switchTab(ns, idx, el) {
+  const tabs   = el.closest('.demo-card').querySelectorAll('.tab');
+  const panels = el.closest('.demo-card').querySelectorAll('.panel');
+  tabs.forEach((t,i)   => t.classList.toggle('active', i === idx));
+  panels.forEach((p,i) => p.classList.toggle('active', i === idx));
+}
+
+/* ══════════════════════════════════════════════
+   01 — TWEEN
+══════════════════════════════════════════════ */
+function runTo() {
+  gsap.to('#toBox', { x:200, rotation:360, scale:1.4, duration:1, ease:'power2.out' });
+}
+function runFrom() {
+  gsap.set('#fromBox', {x:0, opacity:1});
+  gsap.from('#fromBox', { x:-200, opacity:0, duration:0.8, ease:'back.out(1.7)' });
+}
+function runFromTo() {
+  gsap.fromTo('#ftBox',
+    { x:-160, opacity:0, scale:0.5 },
+    { x:160, opacity:1, scale:1, duration:1, ease:'elastic.out(1,0.5)' }
+  );
+}
+function runCompare() {
+  gsap.set(['#cmpTo','#cmpFrom','#cmpFt'], { x:0, opacity:1 });
+  gsap.to('#cmpTo',   { x:120, duration:0.8, ease:'power2.out', delay:0 });
+  gsap.from('#cmpFrom',{ x:120, opacity:0, duration:0.8, ease:'power2.out', delay:0.1 });
+  gsap.fromTo('#cmpFt', { x:-120, opacity:0 }, { x:120, opacity:1, duration:0.8, ease:'back.out(1.5)', delay:0.2 });
+}
+
+/* ══════════════════════════════════════════════
+   02 — PROPERTIES
+══════════════════════════════════════════════ */
+function demoTransformProp(type) {
+  const el = document.getElementById('propDemoBox');
+  const lbl = document.getElementById('propDemoLabel');
+  gsap.killTweensOf(el);
+  gsap.set(el, { clearProps:'all' });
+  const demos = {
+    x:        { tween: { x:160, duration:0.7, ease:'power2.inOut', yoyo:true, repeat:1 }, label:'x: 160 (translateX)' },
+    rotation: { tween: { rotation:360, duration:1, ease:'power1.inOut' }, label:'rotation: 360deg' },
+    scale:    { tween: { scale:1.8, duration:0.6, ease:'back.out(2)', yoyo:true, repeat:1 }, label:'scale: 1.8' },
+    skew:     { tween: { skewX:25, duration:0.5, ease:'power2.inOut', yoyo:true, repeat:1 }, label:'skewX: 25deg' },
+  };
+  const d = demos[type];
+  lbl.textContent = d.label;
+  gsap.to(el, d.tween);
+}
+
+function runCSSProps() {
+  // bg color
+  gsap.to('#cssP1', { backgroundColor:'#ee5b8d', duration:0.6, yoyo:true, repeat:1 });
+  // border radius
+  gsap.to('#cssP2', { borderRadius:'50%', duration:0.5, delay:0.1, yoyo:true, repeat:1 });
+  // width
+  gsap.to('#cssP3', { width:100, duration:0.6, delay:0.2, ease:'power2.inOut', yoyo:true, repeat:1 });
+  // counter
+  const obj = { val: 0 };
+  gsap.to(obj, { val:9847, duration:2, delay:0.3, ease:'power2.out',
+    onUpdate: () => document.getElementById('cssP4').textContent = Math.round(obj.val).toLocaleString() });
+  // SVG arc
+  gsap.to('#svgArc', { attr:{'stroke-dasharray':'126 0'}, duration:1.5, delay:0.4, ease:'power2.out' });
+}
+
+function runSpecialValues() {
+  gsap.to('#sv1', { x:'+=80', rotation:'+=45', duration:0.6, ease:'power2.out', repeat:2, yoyo:true });
+  gsap.to('#sv2', { x:gsap.utils.snap(50, gsap.utils.random(0,200)), duration:0.8, delay:0.1 });
+  gsap.to('#sv3', { x:gsap.utils.random(-80,80), y:gsap.utils.random(-20,20), duration:0.6, delay:0.2, ease:'bounce.out' });
+  // function-based: already index-based via arr
+  const els = [document.getElementById('sv4')];
+  gsap.to(els, { x:(i)=>( i+1)*60 , duration:0.8, delay:0.3, ease:'elastic.out(1,0.5)' });
+}
+
+/* ══════════════════════════════════════════════
+   03 — EASING
+══════════════════════════════════════════════ */
+const EASE_FAMILIES = {
+  power:   { variants:['power0','power1','power2','power3','power4'], suffix:['.in','.out','.inOut'] },
+  back:    { variants:['back'],    suffix:['.in','.out','.inOut'], param:'(1.7)' },
+  elastic: { variants:['elastic'], suffix:['.in','.out','.inOut'], param:'(1,0.5)' },
+  bounce:  { variants:['bounce'],  suffix:['.in','.out','.inOut'] },
+  expo:    { variants:['expo'],    suffix:['.in','.out','.inOut'] },
+  circ:    { variants:['circ'],    suffix:['.in','.out','.inOut'] },
+  sine:    { variants:['sine'],    suffix:['.in','.out','.inOut'] },
+  steps:   { variants:['steps(6)','steps(12)'],  suffix:[''] },
+};
+
+let currentEase = 'power2.out';
+
+function selectEaseFamily(el) {
+  document.querySelectorAll('.ease-fam').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  const family = el.dataset.family;
+  const fam = EASE_FAMILIES[family];
+  const row = document.getElementById('easeVariantRow');
+  row.innerHTML = '';
+  fam.variants.forEach(v => {
+    (fam.suffix.length ? fam.suffix : ['']).forEach(sfx => {
+      const easeName = v + sfx + (fam.param && sfx!=='' ? fam.param : '');
+      const chip = document.createElement('div');
+      chip.className = 'ease-variant';
+      chip.textContent = easeName;
+      chip.onclick = () => { selectEaseVariant(chip, easeName); };
+      row.appendChild(chip);
+    });
+  });
+  // auto-select first
+  const first = row.querySelector('.ease-variant');
+  if (first) { first.click(); }
+}
+
+function selectEaseVariant(el, ease) {
+  document.querySelectorAll('.ease-variant').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  currentEase = ease;
+  document.getElementById('easeDemoLabel').textContent = ease;
+  document.getElementById('easeDemoCode').innerHTML =
+    `<span class="fn">gsap.to</span>(el, { <span class="p">x</span>: <span class="v">300</span>, <span class="p">duration</span>: <span class="v">1</span>, <span class="p">ease</span>: <span class="s">'${ease}'</span> });`;
+}
+
+function runEaseDemo() {
+  const el = document.getElementById('easeDemoBox');
+  gsap.set(el, { x:14 });
+  const track = el.parentElement;
+  const maxX = track.clientWidth - 70;
+  gsap.fromTo(el, { x:14 }, { x:maxX, duration:1.2, ease:currentEase });
+}
+
+// init family grid
+selectEaseFamily(document.querySelector('.ease-fam[data-family="power"]'));
+
+const RACE_EASES = ['linear','power1.out','power2.out','power3.out','back.out(1.7)','elastic.out(1,0.5)','bounce.out'];
+const RACE_COLORS = ['#888','#5b8dee','#ee5b8d','#5beeb4','#eec85b','#9b5bee','#88ce02'];
+
+function buildRaceLanes() {
+  const wrap = document.getElementById('easeRaceWrap');
+  if (wrap.children.length) return;
+  RACE_EASES.forEach((ease,i) => {
+    const lane = document.createElement('div');
+    lane.className = 'ease-lane';
+    lane.innerHTML = `
+      <span class="ease-lane-name">${ease}</span>
+      <div class="ease-lane-track">
+        <div class="ease-lane-ball" id="rb${i}" style="background:${RACE_COLORS[i]};left:4px"></div>
+      </div>`;
+    wrap.appendChild(lane);
+  });
+}
+
+function runEaseRace() {
+  buildRaceLanes();
+  RACE_EASES.forEach((ease,i) => {
+    const ball = document.getElementById('rb'+i);
+    const track = ball.parentElement;
+    const maxLeft = track.clientWidth - 34;
+    gsap.set(ball, { x:0, left:4 });
+    gsap.to(ball, { left:maxLeft, duration:1.4, ease, delay:0 });
+  });
+}
+
+function runSpecialEases() {
+  gsap.fromTo('#se1', {x:-80}, {x:80, duration:1, ease:'elastic.out(1,0.3)'});
+  gsap.fromTo('#se2', {x:-80}, {x:80, duration:0.8, ease:'back.out(2.5)', delay:0.1});
+  gsap.fromTo('#se3', {x:-80}, {x:80, duration:1, ease:'steps(8)', delay:0.2});
+  gsap.fromTo('#se4', {x:-80}, {x:80, duration:1.2, ease:'rough({strength:2,points:20,randomize:true})', delay:0.3});
+  gsap.fromTo('#se5', {x:-80}, {x:80, duration:0.8, ease:'none', delay:0.4});
+}
+
+/* ══════════════════════════════════════════════
+   04 — CALLBACKS & CONTROL
+══════════════════════════════════════════════ */
+function addLog(msg, cls='') {
+  const log = document.getElementById('cbLog');
+  const line = document.createElement('div');
+  line.className = 'log-line ' + cls;
+  line.textContent = '[' + new Date().toLocaleTimeString('vi',{hour12:false}) + '] ' + msg;
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+}
+function clearLog() { document.getElementById('cbLog').innerHTML = ''; }
+
+let cbTween = null;
+function runCallbackDemo() {
+  gsap.set('#cbBox', {x:0, opacity:1});
+  clearLog();
+  cbTween = gsap.to('#cbBox', {
+    x: 200, duration: 1.5, ease:'power2.inOut',
+    onStart:    () => addLog('onStart — animation bắt đầu', 'hi'),
+    onUpdate:   function() { addLog('onUpdate — progress: ' + this.progress().toFixed(2)); },
+    onComplete: () => addLog('onComplete ✓ — animation kết thúc', 'hi'),
+  });
+}
+
+// ctrl tween
+let ctrlTween = null;
+function initCtrl() {
+  gsap.set('#ctrlBox', {x:0});
+  ctrlTween = gsap.to('#ctrlBox', {
+    x:300, duration:2.5, ease:'power1.inOut', paused:true,
+    onUpdate: function() {
+      document.getElementById('ctrlProgress').textContent = this.progress().toFixed(3);
+      document.getElementById('seekSlider').value = this.progress() * 100;
+    },
+    onComplete: () => { document.getElementById('ctrlState').textContent = 'complete'; }
+  });
+}
+initCtrl();
+
+function ctrlPlay()    { ctrlTween.play();    document.getElementById('ctrlState').textContent = 'playing'; }
+function ctrlPause()   { ctrlTween.pause();   document.getElementById('ctrlState').textContent = 'paused'; }
+function ctrlReverse() { ctrlTween.reverse(); document.getElementById('ctrlState').textContent = 'reversing'; }
+function ctrlRestart() { ctrlTween.restart(); document.getElementById('ctrlState').textContent = 'playing'; }
+function seekTween(val) {
+  ctrlTween.progress(val/100);
+  ctrlTween.pause();
+  document.getElementById('ctrlState').textContent = 'seeked';
+}
+
+function runRepeatDemo() {
+  gsap.fromTo('#delayBox',  {x:0}, {x:140, duration:0.6, ease:'power2.out', delay:0.6});
+  gsap.fromTo('#repeatBox', {x:0}, {x:140, duration:0.5, ease:'power2.out', repeat:2});
+  gsap.fromTo('#yoyoBox',   {x:0}, {x:140, duration:0.6, ease:'power2.inOut', repeat:4, yoyo:true});
+  gsap.to('#infBox', {rotation:360, duration:1.2, ease:'none', repeat:-1});
+}
+
+/* ══════════════════════════════════════════════
+   05 — STAGGER
+══════════════════════════════════════════════ */
+function runBasicStagger() {
+  gsap.set('.stag-bar', {scaleY:0, opacity:0});
+  gsap.set('.stag-dot', {opacity:0, y:20});
+  gsap.from('#stagBarsBasic .stag-bar', {
+    scaleY:0, opacity:0, duration:0.6, ease:'back.out(1.5)',
+    stagger:0.07, transformOrigin:'bottom'
+  });
+  gsap.from('#stagDots .stag-dot', {
+    opacity:0, y:20, scale:0, duration:0.5, ease:'back.out(2)',
+    stagger:0.1, delay:0.2
+  });
+}
+
+function runStaggerObject() {
+  gsap.from('#stagEach .stag-dot', {
+    opacity:0, scale:0, duration:0.5, ease:'back.out(2)',
+    stagger:{ each:0.12, ease:'power2.in' }
+  });
+  gsap.from('#stagAmount .stag-dot', {
+    opacity:0, scale:0, duration:0.5, ease:'back.out(2)', delay:0.1,
+    stagger:{ amount:0.5, ease:'power2.in' }
+  });
+}
+
+function runStaggerFrom(from) {
+  gsap.set('#stagFromGrid .stag-from-box', { opacity:0, scale:0.5 });
+  gsap.to('#stagFromGrid .stag-from-box', {
+    opacity:1, scale:1, duration:0.4, ease:'back.out(1.5)',
+    stagger:{ each:0.05, from:from }
+  });
+}
+
+/* ══════════════════════════════════════════════
+   06 — OVERWRITE & DEFAULTS
+══════════════════════════════════════════════ */
+function runOverwrite() {
+  // no overwrite — conflict visible
+  gsap.set('#owNone', {x:0});
+  gsap.to('#owNone', {x:200, duration:3, ease:'none'});
+  setTimeout(() => {
+    gsap.to('#owNone', {x:60, duration:0.5, ease:'power2.out'}); // fight
+  }, 600);
+
+  // overwrite: true — kills first
+  gsap.set('#owTrue', {x:0});
+  gsap.to('#owTrue', {x:200, duration:3, ease:'none'});
+  setTimeout(() => {
+    gsap.to('#owTrue', {x:60, duration:0.5, ease:'power2.out', overwrite:true}); // wins
+  }, 600);
+}
+
+function runDefaults() {
+  gsap.defaults({ duration:0.8, ease:'power2.out' });
+  gsap.set('#def1', {x:0}); gsap.set('#def2', {x:0});
+  gsap.to('#def1', { x:140, rotation:180 }); // no duration/ease needed
+  gsap.to('#def2', { x:140, scale:1.4, delay:0.15 });
+  // restore
+  setTimeout(() => gsap.defaults({ duration:0.5, ease:'power2.out' }), 2000);
+}
+
+function runSetDemo() {
+  gsap.set('#setBox1', { opacity:0, x:0, scale:0.7 });
+  gsap.set('#setBox2', { x:-60 });
+  gsap.to('#setBox1', { opacity:1, scale:1, duration:0.6, ease:'back.out(2)', delay:0.1 });
+  gsap.to('#setBox2', { x:60, duration:0.7, ease:'elastic.out(1,0.5)', delay:0.2 });
+}
+
+/* ══════════════════════════════════════════════
+   07 — REAL WORLD
+══════════════════════════════════════════════ */
+function runPageEntrance() {
+  gsap.set(['#rwTitle','#rwSubtitle','#rwBtns'], {opacity:0, y:0});
+  const tl = gsap.timeline();
+  tl.from('#rwTitle',    {y:28, opacity:0, duration:0.7, ease:'power2.out'})
+    .from('#rwSubtitle', {y:18, opacity:0, duration:0.5, ease:'power2.out'}, '-=0.3')
+    .from('#rwBtns',     {y:14, opacity:0, duration:0.4, ease:'power2.out'}, '-=0.2');
+}
+
+function gsapHoverEnter(el) {
+  gsap.to(el, {y:-7, scale:1.02, duration:0.35, ease:'back.out(2)',
+    boxShadow:'0 16px 48px rgba(0,0,0,0.6)'});
+}
+function gsapHoverLeave(el) {
+  gsap.to(el, {y:0, scale:1, duration:0.3, ease:'power2.out',
+    boxShadow:'0 0 0 rgba(0,0,0,0)'});
+}
+
+function runCounters() {
+  const counters = [
+    {id:'cnt1', target:12450},
+    {id:'cnt2', target:386},
+    {id:'cnt3', target:98241},
+  ];
+  counters.forEach(({id, target}, i) => {
+    const el = document.getElementById(id);
+    const obj = { val:0 };
+    gsap.to(obj, {
+      val: target, duration:2, ease:'power2.out', delay: i*0.12,
+      onUpdate: () => { el.textContent = Math.round(obj.val).toLocaleString('vi-VN'); }
+    });
+  });
+}
+
+function runNavReveal() {
+  gsap.set('.rw-nav-item', {x:-24, opacity:0});
+  gsap.to('.rw-nav-item', {
+    x:0, opacity:1, duration:0.4, ease:'power2.out',
+    stagger:0.07, clearProps:'all'
+  });
+}
+
+/* ══════════════════════════════════════════════
+   08 — TIMELINE
+══════════════════════════════════════════════ */
+
+/* basic */
+let tlBasicTween = null;
+function runTlBasic() {
+  gsap.set(['#tl-title','#tl-sub','#tl-btn1','#tl-btn2','#tl-badge'], {opacity:0, y:0});
+  const tl = gsap.timeline({
+    defaults: { ease:'power2.out', duration:0.55 },
+    onUpdate: function() {
+      const pct = (this.progress() * 100).toFixed(0);
+      document.getElementById('tlScrubber').style.left = pct + '%';
+    }
+  });
+  tlBasicTween = tl;
+  tl.from('#tl-title',  {y:22, opacity:0})
+    .from('#tl-sub',    {y:16, opacity:0}, '-=0.25')
+    .from('#tl-btn1',   {y:12, opacity:0, scale:0.9}, '-=0.2')
+    .from('#tl-btn2',   {y:12, opacity:0, scale:0.9}, '-=0.35')
+    .from('#tl-badge',  {y:8,  opacity:0, scale:0.7}, '-=0.25');
+}
+
+/* position param */
+const POS_CONFIGS = {
+  absolute:      { pos: '1.5',   desc: '"1.5" → B bắt đầu tại đúng 1.5s trong timeline', code: 'tl.to(B, {...}, <span class="s">"1.5"</span>); <span class="c">// absolute time</span>' },
+  relative_minus:{ pos: '-=0.3', desc: '"-=0.3" → B bắt đầu 0.3s TRƯỚC khi A kết thúc (overlap)', code: 'tl.to(B, {...}, <span class="s">"-=0.3"</span>); <span class="c">// overlap</span>' },
+  relative_plus: { pos: '+=0.2', desc: '"+=0.2" → B bắt đầu 0.2s SAU khi A kết thúc (gap)', code: 'tl.to(B, {...}, <span class="s">"+=0.2"</span>); <span class="c">// gap</span>' },
+  label:         { pos: 'label', desc: '"myLabel" → thêm label bằng tl.addLabel("myLabel"), rồi seek đến nó', code: 'tl.addLabel(<span class="s">"mark"</span>).to(B, {...}, <span class="s">"mark"</span>);' },
+  percent:       { pos: '<50%',  desc: '"<50%" → B bắt đầu tại 50% của thời gian tween trước', code: 'tl.to(B, {...}, <span class="s">"<50%"</span>); <span class="c">// 50% into prev</span>' },
+  start:         { pos: '<',     desc: '"<" → B bắt đầu đúng lúc A bắt đầu (parallel)', code: 'tl.to(B, {...}, <span class="s">"<"</span>); <span class="c">// same start as A</span>' },
+};
+let currentPos = 'absolute';
+
+function selectPos(el, key) {
+  document.querySelectorAll('.pos-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentPos = key;
+  const cfg = POS_CONFIGS[key];
+  document.getElementById('posDesc').textContent = cfg.desc;
+  document.getElementById('posCb').innerHTML =
+    `tl.<span class="fn">to</span>(A, { <span class="p">x</span>:<span class="v">200</span>, <span class="p">duration</span>:<span class="v">1</span> });<br>tl.<span class="fn">to</span>(B, { <span class="p">x</span>:<span class="v">200</span>, <span class="p">duration</span>:<span class="v">0.8</span> }, ${cfg.code});`;
+}
+
+function runPosDemo() {
+  const A = document.getElementById('posA');
+  const B = document.getElementById('posB');
+  const stage = document.getElementById('posStage');
+  const maxX = stage.clientWidth - 70;
+  gsap.set([A,B], {x:0});
+  const tl = gsap.timeline();
+  tl.to(A, {x:maxX, duration:1, ease:'power2.inOut'});
+  const cfg = POS_CONFIGS[currentPos];
+  const posVal = cfg.pos === 'label'
+    ? (() => { tl.addLabel('mark',0.5); return 'mark'; })()
+    : cfg.pos === '<50%' ? '<50%'
+    : cfg.pos;
+  try { tl.to(B, {x:maxX*0.6, duration:0.8, ease:'back.out(1.5)'}, posVal); }
+  catch(e) { tl.to(B, {x:maxX*0.6, duration:0.8, ease:'back.out(1.5)'}); }
+}
+
+/* timeline ctrl */
+let ctrlTl = null;
+function initCtrlTl() {
+  gsap.set('#tlCtrlBox', {x:0, rotation:0, scale:1});
+  ctrlTl = gsap.timeline({
+    paused:true, repeat:-1, yoyo:true,
+    onUpdate: function() {
+      document.getElementById('tlProgress').textContent = this.progress().toFixed(3);
+      document.getElementById('tlTime').textContent = this.time().toFixed(2)+'s';
+      document.getElementById('tlSeekSlider').value = this.progress()*100;
+    }
+  });
+  ctrlTl.to('#tlCtrlBox', {x:280, duration:1, ease:'power2.out'})
+    .to('#tlCtrlBox', {rotation:360, duration:0.6, ease:'back.out(1.7)'}, '-=0.3')
+    .to('#tlCtrlBox', {scale:1.4, duration:0.4}, '-=0.3')
+    .to('#tlCtrlBox', {scale:1, duration:0.3});
+}
+initCtrlTl();
+
+function tlCtrlPlay()        { ctrlTl.play(); }
+function tlCtrlPause()       { ctrlTl.pause(); }
+function tlCtrlReverse()     { ctrlTl.reverse(); }
+function tlCtrlSpeed(s)      { ctrlTl.timeScale(s); document.getElementById('tlScale').textContent = s+'×'; }
+function seekTl(v)           { ctrlTl.progress(v/100).pause(); }
+
+/* nested */
+function buildRowTl(selector) {
+  const tl = gsap.timeline();
+  tl.from(selector, {x:-30, opacity:0, scale:0.7, stagger:0.1, ease:'back.out(1.5)', duration:0.5});
+  return tl;
+}
+function runNestedTl() {
+  gsap.set('#nestedRows .gbox', {x:0, opacity:1, scale:1});
+  const master = gsap.timeline();
+  master
+    .add(buildRowTl('#nr1 .gbox'))
+    .add(buildRowTl('#nr2 .gbox'), '-=0.2')
+    .add(buildRowTl('#nr3 .gbox'), '-=0.2');
+}
+
+/* ══════════════════════════════════════════════
+   09 — CONTEXT
+══════════════════════════════════════════════ */
+function runScopeDemo() {
+  // Animate scope A boxes independently from B
+  gsap.set('.scope-box-a', {x:0, opacity:1});
+  gsap.set('.scope-box-b', {x:0, opacity:1});
+  gsap.from('.scope-box-a', {x:-30, opacity:0, stagger:0.1, duration:0.5, ease:'back.out(2)'});
+  // B animates slightly different
+  gsap.from('.scope-box-b', {x:30, opacity:0, stagger:0.1, duration:0.5, ease:'elastic.out(1,0.5)', delay:0.3});
+}
+
+/* ══════════════════════════════════════════════
+   10 — SCROLLTRIGGER (IntersectionObserver sim)
+══════════════════════════════════════════════ */
+// Use IntersectionObserver to simulate ScrollTrigger in the scroll panel
+const stItems0 = document.querySelectorAll('#stWrap0 .st-item');
+const stObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      const idx = Array.from(stItems0).indexOf(e.target);
+      setTimeout(() => e.target.classList.add('visible'), idx * 80);
+    }
+  });
+}, { threshold: 0.25, root: document.getElementById('stWrap0') });
+stItems0.forEach(el => stObs.observe(el));
+
+// scrub simulation
+let scrubTween = null;
+function initScrub() {
+  const el = document.getElementById('scrubBox');
+  const track = el.parentElement;
+  scrubTween = gsap.timeline({ paused:true })
+    .to(el, {x: track.clientWidth - 80, rotation:360, scale:1.5, duration:1, ease:'none'})
+    .to(el, {opacity:0.4, duration:1, ease:'none'}, 0)
+    .to(el, {backgroundColor:'var(--pink)', duration:0.5, ease:'none'}, 0.5);
+}
+window.addEventListener('load', () => setTimeout(initScrub, 300));
+
+function updateScrub(val) {
+  if (!scrubTween) initScrub();
+  const p = val / 100;
+  scrubTween.progress(p);
+  document.getElementById('sf-rot').style.width = (p*100) + '%';
+  document.getElementById('sf-sc').style.width  = (p*100) + '%';
+  document.getElementById('sf-op').style.width  = (p*100) + '%';
+}
+
+</script>
+
+</body>
+</html>
