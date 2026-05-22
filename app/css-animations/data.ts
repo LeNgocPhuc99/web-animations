@@ -7,7 +7,7 @@ export const timings = [
   "cubic-bezier(0.34,1.56,0.64,1)",
 ] as const;
 
-export const lessons = [
+export const cssAnimationLessons = [
   {
     id: "transitions",
     num: "01",
@@ -64,9 +64,9 @@ export const lessons = [
   },
 ] as const;
 
-export type Lesson = (typeof lessons)[number];
-export type LessonId = Lesson["id"];
-export type SectionLink = readonly [id: LessonId, label: string];
+export type CssAnimationLesson = (typeof cssAnimationLessons)[number];
+export type CssAnimationLessonId = CssAnimationLesson["id"];
+export type SectionLink = readonly [id: CssAnimationLessonId, label: string];
 
 export const sectionLinks = [
   ["transitions", "Transition"],

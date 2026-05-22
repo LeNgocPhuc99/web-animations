@@ -1,7 +1,7 @@
-import { lessons } from "./data";
+import { cssAnimationLessons } from "./data";
 
-import type { LessonId } from "./types";
+import type { CssAnimationLessonId } from "./types";
 
-export function lessonById(id: LessonId) {
-  return lessons.find((lesson) => lesson.id === id)!;
+export function lessonById(id: CssAnimationLessonId) {
+  return cssAnimationLessons.find((lesson) => lesson.id === id)!;
 }

@@ -2,14 +2,14 @@ import type { ReactNode } from "react";
 
 import { Section } from "~/components";
 
-import type { LessonId } from "../types";
+import type { CssAnimationLessonId } from "../types";
 import { lessonById } from "../utils";
 
-const LessonSection = ({
+const CSSLessonSection = ({
   id,
   children,
 }: {
-  id: LessonId;
+  id: CssAnimationLessonId;
   children: ReactNode;
 }) => {
   const lesson = lessonById(id);
@@ -26,4 +26,4 @@ const LessonSection = ({
   );
 };
 
-export default LessonSection;
+export default CSSLessonSection;

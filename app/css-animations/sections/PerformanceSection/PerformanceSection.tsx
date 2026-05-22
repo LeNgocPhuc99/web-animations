@@ -4,7 +4,7 @@ import { ui } from "~/styles/classes";
 import { DemoCard } from "~/components";
 import { TabItem, TabList, TabPanel, Tabs } from "~/components/Tabs";
 
-import LessonSection from "../LessonSection";
+import CSSLessonSection from "../CSSLessonSection";
 
 import { cn } from "~/lib/utils";
 
@@ -49,7 +49,7 @@ const PerformanceSection = () => {
   })();
 
   return (
-    <LessonSection id="performance">
+    <CSSLessonSection id="performance">
       <DemoCard code={pfPanelCode[activeTab]} action={action}>
         <Tabs
           value={activeTab}
@@ -456,7 +456,7 @@ const PerformanceSection = () => {
           </TabPanel>
         </Tabs>
       </DemoCard>
-    </LessonSection>
+    </CSSLessonSection>
   );
 };
 

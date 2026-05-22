@@ -1,6 +1,6 @@
-import { lessons, type LessonId } from "./data";
+import { cssAnimationLessons, type CssAnimationLessonId } from "./data";
 
-const lessonIds = lessons.map((lesson) => lesson.id);
+const cssAnimationLessonIds = cssAnimationLessons.map((lesson) => lesson.id);
 
-export type { LessonId };
-export { lessonIds };
+export type { CssAnimationLessonId };
+export { cssAnimationLessonIds };

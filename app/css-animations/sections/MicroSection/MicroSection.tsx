@@ -5,7 +5,7 @@ import { DemoCard } from "~/components";
 import { createRipple } from "~/css-animations/interactions";
 import { MagneticButton } from "~/css-animations/components";
 
-import LessonSection from "../LessonSection";
+import CSSLessonSection from "../CSSLessonSection";
 
 import { cn } from "~/lib/utils";
 
@@ -17,7 +17,7 @@ const MicroSection = () => {
   const [liked, setLiked] = useState(false);
 
   return (
-    <LessonSection id="micro">
+    <CSSLessonSection id="micro">
       <DemoCard code={microPanelCode}>
         <div className={ui.demoArea}>
           <div className="flex flex-wrap items-center justify-center gap-7">
@@ -87,7 +87,7 @@ const MicroSection = () => {
           </div>
         </div>
       </DemoCard>
-    </LessonSection>
+    </CSSLessonSection>
   );
 };
 

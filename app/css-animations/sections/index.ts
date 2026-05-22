@@ -2,7 +2,7 @@ export { ScrollSection } from "./ScrollSection";
 export { StaggerSection } from "./StaggerSection";
 export { MicroSection, microCss } from "./MicroSection";
 export { TimingSection, timingCss } from "./TimingSection";
-export { default as LessonSection } from "./LessonSection";
+export { default as CSSLessonSection } from "./CSSLessonSection";
 export { LoadingSection, loadingCss } from "./LoadingSection";
 export { TransformSection, transformCss } from "./TransformSection";
 export { KeyframesSection, keyframesCss } from "./KeyframesSection";

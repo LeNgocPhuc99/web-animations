@@ -1,12 +1,3 @@
-export const navLinkClass =
-  "whitespace-nowrap rounded-full px-3 py-1.5 text-md text-text-muted transition hover:bg-bg-subtle hover:text-text-base";
-
-export const sidebarLinkClass =
-  "flex items-center justify-between gap-2 rounded-md px-2.5 py-2 text-xs text-text-muted transition hover:bg-bg-subtle hover:text-text-base";
-
-export const pillClass =
-  "rounded-full border border-white/15 px-3 py-1 font-mono text-xs text-text-muted";
-
 export const transformItemClass =
   "flex flex-col items-center gap-2.5 px-2 py-4";
 

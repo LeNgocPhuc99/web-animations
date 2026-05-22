@@ -4,7 +4,7 @@ import { ui } from "~/styles/classes";
 import { DemoCard } from "~/components";
 import { staggerBars, staggerWords } from "~/css-animations/data";
 
-import LessonSection from "../LessonSection";
+import CSSLessonSection from "../CSSLessonSection";
 
 import { staggerPanelCode } from "./data";
 
@@ -36,7 +36,7 @@ const StaggerSection = () => {
   };
 
   return (
-    <LessonSection id="stagger">
+    <CSSLessonSection id="stagger">
       <DemoCard
         code={staggerPanelCode}
         action={
@@ -84,7 +84,7 @@ const StaggerSection = () => {
           </div>
         </div>
       </DemoCard>
-    </LessonSection>
+    </CSSLessonSection>
   );
 };
 

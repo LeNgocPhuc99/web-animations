@@ -3,42 +3,34 @@ import { Navbar } from "~/components";
 import { useActiveSection } from "~/hooks";
 import { pillClass, sidebarLinkClass } from "~/styles/classes";
 
-import {
-  MicroSection,
-  TimingSection,
-  ScrollSection,
-  LoadingSection,
-  StaggerSection,
-  KeyframesSection,
-  TransformSection,
-  TransitionsSection,
-  PerformanceSection,
-} from "./sections";
-import { cssAnimationLessonIds } from "./types";
-import { cssAnimationLessons, sectionLinks } from "./data";
+import { gsapLessonIds, type GSAPLessonId } from "./types";
+import { gsapLessons, gsapSectionLinks } from "./data";
+
 
 const heroPills = [
-  "transition",
-  "@keyframes",
-  "transform",
-  "cubic-bezier",
+  "tween",
+  "ease",
   "stagger",
-  "scroll-trigger",
-  "micro-interactions",
+  "callbacks",
+  "timeline",
+  "position param",
+  "context",
+  "useGSAP",
+  "ScrollTrigger",
 ];
 
-const CSSAnimationsLab = () => {
-  const activeId = useActiveSection(cssAnimationLessonIds);
+const GSAPLab = () => {
+  const activeId = useActiveSection(gsapLessonIds);
 
   return (
     <div className="min-h-screen bg-bg-main font-sans text-sm leading-relaxed text-text-base">
-      <Navbar links={sectionLinks} />
+      <Navbar links={gsapSectionLinks} logo="GSAP Labs" logoColor="bg-gsap" />
       <main className="mx-auto w-full max-w-295 px-6 pb-18 max-sm:px-4">
         <section className="relative overflow-hidden py-14 text-center">
           <div className="lab-hero-grid absolute inset-0" />
           <div className="relative z-10">
-            <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-primary">
-              // css animation foundations
+            <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-gsap">
+              // greensock animation platform
             </div>
             <div className="lab-fade-3 flex flex-wrap justify-center gap-2">
               {heroPills.map((pill) => (
@@ -59,7 +51,7 @@ const CSSAnimationsLab = () => {
               Learning path
             </p>
             <nav className="lab-section-list grid gap-1 max-lg:grid-cols-2 max-sm:grid-cols-1">
-              {cssAnimationLessons.map((lesson) => (
+              {gsapLessons.map((lesson) => (
                 <a
                   className={cn(
                     sidebarLinkClass,
@@ -68,7 +60,7 @@ const CSSAnimationsLab = () => {
                   href={`#${lesson.id}`}
                   key={lesson.id}
                 >
-                  <span className="font-mono text-[10px] text-primary">
+                  <span className="font-mono text-[10px] text-gsap">
                     {lesson.num}
                   </span>
                   {lesson.title}
@@ -76,26 +68,13 @@ const CSSAnimationsLab = () => {
               ))}
             </nav>
           </aside>
-
           <div className="grid gap-13">
-            <TransitionsSection />
-            <KeyframesSection />
-            <TransformSection />
-            <TimingSection />
-            <StaggerSection />
-            <ScrollSection />
-            <PerformanceSection />
-            <MicroSection />
-            <LoadingSection />
+
           </div>
         </div>
       </main>
-
-      <footer className="border-t border-white/10 px-6 py-7 text-center font-mono text-xs text-text-muted">
-        Animation Lab · CSS foundations before GSAP
-      </footer>
     </div>
   );
 };
 
-export default CSSAnimationsLab;
+export default GSAPLab;

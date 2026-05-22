@@ -1,12 +1,19 @@
 import { Link } from "react-router";
 
-import { sectionLinks, type SectionLink } from "../css-animations/data";
-import { navLinkClass } from "../css-animations/classes";
+import { navLinkClass } from "~/styles/classes";
+
+import { cn } from "~/lib/utils";
+
+export type NavbarLink = readonly [id: string, label: string];
 
 const Navbar = ({
-  links = sectionLinks,
+  logo = "Animation Labs",
+  logoColor = "bg-primary",
+  links = [],
 }: {
-  links?: readonly SectionLink[];
+  logo?: string;
+  logoColor?: string;
+  links?: readonly NavbarLink[];
 }) => {
   return (
     <header className="sticky top-0 z-20 border-b border-white/10 bg-bg-main/88 backdrop-blur">
@@ -15,8 +22,10 @@ const Navbar = ({
           className="flex items-center gap-2.5 whitespace-nowrap text-lg font-extrabold text-text-base"
           to="/"
         >
-          <span className="lab-logo-dot h-2 w-2 rounded-full bg-primary" />
-          Animation Lab
+          <span
+            className={cn("lab-logo-dot h-2 w-2 rounded-full", logoColor)}
+          />
+          {logo}
         </Link>
         <nav
           aria-label="Section nhanh"

@@ -1,5 +1,6 @@
 import type { Route } from "./+types/gsap";
 
+import GSAPLab from "~/gsap/GSAPLab";
 import ComingSoonPage from "~/coming-soon/ComingSoonPage";
 
 export function meta({}: Route.MetaArgs) {
@@ -14,9 +15,6 @@ export function meta({}: Route.MetaArgs) {
 
 export default function GsapRoute() {
   return (
-    <ComingSoonPage
-      title="GSAP"
-      description="Timeline, sequencing, ScrollTrigger patterns, and production-friendly animation workflows will live here."
-    />
+    <GSAPLab />
   );
 }

@@ -1,10 +1,9 @@
 import { useState } from "react";
 
 import { ui } from "~/styles/classes";
-import { DemoCard } from "~/components";
-import { TabItem, TabList, TabPanel, Tabs } from "~/components/Tabs";
+import { DemoCard, TabItem, TabList, TabPanel, Tabs } from "~/components";
 
-import LessonSection from "../LessonSection";
+import CSSLessonSection from "../CSSLessonSection";
 
 import { cn } from "~/lib/utils";
 
@@ -81,7 +80,7 @@ const KeyframesSection = () => {
   })();
 
   return (
-    <LessonSection id="keyframes">
+    <CSSLessonSection id="keyframes">
       <DemoCard code={kfPanelCode[activeTab]} action={action}>
         <Tabs
           value={activeTab}
@@ -368,7 +367,7 @@ const KeyframesSection = () => {
           </TabPanel>
         </Tabs>
       </DemoCard>
-    </LessonSection>
+    </CSSLessonSection>
   );
 };
 

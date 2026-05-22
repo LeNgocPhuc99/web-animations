@@ -11,7 +11,7 @@ import { ui } from "~/styles/classes";
 import { DemoCard } from "~/components";
 import { timings } from "~/css-animations/data";
 
-import LessonSection from "../LessonSection";
+import CSSLessonSection from "../CSSLessonSection";
 
 import { timingPanelCode } from "./data";
 
@@ -55,7 +55,7 @@ const TimingSection = () => {
   };
 
   return (
-    <LessonSection id="timing">
+    <CSSLessonSection id="timing">
       <DemoCard
         code={timingPanelCode}
         action={
@@ -84,7 +84,7 @@ const TimingSection = () => {
           </div>
         </div>
       </DemoCard>
-    </LessonSection>
+    </CSSLessonSection>
   );
 };
 

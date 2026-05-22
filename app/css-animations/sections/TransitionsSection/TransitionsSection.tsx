@@ -1,7 +1,7 @@
 import { ui } from "~/styles/classes";
 import { DemoCard } from "~/components";
 
-import LessonSection from "../LessonSection";
+import CSSLessonSection from "../CSSLessonSection";
 
 import { cn } from "~/lib/utils";
 
@@ -11,7 +11,7 @@ import "./transition.css";
 
 const TransitionsSection = () => {
   return (
-    <LessonSection id="transitions">
+    <CSSLessonSection id="transitions">
       <DemoCard code={transitionPanelCode}>
         <div className={ui.demoArea}>
           <div className={ui.stack}>
@@ -40,7 +40,7 @@ const TransitionsSection = () => {
           </div>
         </div>
       </DemoCard>
-    </LessonSection>
+    </CSSLessonSection>
   );
 };
 

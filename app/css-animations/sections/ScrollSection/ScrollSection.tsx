@@ -3,7 +3,7 @@ import { DemoCard } from "~/components";
 import { scrollConcepts } from "~/css-animations/data";
 import { useScrollReveal } from "~/css-animations/interactions";
 
-import LessonSection from "../LessonSection";
+import CSSLessonSection from "../CSSLessonSection";
 
 import { cn } from "~/lib/utils";
 
@@ -17,7 +17,7 @@ const ScrollSection = () => {
   );
 
   return (
-    <LessonSection id="scroll">
+    <CSSLessonSection id="scroll">
       <DemoCard code={scrollPanelCode}>
         <div className={`${ui.demoArea} p-0`}>
           <div
@@ -50,7 +50,7 @@ const ScrollSection = () => {
           </div>
         </div>
       </DemoCard>
-    </LessonSection>
+    </CSSLessonSection>
   );
 };
 

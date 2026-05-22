@@ -2,7 +2,7 @@ import { ui } from "~/styles/classes";
 import { DemoCard } from "~/components";
 import { useProgress } from "~/css-animations/interactions";
 
-import LessonSection from "../LessonSection";
+import CSSLessonSection from "../CSSLessonSection";
 
 import { ldPanelCode } from "./data";
 import "./loading.css";
@@ -11,7 +11,7 @@ const LoadingSection = () => {
   const progress = useProgress();
 
   return (
-    <LessonSection id="loading">
+    <CSSLessonSection id="loading">
       <DemoCard code={ldPanelCode}>
         <div className={ui.demoArea}>
           <div className="flex flex-wrap items-center justify-center gap-9">
@@ -61,7 +61,7 @@ const LoadingSection = () => {
           </div>
         </div>
       </DemoCard>
-    </LessonSection>
+    </CSSLessonSection>
   );
 };
 

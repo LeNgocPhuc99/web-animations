@@ -5,7 +5,7 @@ import { DemoCard } from "~/components";
 
 import { TabItem, TabList, TabPanel, Tabs } from "~/components/Tabs";
 
-import LessonSection from "../LessonSection";
+import CSSLessonSection from "../CSSLessonSection";
 
 import { cn } from "~/lib/utils";
 
@@ -63,7 +63,7 @@ const TransformSection = () => {
   })();
 
   return (
-    <LessonSection id="transform">
+    <CSSLessonSection id="transform">
       <DemoCard code={tfPanelCode[activeTab]} action={action}>
         <Tabs
           value={activeTab}
@@ -515,7 +515,7 @@ const TransformSection = () => {
           </TabPanel>
         </Tabs>
       </DemoCard>
-    </LessonSection>
+    </CSSLessonSection>
   );
 };
 
