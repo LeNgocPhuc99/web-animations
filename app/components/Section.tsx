@@ -10,12 +10,29 @@ interface SectionProps {
   num?: string | number;
   description?: string;
   children: ReactNode;
+  styles?: {
+    titleClass?: string;
+    numClass?: string;
+    descClass?: string;
+  };
 }
 
-const Section = ({ id, title, num, description, children }: SectionProps) => {
+const Section = ({
+  id,
+  title,
+  num,
+  description,
+  children,
+  styles,
+}: SectionProps) => {
   return (
     <section className={ui.section} id={id}>
-      <SectionHeader title={title} num={num} description={description} />
+      <SectionHeader
+        num={num}
+        title={title}
+        styles={styles}
+        description={description}
+      />
       {children}
     </section>
   );

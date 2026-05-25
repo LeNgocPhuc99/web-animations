@@ -3,9 +3,12 @@ import { Navbar } from "~/components";
 import { useActiveSection } from "~/hooks";
 import { pillClass, sidebarLinkClass } from "~/styles/classes";
 
-import { gsapLessonIds, type GSAPLessonId } from "./types";
-import { gsapLessons, gsapSectionLinks } from "./data";
+// learning section
+import { TweenSection } from "./sections/TweenSection";
 
+import { gsapLessonIds, type GSAPLessonId } from "./types";
+
+import { gsapLessons, gsapSectionLinks } from "./data";
 
 const heroPills = [
   "tween",
@@ -69,7 +72,7 @@ const GSAPLab = () => {
             </nav>
           </aside>
           <div className="grid gap-13">
-
+            <TweenSection />
           </div>
         </div>
       </main>

@@ -3,17 +3,17 @@ import { Navbar } from "~/components";
 import { useActiveSection } from "~/hooks";
 import { pillClass, sidebarLinkClass } from "~/styles/classes";
 
-import {
-  MicroSection,
-  TimingSection,
-  ScrollSection,
-  LoadingSection,
-  StaggerSection,
-  KeyframesSection,
-  TransformSection,
-  TransitionsSection,
-  PerformanceSection,
-} from "./sections";
+// learning section
+import { MicroSection } from "./sections/MicroSection";
+import { TimingSection } from "./sections/TimingSection";
+import { ScrollSection } from "./sections/ScrollSection";
+import { LoadingSection } from "./sections/LoadingSection";
+import { StaggerSection } from "./sections/StaggerSection";
+import { KeyframesSection } from "./sections/KeyframesSection";
+import { TransformSection } from "./sections/TransformSection";
+import { TransitionsSection } from "./sections/TransitionsSection";
+import { PerformanceSection } from "./sections/PerformanceSection";
+
 import { cssAnimationLessonIds } from "./types";
 import { cssAnimationLessons, sectionLinks } from "./data";
 

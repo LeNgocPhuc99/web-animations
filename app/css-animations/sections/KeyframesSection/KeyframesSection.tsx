@@ -28,55 +28,50 @@ const KeyframesSection = () => {
   const [heroRunId, setHeroRunId] = useState(0);
 
   const action = (() => {
-    if (activeTab === "anatomy") {
-      return (
-        <button
-          className={ui.button}
-          onClick={() => setPlaying((value) => !value)}
-          type="button"
-        >
-          Play / Pause
-        </button>
-      );
+    switch (activeTab) {
+      case "anatomy":
+        return (
+          <button
+            className={ui.button}
+            onClick={() => setPlaying((value) => !value)}
+            type="button"
+          >
+            Play / Pause
+          </button>
+        );
+      case "multi-step":
+        return (
+          <button
+            className={ui.button}
+            onClick={() => setBounceRunId((value) => value + 1)}
+            type="button"
+          >
+            BounceIn
+          </button>
+        );
+      case "fill-mode":
+        return (
+          <button
+            className={ui.button}
+            onClick={() => setFillRunId((value) => value + 1)}
+            type="button"
+          >
+            Play
+          </button>
+        );
+      case "stagger":
+        return (
+          <button
+            className={ui.button}
+            onClick={() => setStaggerRunId((value) => value + 1)}
+            type="button"
+          >
+            Play
+          </button>
+        );
+      default:
+        return undefined;
     }
-
-    if (activeTab === "multi-step") {
-      return (
-        <button
-          className={ui.button}
-          onClick={() => setBounceRunId((value) => value + 1)}
-          type="button"
-        >
-          BounceIn
-        </button>
-      );
-    }
-
-    if (activeTab === "fill-mode") {
-      return (
-        <button
-          className={ui.button}
-          onClick={() => setFillRunId((value) => value + 1)}
-          type="button"
-        >
-          Play
-        </button>
-      );
-    }
-
-    if (activeTab === "stagger") {
-      return (
-        <button
-          className={ui.button}
-          onClick={() => setStaggerRunId((value) => value + 1)}
-          type="button"
-        >
-          Play
-        </button>
-      );
-    }
-
-    return undefined;
   })();
 
   return (

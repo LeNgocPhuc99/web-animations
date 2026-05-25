@@ -11,6 +11,8 @@ import { ui } from "~/styles/classes";
 import { DemoCard } from "~/components";
 import { timings } from "~/css-animations/data";
 
+import { cn } from "~/lib/utils";
+
 import CSSLessonSection from "../CSSLessonSection";
 
 import { timingPanelCode } from "./data";
@@ -64,7 +66,7 @@ const TimingSection = () => {
           </button>
         }
       >
-        <div className={`${ui.demoArea} justify-start`}>
+        <div className={cn(ui.demoArea, "justify-start")}>
           <div className="flex w-full max-w-155 flex-col gap-2">
             {timings.map((name, index) => (
               <div className={laneClass} key={name}>

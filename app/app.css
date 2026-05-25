@@ -6,23 +6,25 @@
   --font-display: "Syne", sans-serif;
 
   /* --- Semantic Colors (Raw components for opacity support) --- */
-  --color-primary-raw: 65.395% 0.15496 262.379;
-  --color-secondary-raw: 67.504% 0.18566 2.349;
-  --color-success-raw: 85.508% 0.15102 163.687;
-  --color-warning-raw: 84.514% 0.13362 90.019;
-  --color-purple-raw: 60.037% 0.21104 294.909;
   --color-orange-raw: 73.63% 0.13492 47.08;
   --color-teal-raw: 62.337% 0.18771 24.706;
   --color-gsap-raw: 77.487% 0.2081 130.003;
+  --color-green-raw: 74.914% 0.14807 126.19;
+  --color-warning-raw: 84.514% 0.13362 90.019;
+  --color-purple-raw: 60.037% 0.21104 294.909;
+  --color-primary-raw: 65.395% 0.15496 262.379;
+  --color-secondary-raw: 67.504% 0.18566 2.349;
+  --color-success-raw: 85.508% 0.15102 163.687;
 
-  --color-primary: oklch(var(--color-primary-raw));
-  --color-secondary: oklch(var(--color-secondary-raw));
+  --color-gsap: oklch(var(--color-gsap-raw));
+  --color-green: oklch(var(--color-green-raw));
   --color-success: oklch(var(--color-success-raw));
   --color-warning: oklch(var(--color-warning-raw));
+  --color-primary: oklch(var(--color-primary-raw));
+  --color-accent-teal: oklch(var(--color-teal-raw));
+  --color-secondary: oklch(var(--color-secondary-raw));
   --color-accent-purple: oklch(var(--color-purple-raw));
   --color-accent-orange: oklch(var(--color-orange-raw));
-  --color-accent-teal: oklch(var(--color-teal-raw));
-  --color-gsap: oklch(var(--color-gsap-raw));
 
 
   --color-bg-main: oklch(14.734% 0.01075 284.992);
@@ -42,7 +44,9 @@
   --spacing-base: 12px;
 }
 
-:root {}
+:root {
+  /* --color-test: oklch(74.914% 0.14807 126.19); */
+}
 
 html,
 body {
@@ -131,4 +135,36 @@ code {
 .lab-section-list a.is-active {
   background: var(--color-bg-subtle);
   color: var(--color-text-base);
+}
+
+/* button */
+.btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-default);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .15s, border-color .15s, transform .1s;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--bg3);
+  border-color: rgba(255, 255, 255, .22);
+}
+
+.btn:active {
+  transform: scale(.97);
+}
+
+.btn-green {
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+.btn-green:hover {
+  background: rgba(136, 206, 2, .1);
 }
