@@ -1,7 +1,7 @@
-export const gBox = [
-  "w-16 h-16 rounded-md flex items-center justify-center",
-  "font-mono text-[10px] font-semibold text-black bg-gsap shrink-0",
-].join(" ");
+export const gBox =
+  "w-16 h-16 rounded-md flex-center font-mono text-[10px] font-semibold text-black bg-gsap shrink-0";
+
+export const gsapDemoLabel = "font-mono text-xs text-text-muted";
 
 export const gsapLaneClass = "flex items-center gap-3";
 

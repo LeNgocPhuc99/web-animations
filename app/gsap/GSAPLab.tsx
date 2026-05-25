@@ -5,8 +5,9 @@ import { pillClass, sidebarLinkClass } from "~/styles/classes";
 
 // learning section
 import { TweenSection } from "./sections/TweenSection";
+import { PropertiesSection } from "./sections/PropertiesSection";
 
-import { gsapLessonIds, type GSAPLessonId } from "./types";
+import { gsapLessonIds } from "./types";
 
 import { gsapLessons, gsapSectionLinks } from "./data";
 
@@ -73,6 +74,7 @@ const GSAPLab = () => {
           </aside>
           <div className="grid gap-13">
             <TweenSection />
+            <PropertiesSection />
           </div>
         </div>
       </main>

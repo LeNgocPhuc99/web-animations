@@ -48,6 +48,20 @@
   /* --color-test: oklch(74.914% 0.14807 126.19); */
 }
 
+@layer utilities {
+  .flex-center {
+    @apply flex justify-center items-center
+  }
+
+  .flex-col-center {
+    @apply flex justify-center items-center flex-col
+  }
+
+  .flex-col-between {
+    @apply flex justify-between items-center flex-col
+  }
+}
+
 html,
 body {
   @apply bg-white dark:bg-gray-950;

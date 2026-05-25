@@ -13,8 +13,6 @@ import { cn } from "~/lib/utils";
 
 import { tweenTabs, tweenPanelCode, type TweenTab } from "./data";
 
-import "./tween.css";
-
 gsap.registerPlugin(useGSAP);
 
 const TweenSection = () => {
@@ -182,18 +180,18 @@ const TweenSection = () => {
   return (
     <GSAPSection id="tween">
       <DemoCard code={tweenPanelCode[activeTab]} action={action}>
-        <div ref={scopeRef}>
-          <Tabs
-            value={activeTab}
-            onValueChange={(value) => setActiveTab(value as TweenTab)}
-          >
-            <TabList>
-              {tweenTabs.map((tab) => (
-                <TabItem key={tab.value} value={tab.value}>
-                  {tab.label}
-                </TabItem>
-              ))}
-            </TabList>
+        <Tabs
+          value={activeTab}
+          onValueChange={(value) => setActiveTab(value as TweenTab)}
+        >
+          <TabList>
+            {tweenTabs.map((tab) => (
+              <TabItem key={tab.value} value={tab.value}>
+                {tab.label}
+              </TabItem>
+            ))}
+          </TabList>
+          <div ref={scopeRef}>
             <TabPanel value="gsap.to()">
               <div className={ui.demoArea}>
                 <div className={gBox} id="toBox">
@@ -239,8 +237,8 @@ const TweenSection = () => {
                 </div>
               </div>
             </TabPanel>
-          </Tabs>
-        </div>
+          </div>
+        </Tabs>
       </DemoCard>
     </GSAPSection>
   );

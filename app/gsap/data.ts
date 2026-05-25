@@ -9,7 +9,7 @@ export const gsapLessons = [
     id: "properties",
     num: "02",
     title: "Properties",
-    desc: "",
+    desc: "GSAP dùng shorthand riêng cho transform: <code>x</code>, <code>y</code>, <code>rotation</code>, <code>scale</code> thay vì viết cả chuỗi <code>transform: ...</code>. Ngoài ra còn hỗ trợ animate bất kỳ CSS property, attribute, và cả object thuần.",
   },
   {
     id: "easing",
