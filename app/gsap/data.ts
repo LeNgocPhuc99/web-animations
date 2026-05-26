@@ -15,7 +15,7 @@ export const gsapLessons = [
     id: "easing",
     num: "03",
     title: "Easing",
-    desc: "",
+    desc: "    GSAP có hệ thống ease phong phú hơn CSS nhiều lần. Mỗi family có 3 variant: <code>.in</code>, <code>.out</code>, <code>.inOut</code>. Một số ease nhận parameter để tinh chỉnh cường độ.",
   },
   {
     id: "callbacks",
