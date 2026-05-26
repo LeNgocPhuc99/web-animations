@@ -36,7 +36,7 @@ const propertiesPanelCode: Record<PropertiesTab, string> = {
 const propertyCards = [
   {
     name: "x / y",
-    desc: "translateX / translateY — px mặc định<br><code>x: 100</code> = <code>translateX(100px)</code>",
+    desc: "translateX / translateY — px mặc định<br><code>x: 160</code> = <code>translateX(160px)</code>",
     transformPros: "x",
   },
   {
@@ -46,14 +46,58 @@ const propertyCards = [
   },
   {
     name: "scale / scaleX / scaleY",
-    desc: "<code>scale: 1.5</code> tương đương <code>scale(1.5)</code><br>Animate từ 0→1 cho pop-in effect",
+    desc: "<code>scale: 1.8</code> tương đương <code>scale(1.8)</code><br>Animate từ 0→1 cho pop-in effect",
     transformPros: "scale",
   },
   {
     name: "skewX / skewY",
-    desc: ">Đơn vị deg. Dùng cho kinetic typography<br>hoặc velocity-feel animations",
+    desc: "Đơn vị deg. Dùng cho kinetic typography<br>hoặc velocity-feel animations",
     transformPros: "skew",
   },
 ] as const;
-export { propertiesTabs, propertiesPanelCode, propertyCards };
+
+const propertyDemos = {
+  x: {
+    tween: {
+      x: 160,
+      duration: 0.7,
+      ease: "power2.inOut",
+      yoyo: true,
+      repeat: 1,
+    },
+    label: "x: 160 (translateX)",
+  },
+  rotation: {
+    tween: {
+      rotation: 360,
+      duration: 1,
+      ease: "power1.inOut",
+    },
+    label: "rotation: 360deg",
+  },
+  scale: {
+    tween: {
+      scale: 1.8,
+      duration: 0.6,
+      ease: "back.out(2)",
+      yoyo: true,
+      repeat: 1,
+    },
+    label: "scale: 1.8",
+  },
+  skew: {
+    tween: {
+      skewX: 25,
+      duration: 0.5,
+      ease: "power2.inOut",
+      yoyo: true,
+      repeat: 1,
+    },
+    label: "skewX: 25deg",
+  },
+} as const;
+
+export type PropertyDemoType = keyof typeof propertyDemos;
+
+export { propertiesTabs, propertiesPanelCode, propertyCards, propertyDemos };
 export type { PropertiesTab };

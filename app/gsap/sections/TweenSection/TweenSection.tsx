@@ -214,27 +214,30 @@ const TweenSection = () => {
               </div>
             </TabPanel>
             <TabPanel value="so sánh">
-              <div className={cn(ui.demoArea, "flex-col justify-start")}>
-                <div className="flex w-full flex-col gap-2">
-                  <div className={gsapLaneClass}>
-                    <div className={gsapLaneNameClass}>hiện tại → target</div>
-                    <div id="cmpTo" className={gBox}>
-                      .to()
-                    </div>
-                  </div>
-                  <div className={gsapLaneClass}>
-                    <div className={gsapLaneNameClass}>target → hiện tại</div>
-                    <div id="cmpFrom" className={cn(gBox, "bg-primary")}>
-                      .from()
-                    </div>
-                  </div>
-                  <div className={gsapLaneClass}>
-                    <div className={gsapLaneNameClass}>định nghĩa cả </div>
-                    <div id="cmpFt" className={cn(gBox, "bg-secondary")}>
-                      .fromTo()
-                    </div>
+              <div
+                className={cn(ui.demoArea, "flex-col w-full items-start gap-2")}
+              >
+                <div className={gsapLaneClass}>
+                  <div className={gsapLaneNameClass}>hiện tại → target</div>
+                  <div id="cmpTo" className={gBox}>
+                    .to()
                   </div>
                 </div>
+                <div className={gsapLaneClass}>
+                  <div className={gsapLaneNameClass}>target → hiện tại</div>
+                  <div id="cmpFrom" className={cn(gBox, "bg-primary")}>
+                    .from()
+                  </div>
+                </div>
+                <div className={gsapLaneClass}>
+                  <div className={gsapLaneNameClass}>định nghĩa cả </div>
+                  <div id="cmpFt" className={cn(gBox, "bg-secondary")}>
+                    .fromTo()
+                  </div>
+                </div>
+                {/* <div className="flex w-full flex-col gap-2">
+                  
+                </div> */}
               </div>
             </TabPanel>
           </div>
