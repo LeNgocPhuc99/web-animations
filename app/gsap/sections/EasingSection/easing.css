@@ -6,8 +6,8 @@
 }
 
 .ease-fam {
-    background: var(--bg3);
-    border: 1px solid var(--border);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
     border-radius: 8px;
     padding: 10px 12px;
     cursor: pointer;
@@ -17,15 +17,15 @@
 
 .ease-fam:hover,
 .ease-fam.active {
-    border-color: var(--gsap);
+    border-color: var(--color-gsap);
 }
 
 .ease-fam.active .ef-name {
-    color: var(--gsap);
+    color: var(--color-gsap);
 }
 
 .ef-name {
-    font-family: var(--mono);
+    font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 500;
     margin-bottom: 3px;
@@ -33,7 +33,7 @@
 
 .ef-desc {
     font-size: 12px;
-    color: var(--muted);
+    color: var(--color-text-muted);
 }
 
 .ease-variant-row {
@@ -44,20 +44,22 @@
 }
 
 .ease-variant {
-    font-family: var(--mono);
+    appearance: none;
+    background: transparent;
+    font-family: var(--font-mono);
     font-size: 10px;
     padding: 4px 10px;
     border-radius: 4px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border-default);
     cursor: pointer;
-    color: var(--muted);
+    color: var(--color-text-muted);
     transition: all .15s;
 }
 
 .ease-variant:hover,
 .ease-variant.active {
-    border-color: var(--gsap);
-    color: var(--gsap);
+    border-color: var(--color-gsap);
+    color: var(--color-gsap);
     background: rgba(136, 206, 2, .08);
 }
 
@@ -75,9 +77,9 @@
 }
 
 .ease-lane-name {
-    font-family: var(--mono);
+    font-family: var(--font-mono);
     font-size: 10px;
-    color: var(--muted);
+    color: var(--color-text-muted);
     min-width: 130px;
     text-align: right;
 }
@@ -85,11 +87,11 @@
 .ease-lane-track {
     flex: 1;
     height: 34px;
-    background: var(--bg3);
+    background: var(--color-bg-subtle);
     border-radius: 4px;
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border-default);
 }
 
 .ease-lane-ball {

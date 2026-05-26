@@ -35,11 +35,24 @@ const easeFamily = {
   circ: { variants: ["circ"], suffix: [".in", ".out", ".inOut"] },
   sine: { variants: ["sine"], suffix: [".in", ".out", ".inOut"] },
   steps: { variants: ["steps(6)", "steps(12)"], suffix: [""] },
-};
+} as const;
 
 type EasingFamily = keyof typeof easeFamily;
 
-// RACE_EASES
+const getEaseVariants = (family: EasingFamily) => {
+  const familyConfig = easeFamily[family];
+
+  return familyConfig.variants.flatMap((variant) =>
+    familyConfig.suffix.map((suffix) => {
+      const params =
+        "param" in familyConfig && familyConfig.param && suffix !== ""
+          ? familyConfig.param
+          : "";
+
+      return `${variant}${suffix}${params}`;
+    }),
+  );
+};
 
 const raceEases = [
   "linear",
@@ -61,6 +74,63 @@ const raceColors = [
   "#88ce02",
 ];
 
-export { easeTabs, easePanelCode, easeFamily, raceEases, raceColors };
+interface EaseFamilyCardData {
+  name: string;
+  desc: string;
+  family: EasingFamily;
+}
 
-export type { EasingTab, EasingFamily };
+const easeFamilyCards: EaseFamilyCardData[] = [
+  {
+    name: "Power",
+    desc: "0,1,2,3,4 — chuẩn nhất",
+    family: "power",
+  },
+  {
+    name: "Back",
+    desc: "Overshoot nhẹ",
+    family: "back",
+  },
+  {
+    name: "Elastic",
+    desc: "Rung đàn hồi",
+    family: "elastic",
+  },
+  {
+    name: "Bounce",
+    desc: "Nảy như bóng",
+    family: "bounce",
+  },
+  {
+    name: "Expo",
+    desc: "Rất nhanh",
+    family: "expo",
+  },
+  {
+    name: "Circ",
+    desc: "Đường tròn",
+    family: "circ",
+  },
+  {
+    name: "Sine",
+    desc: "Mềm mại nhất",
+    family: "sine",
+  },
+  {
+    name: "Steps",
+    desc: "Nhảy bậc",
+    family: "steps",
+  },
+] as const;
+
+export {
+  easeTabs,
+  raceEases,
+  easeFamily,
+  raceColors,
+  easePanelCode,
+  easeFamilyCards,
+  getEaseVariants,
+};
+
+export type { EasingTab, EasingFamily, EaseFamilyCardData };

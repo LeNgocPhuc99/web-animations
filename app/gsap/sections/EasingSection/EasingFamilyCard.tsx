@@ -1,15 +1,25 @@
 import { cn } from "~/lib/utils";
 
-interface EasingFamilyCardProps {
-  title: string;
-  desc: string;
+import type { EaseFamilyCardData, EasingFamily } from "./data";
+
+interface EasingFamilyCardProps extends EaseFamilyCardData {
   isActive?: boolean;
+  onSelect?: (family: EasingFamily) => void;
 }
 
-const EasingFamilyCard = ({ title, desc, isActive }: EasingFamilyCardProps) => {
+const EasingFamilyCard = ({
+  desc,
+  name,
+  family,
+  isActive,
+  onSelect,
+}: EasingFamilyCardProps) => {
   return (
-    <div className={cn("ease-fam", isActive && "active")}>
-      <div className="ef-name">{title}</div>
+    <div
+      className={cn("ease-fam", isActive && "active")}
+      onClick={() => onSelect?.(family)}
+    >
+      <div className="ef-name">{name}</div>
       <div className="ef-desc">{desc}</div>
     </div>
   );
