@@ -8,8 +8,18 @@ type EasingTab = (typeof easeTabs)[number]["value"];
 
 const easePanelCode: Record<EasingTab, string> = {
   "ease families": ``,
-  "race demo": ``,
-  "special eases": ``,
+  "race demo": `
+    <span class="c">// cùng duration=1.2s — ease khác nhau, cảm giác hoàn toàn khác</span><br>
+    RACE_EASES.forEach(e => <span class="fn">gsap.to</span>(ball, { <span class="p">x</span>: <span class="v">maxX</span>, <span class="p">duration</span>: <span class="v">1.2</span>, <span class="p">ease</span>: e }));`,
+  "special eases": `
+    <span class="c">// elastic: amplitude (1), period (0.3) — period nhỏ = rung nhanh</span><br>
+    <span class="p">ease</span>: <span class="s">'elastic.out(1, 0.3)'</span><br>
+    <span class="c">// back: overshoot amount — số càng lớn càng vượt quá nhiều</span><br>
+    <span class="p">ease</span>: <span class="s">'back.out(2.5)'</span><br>
+    <span class="c">// steps: nhảy N bước — giống CSS steps(), dùng cho sprite anim</span><br>
+    <span class="p">ease</span>: <span class="s">'steps(8)'</span><br>
+    <span class="c">// none = linear, không có ease</span><br>
+    <span class="p">ease</span>: <span class="s">'none'</span>`,
 };
 
 const easeFamily = {
@@ -123,11 +133,79 @@ const easeFamilyCards: EaseFamilyCardData[] = [
   },
 ] as const;
 
+const easeSpecials = [
+  {
+    id: "se1",
+    label: `elastic<br>param`,
+    desc: "elastic.out(1, 0.3)",
+    bg: "--color-gsap",
+    gsapConfig: {
+      x1: -80,
+      x2: 80,
+      duration: 1,
+      easeFunc: "elastic.out(1,0.3)",
+    },
+  },
+  {
+    id: "se2",
+    label: `back<br>param`,
+    desc: "back.out(2.5)",
+    bg: "--color-pink-400",
+    gsapConfig: {
+      x1: -80,
+      x2: 80,
+      delay: 0.1,
+      duration: 0.8,
+      easeFunc: "back.out(2.5)",
+    },
+  },
+  {
+    id: "se3",
+    label: `steps<br>8`,
+    desc: "steps(8)",
+    bg: "--color-purple-400",
+    gsapConfig: {
+      x1: -80,
+      x2: 80,
+      delay: 0.2,
+      duration: 1,
+      easeFunc: "steps(8)",
+    },
+  },
+  {
+    id: "se4",
+    label: `rough`,
+    desc: "rough",
+    bg: "--color-green-400",
+    gsapConfig: {
+      x1: -80,
+      x2: 80,
+      delay: 0.3,
+      duration: 1.2,
+      easeFunc: "rough({strength:2,points:20,randomize:true})",
+    },
+  },
+  {
+    id: "se5",
+    label: `none<br>linear`,
+    desc: "none (linear)",
+    bg: "--color-yellow-400",
+    gsapConfig: {
+      x1: -80,
+      x2: 80,
+      delay: 0.4,
+      duration: 0.8,
+      easeFunc: "none",
+    },
+  },
+] as const;
+
 export {
   easeTabs,
   raceEases,
   easeFamily,
   raceColors,
+  easeSpecials,
   easePanelCode,
   easeFamilyCards,
   getEaseVariants,
