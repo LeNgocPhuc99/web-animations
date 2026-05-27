@@ -15,13 +15,13 @@ export const gsapLessons = [
     id: "easing",
     num: "03",
     title: "Easing",
-    desc: "    GSAP có hệ thống ease phong phú hơn CSS nhiều lần. Mỗi family có 3 variant: <code>.in</code>, <code>.out</code>, <code>.inOut</code>. Một số ease nhận parameter để tinh chỉnh cường độ.",
+    desc: "GSAP có hệ thống ease phong phú hơn CSS nhiều lần. Mỗi family có 3 variant: <code>.in</code>, <code>.out</code>, <code>.inOut</code>. Một số ease nhận parameter để tinh chỉnh cường độ.",
   },
   {
     id: "callbacks",
     num: "04",
     title: "Callbacks",
-    desc: "",
+    desc: "GSAP tween là object có thể lưu vào biến — từ đó <code>pause()</code>, <code>resume()</code>, <code>reverse()</code>, <code>seek()</code>, và nhận callbacks tại mỗi giai đoạn vòng đời animation.",
   },
   {
     id: "stagger",

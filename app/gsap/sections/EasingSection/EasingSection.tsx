@@ -36,7 +36,6 @@ const EasingSection = () => {
   const raceRunningRef = useRef(false);
 
   const [activeTab, setActiveTab] = useState<EasingTab>("ease families");
-  const [raceRunning, setRaceRunning] = useState(false);
 
   const [activeEaseFamily, setActiveEaseFamily] =
     useState<EasingFamily>("power");
@@ -90,7 +89,6 @@ const EasingSection = () => {
     if (raceRunningRef.current) return;
 
     raceRunningRef.current = true;
-    setRaceRunning(true);
     const duration = 1.2;
 
     raceEases.forEach((ease, index) => {
@@ -110,7 +108,6 @@ const EasingSection = () => {
 
     gsap.delayedCall(duration + 0.3, () => {
       raceRunningRef.current = false;
-      setRaceRunning(false);
     });
   });
 
