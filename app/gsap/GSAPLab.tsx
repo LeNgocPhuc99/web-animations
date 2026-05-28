@@ -7,6 +7,7 @@ import { pillClass, sidebarLinkClass } from "~/styles/classes";
 import { TweenSection } from "./sections/TweenSection";
 import { EasingSection } from "./sections/EasingSection";
 import { StaggerSection } from "./sections/StaggerSection";
+import { OverwriteSection } from "./sections/OverwriteSection";
 import { PropertiesSection } from "./sections/PropertiesSection";
 import { CallbacksAndPlayback } from "./sections/CallbacksAndPlayback";
 
@@ -81,6 +82,7 @@ const GSAPLab = () => {
             <EasingSection />
             <CallbacksAndPlayback />
             <StaggerSection />
+            <OverwriteSection />
           </div>
         </div>
       </main>

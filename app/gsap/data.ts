@@ -33,7 +33,7 @@ export const gsapLessons = [
     id: "overwrite",
     num: "06",
     title: "Overwrite",
-    desc: "",
+    desc: "    Khi hai tween cùng animate một property trên cùng element, GSAP xử lý conflict bằng <code>overwrite</code>. <code>gsap.defaults()</code> và <code>gsap.config()</code> cho phép set giá trị mặc định toàn cục.",
   },
   {
     id: "real-world",
