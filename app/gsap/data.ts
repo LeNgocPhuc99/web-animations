@@ -27,7 +27,7 @@ export const gsapLessons = [
     id: "stagger",
     num: "05",
     title: "Stagger",
-    desc: "",
+    desc: "GSAP <code>stagger</code> tự động thêm delay tăng dần cho mỗi phần tử trong selector. Mạnh hơn CSS <code>nth-child</code> vì hỗ trợ <code>from</code>, <code>grid</code>, và hàm custom.",
   },
   {
     id: "overwrite",

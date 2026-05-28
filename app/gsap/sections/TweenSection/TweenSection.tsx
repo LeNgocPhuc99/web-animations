@@ -13,8 +13,6 @@ import { cn } from "~/lib/utils";
 
 import { tweenTabs, tweenPanelCode, type TweenTab } from "./data";
 
-gsap.registerPlugin(useGSAP);
-
 const TweenSection = () => {
   const scopeRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<TweenTab>("gsap.to()");

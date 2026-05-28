@@ -21,8 +21,6 @@ import GSAPSection from "../GSAPSection";
 
 import "./callbacks-and-playback.css";
 
-gsap.registerPlugin(useGSAP);
-
 interface CallbackLog {
   msg: string;
   cls: string;
@@ -47,9 +45,11 @@ function CallbacksAndPlayback() {
     setCbLogs((prev) => [...prev, { msg: `[${time}] ${msg}`, cls }]);
   };
 
-  const clearCallbackLog = () => {
+  const clearCallbackLog = contextSafe(() => {
+    gsap.killTweensOf("#cbBox");
+    gsap.set("#cbBox", { x: 0, opacity: 1 });
     setCbLogs([]);
-  };
+  });
 
   const runCallbackDemo = contextSafe(() => {
     gsap.killTweensOf("#cbBox");

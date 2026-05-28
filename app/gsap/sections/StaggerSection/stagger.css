@@ -1,0 +1,37 @@
+.stag-bar {
+    flex: 1;
+    border-radius: 4px 4px 0 0;
+    background: var(--color-gsap);
+    min-height: 20px;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: bottom;
+}
+
+.stag-dots {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.stag-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-gsap);
+    opacity: 0;
+}
+
+.stag-from-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+.stag-from-box {
+    height: 40px;
+    border-radius: 6px;
+    background: var(--color-purple-400);
+    opacity: 0;
+}

@@ -180,5 +180,32 @@ code {
 }
 
 .btn-green:hover {
-  background: rgba(136, 206, 2, .1);
+  background: rgba(136, 206, 2, .2);
+}
+
+.btn-blue {
+  border-color: var(--color-blue-500);
+  color: var(--color-blue-500);
+}
+
+.btn-blue:hover {
+  background: rgba(3, 14, 110, .2);
+}
+
+.btn-pink {
+  border-color: var(--color-pink-500);
+  color: var(--color-pink-500);
+}
+
+.btn-pink:hover {
+  background: rgba(188, 19, 196, 0.2);
+}
+
+.btn-yellow {
+  border-color: var(--color-yellow-500);
+  color: var(--color-yellow-500);
+}
+
+.btn-yellow:hover {
+  background: rgba(190, 196, 19, 0.2);
 }
