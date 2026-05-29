@@ -1,0 +1,96 @@
+.tl-visual {
+    position: relative;
+    width: 100%;
+    height: 56px;
+    background: var(--color-bg-surface);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.tl-scrubber {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 2px;
+    background: var(--color-gsap);
+    z-index: 10;
+    box-shadow: 0 0 6px var(--color-gsap);
+}
+
+.tl-block {
+    position: absolute;
+    height: 26px;
+    top: 15px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    color: #000;
+    white-space: nowrap;
+    cursor: default;
+}
+
+.tl-ruler {
+    display: flex;
+    gap: 0;
+    margin-bottom: 12px;
+    border-top: 1px solid var(--color-border-subtle);
+}
+
+.tl-tick {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--color-text-muted);
+    padding-top: 3px;
+    text-align: center;
+    border-left: 1px solid var(--color-border-default);
+}
+
+.pos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.pos-card {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: border-color .15s;
+}
+
+.pos-card:hover,
+.pos-card.active {
+    border-color: var(--const-gsap);
+}
+
+.pos-card .pos-name {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-gsap);
+    margin-bottom: 3px;
+}
+
+.pos-card .pos-desc {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+.pos-stage {
+    height: 80px;
+    background: var(--color-bg-surface);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+}

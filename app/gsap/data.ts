@@ -45,7 +45,7 @@ export const gsapLessons = [
     id: "timeline",
     num: "08",
     title: "Timeline",
-    desc: "",
+    desc: "<code>gsap.timeline()</code> cho phép xâu chuỗi nhiều tween thành một sequence có thể control như một tween. <strong>Position Parameter</strong> là tính năng mạnh nhất — kiểm soát chính xác thời điểm mỗi tween bắt đầu trong timeline.",
   },
   {
     id: "context",
