@@ -221,7 +221,7 @@ function CallbacksAndPlayback() {
               ▶ Play All
             </button>
             <button className="btn" onClick={resetRepeatDemo}>
-              Reset
+              ↺ Reset
             </button>
           </div>
         );
