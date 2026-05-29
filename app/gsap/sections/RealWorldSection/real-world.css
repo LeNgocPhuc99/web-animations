@@ -1,0 +1,37 @@
+.rw-card {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+}
+
+.rw-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.rw-number-wrap {
+    font-family: var(--font-mono);
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.rw-text-line {
+    height: 14px;
+    border-radius: 3px;
+    background: var(--color-text-base);
+    margin-bottom: 8px;
+    transform-origin: left;
+    opacity: 0;
+}

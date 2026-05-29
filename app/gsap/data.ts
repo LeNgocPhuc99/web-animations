@@ -39,7 +39,7 @@ export const gsapLessons = [
     id: "real-world",
     num: "07",
     title: "Real World",
-    desc: "",
+    desc: "    Những pattern hay dùng nhất trong thực tế — page entrance, hover card, counter, nav reveal, text reveal.",
   },
   {
     id: "timeline",

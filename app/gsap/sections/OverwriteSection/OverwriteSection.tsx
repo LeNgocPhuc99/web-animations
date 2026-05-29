@@ -230,7 +230,7 @@ const OverwriteSection = () => {
               <div className={cn(ui.demoArea, "flex-col items-start")}>
                 <div className="flex gap-2 w-full">
                   {/* left side */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 min-w-56">
                     <div
                       className={cn(gBox, "bg-pink-400 opacity-0")}
                       id="setBox1"
