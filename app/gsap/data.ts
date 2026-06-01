@@ -57,7 +57,7 @@ export const gsapLessons = [
     id: "scroll-trigger",
     num: "10",
     title: "ScrollTrigger",
-    desc: "",
+    desc: "    Plugin mạnh nhất của GSAP. <code>ScrollTrigger</code> kết nối animation với scroll position — từ fade-in đơn giản đến parallax, pin element, và scrub timeline theo scroll bar.",
   },
   {
     id: "best-practices",
