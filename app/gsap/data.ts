@@ -51,7 +51,7 @@ export const gsapLessons = [
     id: "context",
     num: "09",
     title: "Context",
-    desc: "",
+    desc: "Khi dùng GSAP trong React, <code>gsap.context()</code> và hook <code>useGSAP()</code> (@gsap/react) đảm bảo <strong>cleanup tự động</strong> khi component unmount — tránh memory leak và animation zombie.",
   },
   {
     id: "scroll-trigger",

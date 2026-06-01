@@ -1,0 +1,85 @@
+.ctx-diagram {
+    background: var(--bg-bg-surface);
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.ctx-box {
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 6px;
+    padding: 8px 14px 10px;
+    margin-bottom: 8px;
+    min-inline-size: 0;
+}
+
+.ctx-box-label {
+    margin-left: 10px;
+    padding: 0 6px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text-text-muted);
+}
+
+.ctx-highlight {
+    border-color: var(--color-gsap);
+}
+
+.ctx-highlight .ctx-box-label {
+    color: var(--color-gsap);
+}
+
+.ctx-warn {
+    border-color: #e24b4a;
+}
+
+.ctx-warn .ctx-box-label {
+    color: #e24b4a;
+}
+
+.ctx-scope-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.ctx-scope-panel {
+    flex: 1 1 200px;
+}
+
+.ctx-scope-lane {
+    display: flex;
+    gap: 8px;
+    border: 1px solid color-mix(in oklch, var(--color-gsap) 22%, transparent);
+    border-radius: 8px;
+    background: color-mix(in oklch, var(--color-gsap) 7%, transparent);
+    padding: 12px;
+}
+
+.ctx-scope-panel-b .ctx-scope-lane {
+    border-color: color-mix(in oklch, var(--color-blue-500) 22%, transparent);
+    background: color-mix(in oklch, var(--color-blue-500) 7%, transparent);
+}
+
+.ctx-scope-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: var(--color-gsap);
+}
+
+.ctx-scope-box-blue {
+    background: var(--color-blue-500);
+}
+
+.ctx-scope-note {
+    border-radius: 8px;
+    background: var(--bg-bg-surface);
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text-text-muted);
+}
