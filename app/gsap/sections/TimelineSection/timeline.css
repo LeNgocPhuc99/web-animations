@@ -52,12 +52,6 @@
     border-left: 1px solid var(--color-border-default);
 }
 
-.pos-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
 .pos-card {
     background: var(--color-bg-surface);
     border: 1px solid var(--color-border-default);
@@ -69,7 +63,7 @@
 
 .pos-card:hover,
 .pos-card.active {
-    border-color: var(--const-gsap);
+    border-color: var(--color-gsap);
 }
 
 .pos-card .pos-name {
@@ -93,4 +87,18 @@
     position: relative;
     overflow: hidden;
     margin-top: 10px;
+}
+
+.pos-timing-guide {
+    margin: 0;
+    padding: 12px;
+    overflow-x: auto;
+    border: 1px solid var(--color-border-default);
+    border-radius: 8px;
+    background: var(--color-bg-surface);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.55;
+    white-space: pre;
 }
