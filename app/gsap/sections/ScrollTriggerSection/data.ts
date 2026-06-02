@@ -57,6 +57,58 @@ const panelTabsCode: Record<ScrollTriggerTab, string> = {
   `,
 };
 
-export { scrollTriggerTabs, panelTabsCode };
+const scrollItems = [
+  {
+    title: `trigger: start "top 80%"`,
+    desc: `Animate khi top của element đến 80% chiều cao viewport (từ trên xuống).`,
+  },
+  {
+    title: `toggleClass: "active"`,
+    desc: `Thêm/xoá class khi element vào/ra viewport — không cần JS phức tạp.`,
+  },
+  {
+    title: `once: true`,
+    desc: `Animation chỉ trigger một lần. Sau đó observer được remove, tiết kiệm memory.`,
+  },
+  {
+    title: `batch() — cho multiple elements`,
+    desc: `Thay vì tạo ScrollTrigger riêng cho từng element, batch() xử lý chúng cùng lúc.`,
+  },
+  {
+    title: `callbacks: onEnter, onLeave, onEnterBack`,
+    desc: `Chạy code tại từng threshold của scroll — enter, leave, enter back, leave back.`,
+  },
+];
+
+const scrubDemo = [
+  { label: "rotation", id: "sf-rot" },
+  { label: "scale", id: "sf-sc" },
+  { label: "opacity", id: "sf-op" },
+] as const;
+
+const pinData = [
+  {
+    title: "pin: true",
+    titleColor: "--color-gsap",
+    desc: "Element bị pin (sticky) trong khi trigger active. Thường dùng cho horizontal scroll sections.",
+  },
+  {
+    title: "pinSpacing: false",
+    titleColor: "--color-blue-500",
+    desc: "Không thêm space sau element bị pin — dùng khi pin header hoặc sticky sidebar.",
+  },
+  {
+    title: "anticipatePin: 1",
+    titleColor: "--color-pink-500",
+    desc: "Tránh jitter khi pin bắt đầu — thêm khi thấy element nhảy lúc scroll.",
+  },
+  {
+    title: `pinType: "transform"`,
+    titleColor: "--color-yellow-500",
+    desc: "Dùng transform thay position:fixed khi element ở trong container có transform.",
+  },
+];
+
+export { scrollTriggerTabs, panelTabsCode, scrubDemo, scrollItems, pinData };
 
 export type { ScrollTriggerTab };

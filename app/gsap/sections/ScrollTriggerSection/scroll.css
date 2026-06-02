@@ -1,0 +1,78 @@
+.st-scroll-wrap {
+    height: 340px;
+    overflow-y: auto;
+    background: var(--bg-bg-surface);
+    border-radius: 8px;
+    border: 1px solid var(--color-border-default);
+    scroll-behavior: smooth;
+}
+
+.st-scroll-inner {
+    padding: 1.5rem;
+}
+
+.st-spacer {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.st-scroll-hint {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+.st-item {
+    opacity: 0;
+    margin-bottom: 1.25rem;
+    padding: 1rem 1.25rem;
+    transform: translateX(-20px);
+    border-radius: var(--radius-md);
+    border-left: 2px solid var(--color-gsap);
+    background: var(--color-bg-subtle);
+    transition: opacity .5s ease, transform .5s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.st-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.st-item h4 {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.st-item p {
+    font-size: 13px;
+    color: var(--color-text-muted);
+}
+
+.scrub-demo {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--color-bg-subtle);
+    overflow: hidden;
+    margin: 8px 0;
+}
+
+.scrub-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--color-gsap);
+    border-radius: 3px;
+    transition: width .05s;
+}
+
+.pin-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+}
