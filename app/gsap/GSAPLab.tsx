@@ -12,6 +12,7 @@ import { TimelineSection } from "./sections/TimelineSection";
 import { RealWorldSection } from "./sections/RealWorldSection";
 import { OverwriteSection } from "./sections/OverwriteSection";
 import { PropertiesSection } from "./sections/PropertiesSection";
+import { BestPracticesSection } from "./sections/BestPracticesSection";
 import { ScrollTriggerSection } from "./sections/ScrollTriggerSection";
 import { CallbacksAndPlayback } from "./sections/CallbacksAndPlayback";
 
@@ -91,6 +92,7 @@ const GSAPLab = () => {
             <TimelineSection />
             <ContextSection />
             <ScrollTriggerSection />
+            <BestPracticesSection />
           </div>
         </div>
       </main>
