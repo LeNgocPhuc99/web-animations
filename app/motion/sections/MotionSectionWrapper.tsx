@@ -1,24 +1,24 @@
 import type { ReactNode } from "react";
-
 import { Section } from "~/components";
 
-import type { CssAnimationLessonId } from "../data";
 import { lessonById } from "../utils";
+import type { MotionLessonId } from "../data";
 
-const CSSLessonSection = ({
+const MotionSectionWrapper = ({
   id,
   children,
 }: {
-  id: CssAnimationLessonId;
+  id: MotionLessonId;
   children: ReactNode;
 }) => {
   const lesson = lessonById(id);
-
   return (
     <Section
       id={id}
       title={lesson.title}
-      num={lesson.num}
+      styles={{
+        numClass: "text-motion/75",
+      }}
       description={lesson.desc}
     >
       {children}
@@ -26,4 +26,4 @@ const CSSLessonSection = ({
   );
 };
 
-export default CSSLessonSection;
+export default MotionSectionWrapper;

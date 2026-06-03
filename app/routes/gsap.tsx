@@ -1,7 +1,6 @@
 import type { Route } from "./+types/gsap";
 
 import GSAPLab from "~/gsap/GSAPLab";
-import ComingSoonPage from "~/coming-soon/ComingSoonPage";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,7 +13,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function GsapRoute() {
-  return (
-    <GSAPLab />
-  );
+  return <GSAPLab />;
 }

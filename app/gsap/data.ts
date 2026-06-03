@@ -84,3 +84,17 @@ export const gsapSectionLinks = [
   ["scroll-trigger", "ScrollTrigger"],
   ["best-practices", "Best Practices"],
 ] as const satisfies readonly GSAPSectionLink[];
+
+export const gsapLessonIds = gsapLessons.map((lesson) => lesson.id);
+
+export const gsapHeroPills = [
+  "tween",
+  "ease",
+  "stagger",
+  "callbacks",
+  "timeline",
+  "position param",
+  "context",
+  "useGSAP",
+  "ScrollTrigger",
+];

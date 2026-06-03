@@ -1,6 +1,6 @@
 import type { Route } from "./+types/motion";
 
-import ComingSoonPage from "~/coming-soon/ComingSoonPage";
+import MotionLab from "~/motion/MotionLab";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,10 +13,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function MotionRoute() {
-  return (
-    <ComingSoonPage
-      title="Motion"
-      description="Framer Motion examples for variants, layout animation, gestures, and page transitions will live here."
-    />
-  );
+  return <MotionLab />;
 }

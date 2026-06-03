@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { Section } from "~/components";
 
 import { lessonById } from "../utils";
-import type { GSAPLessonId } from "../types";
+import type { GSAPLessonId } from "../data";
 
 const GSAPSection = ({
   id,

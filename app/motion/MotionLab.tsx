@@ -3,39 +3,34 @@ import { Navbar } from "~/components";
 import { useActiveSection } from "~/hooks";
 import { pillClass, sidebarLinkClass } from "~/styles/classes";
 
-// learning section
-import { MicroSection } from "./sections/MicroSection";
-import { TimingSection } from "./sections/TimingSection";
-import { ScrollSection } from "./sections/ScrollSection";
-import { LoadingSection } from "./sections/LoadingSection";
-import { StaggerSection } from "./sections/StaggerSection";
-import { KeyframesSection } from "./sections/KeyframesSection";
-import { TransformSection } from "./sections/TransformSection";
-import { TransitionsSection } from "./sections/TransitionsSection";
-import { PerformanceSection } from "./sections/PerformanceSection";
-
 import {
-  sectionLinks,
-  cssHeroPills,
-  cssAnimationLessons,
-  cssAnimationLessonIds,
+  motionLessons,
+  motionLessonIds,
+  motionHeroPills,
+  motionSectionLinks,
 } from "./data";
 
-const CSSAnimationsLab = () => {
-  const activeId = useActiveSection(cssAnimationLessonIds);
+import { MotionSection } from "./sections/MotionSection";
+
+const MotionLab = () => {
+  const activeId = useActiveSection(motionLessonIds);
 
   return (
     <div className="min-h-screen bg-bg-main font-sans text-sm leading-relaxed text-text-base">
-      <Navbar links={sectionLinks} />
+      <Navbar
+        links={motionSectionLinks}
+        logo="Motion Labs"
+        logoColor="bg-motion"
+      />
       <main className="mx-auto w-full max-w-295 px-6 pb-18 max-sm:px-4">
         <section className="relative overflow-hidden py-14 text-center">
           <div className="lab-hero-grid absolute inset-0" />
           <div className="relative z-10">
-            <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-primary">
-              // css animation foundations
+            <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-motion">
+              // framer motion · react animation library
             </div>
             <div className="lab-fade-3 flex flex-wrap justify-center gap-2">
-              {cssHeroPills.map((pill) => (
+              {motionHeroPills.map((pill) => (
                 <span className={pillClass} key={pill}>
                   {pill}
                 </span>
@@ -43,17 +38,16 @@ const CSSAnimationsLab = () => {
             </div>
           </div>
         </section>
-
         <div className="mt-6 grid grid-cols-[250px_minmax(0,1fr)] items-start gap-8 max-lg:grid-cols-1">
           <aside
-            aria-label="Mục lục CSS Animation"
+            aria-label="Mục lục Motion Animation"
             className="sticky top-21 rounded-lg border border-white/10 bg-bg-main p-3.5 max-lg:static"
           >
             <p className="mb-2.5 font-mono text-xs uppercase tracking-[0.08em] text-text-muted">
               Learning path
             </p>
             <nav className="lab-section-list grid gap-1 max-lg:grid-cols-2 max-sm:grid-cols-1">
-              {cssAnimationLessons.map((lesson) => (
+              {motionLessons.map((lesson) => (
                 <a
                   className={cn(
                     sidebarLinkClass,
@@ -62,7 +56,7 @@ const CSSAnimationsLab = () => {
                   href={`#${lesson.id}`}
                   key={lesson.id}
                 >
-                  <span className="font-mono text-[10px] text-primary">
+                  <span className="font-mono text-[10px] text-motion">
                     {lesson.num}
                   </span>
                   {lesson.title}
@@ -70,26 +64,13 @@ const CSSAnimationsLab = () => {
               ))}
             </nav>
           </aside>
-
           <div className="grid gap-13">
-            <TransitionsSection />
-            <KeyframesSection />
-            <TransformSection />
-            <TimingSection />
-            <StaggerSection />
-            <ScrollSection />
-            <PerformanceSection />
-            <MicroSection />
-            <LoadingSection />
+            <MotionSection />
           </div>
         </div>
       </main>
-
-      <footer className="border-t border-white/10 px-6 py-7 text-center font-mono text-xs text-text-muted">
-        Animation Lab · CSS foundations before GSAP
-      </footer>
     </div>
   );
 };
 
-export default CSSAnimationsLab;
+export default MotionLab;

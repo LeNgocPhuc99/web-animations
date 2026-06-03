@@ -16,21 +16,12 @@ import { BestPracticesSection } from "./sections/BestPracticesSection";
 import { ScrollTriggerSection } from "./sections/ScrollTriggerSection";
 import { CallbacksAndPlayback } from "./sections/CallbacksAndPlayback";
 
-import { gsapLessonIds } from "./types";
-
-import { gsapLessons, gsapSectionLinks } from "./data";
-
-const heroPills = [
-  "tween",
-  "ease",
-  "stagger",
-  "callbacks",
-  "timeline",
-  "position param",
-  "context",
-  "useGSAP",
-  "ScrollTrigger",
-];
+import {
+  gsapLessons,
+  gsapHeroPills,
+  gsapLessonIds,
+  gsapSectionLinks,
+} from "./data";
 
 const GSAPLab = () => {
   const activeId = useActiveSection(gsapLessonIds);
@@ -46,7 +37,7 @@ const GSAPLab = () => {
               // greensock animation platform
             </div>
             <div className="lab-fade-3 flex flex-wrap justify-center gap-2">
-              {heroPills.map((pill) => (
+              {gsapHeroPills.map((pill) => (
                 <span className={pillClass} key={pill}>
                   {pill}
                 </span>
@@ -57,7 +48,7 @@ const GSAPLab = () => {
 
         <div className="mt-6 grid grid-cols-[250px_minmax(0,1fr)] items-start gap-8 max-lg:grid-cols-1">
           <aside
-            aria-label="Mục lục CSS Animation"
+            aria-label="Mục lục Gsap Animation"
             className="sticky top-21 rounded-lg border border-white/10 bg-bg-main p-3.5 max-lg:static"
           >
             <p className="mb-2.5 font-mono text-xs uppercase tracking-[0.08em] text-text-muted">

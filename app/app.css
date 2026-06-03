@@ -10,6 +10,7 @@
   --color-teal-raw: 62.337% 0.18771 24.706;
   --color-gsap-raw: 77.487% 0.2081 130.003;
   --color-green-raw: 74.914% 0.14807 126.19;
+  --color-motion-raw: 60.563% 0.21902 292.718;
   --color-warning-raw: 84.514% 0.13362 90.019;
   --color-purple-raw: 60.037% 0.21104 294.909;
   --color-primary-raw: 65.395% 0.15496 262.379;
@@ -18,6 +19,7 @@
 
   --color-gsap: oklch(var(--color-gsap-raw));
   --color-green: oklch(var(--color-green-raw));
+  --color-motion: oklch(var(--color-motion-raw));
   --color-success: oklch(var(--color-success-raw));
   --color-warning: oklch(var(--color-warning-raw));
   --color-primary: oklch(var(--color-primary-raw));
@@ -208,4 +210,13 @@ code {
 
 .btn-yellow:hover {
   background: rgba(190, 196, 19, 0.2);
+}
+
+.btn-purple {
+  border-color: var(--color-motion);
+  color: var(--color-motion);
+}
+
+.btn-purple:hover {
+  background: rgba(139,92,246,.12);
 }

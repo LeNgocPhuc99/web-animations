@@ -113,3 +113,17 @@ export const scrollConcepts = [
     "Có thể animate một lần hoặc lặp lại mỗi lần scroll qua.",
   ],
 ] as const;
+
+export const cssAnimationLessonIds = cssAnimationLessons.map(
+  (lesson) => lesson.id,
+);
+
+export const cssHeroPills = [
+  "transition",
+  "@keyframes",
+  "transform",
+  "cubic-bezier",
+  "stagger",
+  "scroll-trigger",
+  "micro-interactions",
+];
