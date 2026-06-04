@@ -1,5 +1,3 @@
-import { label } from "motion/react-client";
-
 const motionTabs = [
   { label: "initial & animate", value: "initial & animate" },
   { label: "transition config", value: "transition config" },

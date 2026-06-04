@@ -11,7 +11,7 @@ export const motionLessons = [
     id: "variants",
     num: "02",
     title: "Variants",
-    desc: "",
+    desc: `<code>variants</code> là named animation states — thay vì inline objects, bạn định nghĩa một lần rồi dùng lại bằng tên. Sức mạnh thực sự là <strong>orchestration</strong>: parent variant tự động propagate xuống children, kèm <code>staggerChildren</code>, <code>delayChildren</code>, <code>when</code>.`,
   },
   {
     id: "animate-presence",
