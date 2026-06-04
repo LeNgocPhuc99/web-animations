@@ -39,5 +39,86 @@ const panelTabCode: Record<MotionTab, string> = {
   `,
 };
 
-export { motionTabs, panelTabCode };
+const initialAnimateBoxes = [
+  {
+    label: "fade+slide",
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6, ease: "easeOut" },
+    bg: "#8b5cf6",
+  },
+  {
+    label: "scale in",
+    initial: { opacity: 0, scale: 0 },
+    animate: { opacity: 1, scale: 1 },
+    transition: {
+      type: "spring",
+      stiffness: 260,
+      damping: 20,
+      delay: 0.1,
+    },
+    bg: "#ec4899",
+  },
+  {
+    label: "rotate",
+    initial: { opacity: 0, rotate: -90, x: -40 },
+    animate: { opacity: 1, rotate: 0, x: 0 },
+    transition: { duration: 0.7, ease: "backOut", delay: 0.2 },
+    bg: "#14b8a6",
+  },
+  {
+    label: "flip X",
+    initial: { opacity: 0, rotateY: 90 },
+    animate: { opacity: 1, rotateY: 0 },
+    transition: { duration: 0.6, delay: 0.3 },
+    bg: "#f59e0b",
+  },
+] as const;
+
+const initialTransitionBoxes = [
+  {
+    label: "spring",
+    trans: {
+      type: "spring",
+      stiffness: 260,
+      damping: 20,
+    },
+    bg: "#8b5cf6",
+  },
+  {
+    label: "tween ease",
+    trans: {
+      type: "tween",
+      duration: 0.5,
+      ease: "easeInOut",
+    },
+    bg: "#ec4899",
+  },
+  {
+    label: "bounce",
+    trans: {
+      type: "spring",
+      stiffness: 400,
+      damping: 8,
+    },
+    bg: "#14b8a6",
+  },
+  {
+    label: "slow spring",
+    trans: {
+      type: "spring",
+      stiffness: 50,
+      damping: 10,
+    },
+    bg: "#f59e0b",
+  },
+] as const;
+
+export {
+  motionTabs,
+  panelTabCode,
+  initialAnimateBoxes,
+  initialTransitionBoxes,
+};
+
 export type { MotionTab };

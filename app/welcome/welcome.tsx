@@ -67,7 +67,7 @@ const pages = [
     step: "02",
     title: "GSAP",
     href: "/gsap",
-    status: "Next",
+    status: "Ready",
     description:
       "Timeline, sequencing, scroll-driven animation va cac workflow phuc tap bang GSAP.",
   },
@@ -75,7 +75,7 @@ const pages = [
     step: "03",
     title: "Motion",
     href: "/motion",
-    status: "Planned",
+    status: "Next",
     description:
       "Framer Motion patterns cho React: variants, layout animation, gestures va page transitions.",
   },
