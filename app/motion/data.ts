@@ -23,7 +23,7 @@ export const motionLessons = [
     id: "hooks",
     num: "04",
     title: "Hooks",
-    desc: "",
+    desc: `Hooks cho phép đọc và transform animation values imperatively. <code>useMotionValue</code> là reactive value, <code>useTransform</code> map một range sang range khác, <code>useSpring</code> thêm spring physics, <code>useScroll</code> đọc scroll position.`,
   },
   {
     id: "gestures",
