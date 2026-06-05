@@ -13,6 +13,7 @@ import {
 // ** sections
 import { MotionSection } from "./sections/MotionSection";
 import { VariantsSection } from "./sections/VariantsSection";
+import { AnimatePresenceSection } from "./sections/AnimatePresenceSection";
 
 const MotionLab = () => {
   const activeId = useActiveSection(motionLessonIds);
@@ -69,6 +70,7 @@ const MotionLab = () => {
           <div className="grid gap-13">
             <MotionSection />
             <VariantsSection />
+            <AnimatePresenceSection />
           </div>
         </div>
       </main>

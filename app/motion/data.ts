@@ -17,7 +17,7 @@ export const motionLessons = [
     id: "animate-presence",
     num: "03",
     title: "AnimatePresence",
-    desc: "",
+    desc: `    React unmount element ngay lập tức — <code>AnimatePresence</code> giữ element lại đủ lâu để chạy <code>exit</code> animation. Dùng cho modal, list items, page transitions. <code>mode</code> prop kiểm soát thứ tự enter/exit.`,
   },
   {
     id: "hooks",

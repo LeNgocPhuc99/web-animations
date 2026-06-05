@@ -218,5 +218,14 @@ code {
 }
 
 .btn-purple:hover {
-  background: rgba(139,92,246,.12);
+  background: rgba(139, 92, 246, .12);
+}
+
+.btn-red {
+  border-color: var(--color-red-500);
+  color: var(--color-red-500);
+}
+
+.btn-red:hover {
+  background-color: var(--color-red-100);
 }
