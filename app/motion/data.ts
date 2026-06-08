@@ -29,7 +29,7 @@ export const motionLessons = [
     id: "gestures",
     num: "05",
     title: "Gestures",
-    desc: "",
+    desc: `Framer Motion có gesture system built-in: <code>whileHover</code>, <code>whileTap</code>, <code>whileDrag</code> là shorthand animate states khi gesture active. <code>drag</code> prop biến element thành draggable với physics và constraints.`,
   },
   {
     id: "layout",

@@ -13,6 +13,7 @@ import {
 // ** sections
 import { MotionSection } from "./sections/MotionSection";
 import { HooksSection } from "./sections/HooksSection";
+import { GestureSection } from "./sections/GesturesSection";
 import { VariantsSection } from "./sections/VariantsSection";
 import { AnimatePresenceSection } from "./sections/AnimatePresenceSection";
 
@@ -73,6 +74,7 @@ const MotionLab = () => {
             <VariantsSection />
             <AnimatePresenceSection />
             <HooksSection />
+            <GestureSection />
           </div>
         </div>
       </main>
