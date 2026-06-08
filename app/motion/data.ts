@@ -35,7 +35,7 @@ export const motionLessons = [
     id: "layout",
     num: "06",
     title: "Layout",
-    desc: "",
+    desc: `<code>layout</code> prop tự động animate khi element thay đổi kích thước hoặc vị trí trong DOM. <code>layoutId</code> tạo <strong>shared layout transitions</strong> giữa hai component khác nhau — đây là tính năng ấn tượng nhất của Framer Motion mà GSAP không có built-in.`,
   },
   {
     id: "best-practices",
