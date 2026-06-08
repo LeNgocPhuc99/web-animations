@@ -41,7 +41,7 @@ export const motionLessons = [
     id: "best-practices",
     num: "07",
     title: "Best Practices",
-    desc: "",
+    desc: `Những lỗi hay gặp, performance tips, và mental models khi dùng Framer Motion trong React project thực tế.`,
   },
 ];
 

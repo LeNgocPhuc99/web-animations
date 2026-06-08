@@ -16,6 +16,7 @@ import { MotionSection } from "./sections/MotionSection";
 import { LayoutSection } from "./sections/LayoutSection";
 import { GestureSection } from "./sections/GesturesSection";
 import { VariantsSection } from "./sections/VariantsSection";
+import { MotionBPSection } from "./sections/MotionBPSection";
 import { AnimatePresenceSection } from "./sections/AnimatePresenceSection";
 
 const MotionLab = () => {
@@ -77,6 +78,7 @@ const MotionLab = () => {
             <HooksSection />
             <GestureSection />
             <LayoutSection />
+            <MotionBPSection />
           </div>
         </div>
       </main>
