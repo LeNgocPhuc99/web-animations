@@ -65,7 +65,7 @@ export const gsapLessons = [
     title: "Best Practices",
     desc: "",
   },
-];
+] as const;
 
 export type GSAPLesson = (typeof gsapLessons)[number];
 export type GSAPLessonId = GSAPLesson["id"];

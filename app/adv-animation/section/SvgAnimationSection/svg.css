@@ -1,0 +1,98 @@
+.svg-demo {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center
+}
+
+.svg-stage {
+    background: var(--color-bg-surface);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* stroke-dasharray technique */
+.stroke-path {
+    stroke-dasharray: 0 400;
+    stroke-dashoffset: 0;
+    transition: none;
+}
+
+.stroke-path.animate {
+    animation: drawPath 2s ease-in-out forwards;
+}
+
+@keyframes drawPath {
+    to {
+        stroke-dasharray: 400 0
+    }
+}
+
+/* morphing */
+@keyframes morphShape {
+
+    0%,
+    100% {
+        d: path("M28 8 L48 48 L8 48 Z")
+    }
+
+    33% {
+        d: path("M28 8 C44 8 48 44 28 48 C8 44 12 8 28 8")
+    }
+
+    66% {
+        d: path("M8 8 L48 8 L48 48 L8 48 Z")
+    }
+}
+
+.morph-shape {
+    animation: morphShape 4s ease-in-out infinite
+}
+
+/* clip-path reveal */
+.clip-el {
+    clip-path: inset(0 100% 0 0);
+    background: linear-gradient(135deg, var(--color-adv), var(--color-pink-400));
+    border-radius: 8px;
+    width: 160px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: #000;
+}
+
+.clip-el.animate {
+    animation: clipReveal 1s cubic-bezier(.77, 0, .18, 1) forwards;
+}
+
+@keyframes clipReveal {
+    to {
+        clip-path: inset(0 0% 0 0)
+    }
+}
+
+/* SVG counter ring */
+.ring-track {
+    fill: none;
+    stroke: var(--color-bg-subtle);
+    stroke-width: 8
+}
+
+.ring-fill {
+    fill: none;
+    stroke: var(--adv);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 0 283;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dasharray 1.2s cubic-bezier(.4, 0, .2, 1);
+}

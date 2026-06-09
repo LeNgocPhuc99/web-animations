@@ -75,7 +75,7 @@ const pages = [
     step: "03",
     title: "Motion",
     href: "/motion",
-    status: "Next",
+    status: "Ready",
     description:
       "Framer Motion patterns cho React: variants, layout animation, gestures va page transitions.",
   },
@@ -83,7 +83,7 @@ const pages = [
     step: "04",
     title: "Advanced Skill",
     href: "/advanced-skill",
-    status: "Planned",
+    status: "Next",
     description:
       "Ky thuat nang cao: orchestration, state-driven animation, reusable patterns va debugging.",
   },
@@ -95,11 +95,4 @@ const pages = [
     description:
       "Accessibility, reduced motion, performance budgets va checklist khi ship animation that.",
   },
-];
-
-const focusItems = [
-  "Hoc theo tung lop ky nang, tu browser-native den animation library.",
-  "Moi trang gom demo, nguyen ly, code pattern va cac loi can tranh.",
-  "Tap trung vao interaction thuc te thay vi effect trang tri don le.",
-  "Dam bao animation co ich cho UX va van on dinh trong production.",
 ];

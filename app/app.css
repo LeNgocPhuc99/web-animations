@@ -10,6 +10,8 @@
   --color-teal-raw: 62.337% 0.18771 24.706;
   --color-gsap-raw: 77.487% 0.2081 130.003;
   --color-green-raw: 74.914% 0.14807 126.19;
+  --color-adv-raw: 70.485% 0.18669 47.592;
+  --color-adv-raw2: 75.763% 0.15899 55.922;
   --color-motion-raw: 60.563% 0.21902 292.718;
   --color-warning-raw: 84.514% 0.13362 90.019;
   --color-purple-raw: 60.037% 0.21104 294.909;
@@ -17,6 +19,8 @@
   --color-secondary-raw: 67.504% 0.18566 2.349;
   --color-success-raw: 85.508% 0.15102 163.687;
 
+  --color-adv: oklch(var(--color-adv-raw));
+  --color-adv2: oklch(var(--color-adv-raw2));
   --color-gsap: oklch(var(--color-gsap-raw));
   --color-green: oklch(var(--color-green-raw));
   --color-motion: oklch(var(--color-motion-raw));
@@ -47,7 +51,8 @@
 }
 
 :root {
-  /* --color-test: oklch(74.914% 0.14807 126.19); */
+  --color-adv: oklch(var(--color-adv-raw));
+  /* --color-test: oklch(75.763% 0.15899 55.922); */
 }
 
 @layer utilities {
@@ -228,4 +233,13 @@ code {
 
 .btn-red:hover {
   background-color: var(--color-red-100);
+}
+
+.btn-adv {
+  border-color: var(--color-adv);
+  color: var(--color-adv2)
+}
+
+.btn-adv:hover {
+  background: rgba(249,115,22,.1);
 }

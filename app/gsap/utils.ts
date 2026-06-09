@@ -1,6 +1,5 @@
 import { gsapLessons } from "./data";
-import type { GSAPLessonId } from "./data";
 
-export function lessonById(id: GSAPLessonId) {
+export function lessonById(id: string) {
   return gsapLessons.find((lesson) => lesson.id === id)!;
 }

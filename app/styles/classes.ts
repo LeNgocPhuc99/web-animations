@@ -7,6 +7,7 @@ export const ui = {
     "mb-5 max-w-3xl text-sm leading-7 text-text-muted [&_code]:font-mono [&_code]:text-success",
   ].join(" "),
   card: "overflow-hidden rounded-lg border border-white/10 bg-bg-main",
+  demoLabel: "font-mono text-xs text-text-muted",
   demoArea: [
     "relative flex min-h-40.5  px-8 py-10 max-sm:px-5 max-sm:py-7",
     "flex-wrap items-center justify-center gap-4.5 border-b border-white/10",

@@ -43,7 +43,7 @@ export const motionLessons = [
     title: "Best Practices",
     desc: `Những lỗi hay gặp, performance tips, và mental models khi dùng Framer Motion trong React project thực tế.`,
   },
-];
+] as const;
 
 export type MotionLesson = (typeof motionLessons)[number];
 export type MotionLessonId = MotionLesson["id"];
