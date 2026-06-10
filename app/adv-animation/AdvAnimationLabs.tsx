@@ -4,6 +4,7 @@ import { useActiveSection } from "~/hooks";
 import { pillClass, sidebarLinkClass } from "~/styles/classes";
 
 import { CanvasRAFSection } from "./section/CanvasRAFSection";
+import { BestPracticesSection } from "./section/BestPracticesSection";
 import { SvgAnimationSection } from "./section/SvgAnimationSection";
 import { WebAnimationApiSection } from "./section/WebAnimationApiSection";
 
@@ -70,6 +71,7 @@ const AdvAnimationLabs = () => {
             <SvgAnimationSection />
             <CanvasRAFSection />
             <WebAnimationApiSection />
+            <BestPracticesSection />
           </div>
         </div>
       </main>

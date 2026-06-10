@@ -1,0 +1,44 @@
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.cmp-table th,
+.cmp-table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+}
+
+.cmp-table th {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.info-box {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 1rem;
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+.info-box.good {
+  background: rgba(74, 222, 128, 0.07);
+  border-color: rgba(74, 222, 128, 0.18);
+}
+
+.info-box.warn {
+  background: rgba(250, 204, 21, 0.07);
+  border-color: rgba(250, 204, 21, 0.18);
+}
+
+.info-box.tip {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}

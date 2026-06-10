@@ -19,9 +19,9 @@ export const advAnimationLessons = [
   },
   {
     id: "bestpractices",
-    num: "05",
+    num: "07",
     title: "Best Practices",
-    desc: `Picking the right tool, performance at scale, và mental models cho production animation.`,
+    desc: `Chọn đúng công cụ, tối ưu hiệu năng ở quy mô lớn, và mental model cho animation production.`,
   },
 ] as const;
 
