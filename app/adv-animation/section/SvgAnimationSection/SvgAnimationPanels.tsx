@@ -10,49 +10,55 @@ const SvgAnimationPanels = ({ onRingInput }: SvgAnimationPanelsProps) => {
   return (
     <>
       <TabPanel value="stroke draw-on">
-        <div className={cn(ui.demoArea, "gap-10")}>
-          <div className="svg-stage w-40 h-40">
-            <svg viewBox="0 0 56 56" width="140" height="140">
-              <path
-                id="checkPath"
-                d="M12 28 L22 38 L44 16"
-                fill="none"
-                stroke="var(--color-green)"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="stroke-path"
-              />
-            </svg>
+        <div className={cn(ui.demoArea, "flex-col gap-4 items-start")}>
+          <div className="flex items-center gap-10 mx-auto">
+            <div className="svg-stage w-40 h-40">
+              <svg viewBox="0 0 56 56" width="140" height="140">
+                <path
+                  id="checkPath"
+                  d="M12 28 L22 38 L44 16"
+                  fill="none"
+                  stroke="var(--color-green-500)"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="stroke-path"
+                />
+              </svg>
+            </div>
+            <div className="svg-stage w-40 h-40">
+              <svg viewBox="0 0 56 56" width="140" height="140">
+                <circle
+                  id="circlePath"
+                  cx="28"
+                  cy="28"
+                  r="20"
+                  fill="none"
+                  stroke="var(--color-adv)"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  className="stroke-path"
+                />
+              </svg>
+            </div>
+            <div className="svg-stage w-40 h-40">
+              <svg viewBox="0 0 100 100" width="140" height="140">
+                <path
+                  id="signPath"
+                  d="M10,50 Q25,20 40,50 T70,50 T100,50"
+                  fill="none"
+                  stroke="var(--color-blue-500)"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  className="stroke-path"
+                />
+              </svg>
+            </div>
           </div>
-          <div className="svg-stage w-40 h-40">
-            <svg viewBox="0 0 56 56" width="140" height="140">
-              <circle
-                id="circlePath"
-                cx="28"
-                cy="28"
-                r="20"
-                fill="none"
-                stroke="var(--color-adv)"
-                strokeWidth="3"
-                strokeLinecap="round"
-                className="stroke-path"
-              />
-            </svg>
-          </div>
-          <div className="svg-stage w-40 h-40">
-            <svg viewBox="0 0 100 100" width="140" height="140">
-              <path
-                id="signPath"
-                d="M10,50 Q25,20 40,50 T70,50 T100,50"
-                fill="none"
-                stroke="var(--color-blue-500)"
-                strokeWidth="3"
-                strokeLinecap="round"
-                className="stroke-path"
-              />
-            </svg>
-          </div>
+          <p className={ui.demoLabel}>
+            Kỹ thuật tạo hiệu ứng đường line được vẽ dần ra, phù hợp với: icon
+            outline, loading line, map route animate handwriting effect
+          </p>
         </div>
       </TabPanel>
 
@@ -85,7 +91,8 @@ const SvgAnimationPanels = ({ onRingInput }: SvgAnimationPanelsProps) => {
             </svg>
           </div>
           <div className="max-w-52 text-sm leading-7 text-text-muted">
-            Path morphing: animate <code>d</code> attribute giữa 2+ path có cùng số điểm.
+            Path morphing: animate <code>d</code> attribute giữa 2+ path có cùng
+            số điểm.
           </div>
         </div>
       </TabPanel>
@@ -100,61 +107,22 @@ const SvgAnimationPanels = ({ onRingInput }: SvgAnimationPanelsProps) => {
           </div>
 
           <div className="text-center flex flex-col items-center gap-2">
-            <div
-              id="clipEl2"
-              style={{
-                width: 80,
-                height: 80,
-                borderRadius: 8,
-                background: "linear-gradient(135deg,var(--color-purple-500),var(--color-blue-500))",
-                clipPath: "circle(0% at 50% 50%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: "var(--font-mono)",
-                fontSize: 10,
-                color: "#fff",
-              }}
-            >
+            <div id="clipEl2" className="clip-circle">
               circle
             </div>
             <div className={ui.demoLabel}>circle(0% to 75%)</div>
           </div>
 
           <div className="text-center flex flex-col items-center gap-2">
-            <div
-              id="clipEl3"
-              style={{
-                width: 80,
-                height: 60,
-                borderRadius: 8,
-                background: "linear-gradient(135deg,var(--color-teal-400),var(--color-blue-500))",
-                clipPath: "polygon(0 0,0 0,0 100%,0 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: "var(--font-mono)",
-                fontSize: 10,
-                color: "#000",
-                fontWeight: 500,
-              }}
-            >
+            <div id="clipEl3" className="clip-polygon">
               polygon
             </div>
             <div className={ui.demoLabel}>polygon wipe</div>
           </div>
 
           <div className="text-center flex flex-col items-center gap-2">
-            <div style={{ overflow: "hidden", lineHeight: 1.2 }}>
-              <div
-                id="clipText"
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: 22,
-                  fontWeight: 700,
-                  transform: "translateY(110%)",
-                }}
-              >
+            <div className="clip-text-wrap">
+              <div id="clipText" className="clip-text">
                 Advanced
               </div>
             </div>
@@ -193,8 +161,20 @@ const SvgAnimationPanels = ({ onRingInput }: SvgAnimationPanelsProps) => {
           </div>
 
           <div className="text-center flex flex-col items-center gap-2.5">
-            <svg width="100" height="100" viewBox="0 0 100 100" style={{ transform: "rotate(-90deg)" }}>
-              <circle cx="50" cy="50" r="45" fill="none" stroke="var(--color-bg-subtle)" strokeWidth="8" />
+            <svg
+              width="100"
+              height="100"
+              viewBox="0 0 100 100"
+              style={{ transform: "rotate(-90deg)" }}
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="none"
+                stroke="var(--color-bg-subtle)"
+                strokeWidth="8"
+              />
               <circle
                 id="ring2seg1"
                 cx="50"
@@ -264,9 +244,22 @@ const SvgAnimationPanels = ({ onRingInput }: SvgAnimationPanelsProps) => {
                   <stop offset="100%" stopColor="var(--color-pink-400)" />
                 </linearGradient>
               </defs>
-              <circle cx="50" cy="50" r="30" fill="none" stroke="var(--color-bg-subtle)" strokeWidth="1" />
+              <circle
+                cx="50"
+                cy="50"
+                r="30"
+                fill="none"
+                stroke="var(--color-bg-subtle)"
+                strokeWidth="1"
+              />
               <circle id="planet" cx="80" cy="50" r="6" fill="url(#svgGrad)" />
-              <circle id="moon" cx="80" cy="50" r="3" fill="var(--color-blue-500)" />
+              <circle
+                id="moon"
+                cx="80"
+                cy="50"
+                r="3"
+                fill="var(--color-blue-500)"
+              />
               <circle
                 cx="50"
                 cy="50"
@@ -286,21 +279,28 @@ const SvgAnimationPanels = ({ onRingInput }: SvgAnimationPanelsProps) => {
               >
                 ☀
               </text>
-              <path id="orbitPath" d="M80,50 A30,30 0 1,1 79.99,50" fill="none" stroke="none" />
+              <path
+                id="orbitPath"
+                d="M80,50 A30,30 0 1,1 79.99,50"
+                fill="none"
+                stroke="none"
+              />
             </svg>
           </div>
 
           <div className="min-w-52 max-w-80 flex-1">
             <div className="rounded-md border border-white/10 bg-bg-surface px-4 py-3 text-sm leading-7 text-text-muted">
               <strong className="text-adv">GSAP SVG tips:</strong>
-              <br />
-              - Dung <code>gsap.to(el, {'{'} attr: {'{'} cx, cy, r {'}'} {'}'})</code> cho SVG attrs
-              <br />
-              - <code>transformOrigin: "50% 50%"</code> la center cua SVG viewport
-              <br />
-              - Plugin <code>MotionPathPlugin</code> de animate doc theo path
-              <br />
-              - <code>DrawSVGPlugin</code> thay the cho dasharray trick
+              <br />- Dung{" "}
+              <code>
+                gsap.to(el, {"{"} attr: {"{"} cx, cy, r {"}"} {"}"})
+              </code>{" "}
+              cho SVG attrs
+              <br />- <code>transformOrigin: "50% 50%"</code> la center cua SVG
+              viewport
+              <br />- Plugin <code>MotionPathPlugin</code> de animate doc theo
+              path
+              <br />- <code>DrawSVGPlugin</code> thay the cho dasharray trick
             </div>
           </div>
         </div>

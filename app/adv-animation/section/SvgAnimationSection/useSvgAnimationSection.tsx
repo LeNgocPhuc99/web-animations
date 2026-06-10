@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
+import gsap from "gsap";
+
 import type { SvgTab } from "./data";
 
 const MORPH_SHAPES = [
@@ -23,7 +25,6 @@ const useSvgAnimationSection = () => {
         morphTimerRef.current = null;
       }
 
-      const gsap = (window as any).gsap;
       if (orbitTickerRef.current && gsap?.ticker) {
         gsap.ticker.remove(orbitTickerRef.current);
       }
@@ -79,7 +80,6 @@ const useSvgAnimationSection = () => {
     void p1.getBoundingClientRect();
     p1.style.animation = "morphShape 4s ease-in-out infinite";
 
-    const gsap = (window as any).gsap;
     const morphSequence = () => {
       morphIndexRef.current = (morphIndexRef.current + 1) % MORPH_SHAPES.length;
       const next = MORPH_SHAPES[morphIndexRef.current];
@@ -205,9 +205,6 @@ const useSvgAnimationSection = () => {
   };
 
   const runGsapSvg = () => {
-    const gsap = (window as any).gsap;
-    if (!gsap) return;
-
     if (orbitTickerRef.current) {
       gsap.ticker.remove(orbitTickerRef.current);
       orbitTickerRef.current = null;

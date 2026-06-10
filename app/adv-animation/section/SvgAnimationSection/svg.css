@@ -16,6 +16,7 @@
 }
 
 /* stroke-dasharray technique */
+/* 400 = path's length */
 .stroke-path {
     stroke-dasharray: 0 400;
     stroke-dashoffset: 0;
@@ -55,7 +56,7 @@
 
 /* clip-path reveal */
 .clip-el {
-    clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 0 0 100%);
     background: linear-gradient(135deg, var(--color-adv), var(--color-pink-400));
     border-radius: 8px;
     width: 160px;
@@ -73,6 +74,47 @@
     animation: clipReveal 1s cubic-bezier(.77, 0, .18, 1) forwards;
 }
 
+.clip-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-purple-500), var(--color-blue-500));
+    clip-path: circle(0% at 50% 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #fff;
+}
+
+.clip-polygon {
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-teal-400), var(--color-blue-500));
+    clip-path: polygon(0 0,0 0,0 100%,0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #000;
+    font-weight: 500;
+}
+
+.clip-text-wrap {
+    overflow: hidden;
+    line-height: 1.2;
+}
+
+.clip-text {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    transform: translateY(110%);
+}
+
 @keyframes clipReveal {
     to {
         clip-path: inset(0 0% 0 0)
@@ -88,11 +130,12 @@
 
 .ring-fill {
     fill: none;
-    stroke: var(--adv);
+    stroke: var(--color-adv);
     stroke-width: 8;
     stroke-linecap: round;
     stroke-dasharray: 0 283;
     transform: rotate(-90deg);
+    transform-box: fill-box;
     transform-origin: 50% 50%;
     transition: stroke-dasharray 1.2s cubic-bezier(.4, 0, .2, 1);
 }

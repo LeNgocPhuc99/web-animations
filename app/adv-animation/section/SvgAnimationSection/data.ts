@@ -142,10 +142,10 @@ const panelTabsCode: Record<SvgTab, string> = {
   `,
   "GSAP + SVG": `
     <span class="c">/* GSAP orbit: rotate two circles around a center and update cx/cy */</span><br>
+    <span class="k">import</span> gsap from <span class="s">"gsap"</span>;<br>
     <span class="k">let</span> orbitTween = <span class="k">null</span>;<br>
     <span class="k">let</span> orbitTicker = <span class="k">null</span>;<br>
     <span class="k">function</span> runGsapSvg() {<br>
-    &nbsp;&nbsp;<span class="k">const</span> gsap = window.gsap;<br>
     &nbsp;&nbsp;<span class="k">if</span> (orbitTicker) gsap.ticker.<span class="fn">remove</span>(orbitTicker);<br>
     &nbsp;&nbsp;<span class="k">if</span> (orbitTween) orbitTween.<span class="fn">kill</span>();<br>
     &nbsp;&nbsp;gsap.<span class="fn">set</span>(planet, { <span class="p">transformOrigin</span>: <span class="s">'50px 50px'</span> });<br>
