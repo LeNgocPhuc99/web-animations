@@ -3,6 +3,7 @@ import { Navbar } from "~/components";
 import { useActiveSection } from "~/hooks";
 import { pillClass, sidebarLinkClass } from "~/styles/classes";
 
+import { CanvasRAFSection } from "./section/CanvasRAFSection";
 import { SvgAnimationSection } from "./section/SvgAnimationSection";
 
 import {
@@ -66,6 +67,7 @@ const AdvAnimationLabs = () => {
           </aside>
           <div className="grid gap-13">
             <SvgAnimationSection />
+            <CanvasRAFSection />
           </div>
         </div>
       </main>
