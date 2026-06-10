@@ -18,12 +18,6 @@ export const advAnimationLessons = [
     desc: `WAAPI là browser-native API: không cần library, run on compositor thread (như CSS), nhưng có programmable control như GSAP. Tốt cho interactive animations cần <code>pause/reverse/seek</code> mà không muốn thêm dependency.`,
   },
   {
-    id: "integration",
-    num: "04",
-    title: "Framework Integration",
-    desc: `Mỗi framework có cách tích hợp animation riêng — React cần cleanup, Next.js cần handle SSR, Vue có transition system built-in. Pattern cốt lõi: <strong>animate sau khi DOM sẵn sàng, cleanup khi component destroy</strong>.`,
-  },
-  {
     id: "bestpractices",
     num: "05",
     title: "Best Practices",
@@ -39,7 +33,6 @@ export const advSectionLinks = [
   ["svg", "SVG Animation"],
   ["canvas", "Canvas & RAF"],
   ["waapi", "Web Animation API"],
-  ["integration", "Framework Integration"],
   ["bestpractices", "Best Practices"],
 ] as const satisfies readonly AdvSectionLink[];
 

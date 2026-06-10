@@ -1,0 +1,30 @@
+.waapi-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: white;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cmp-table th,
+.cmp-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cmp-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-align: left;
+}

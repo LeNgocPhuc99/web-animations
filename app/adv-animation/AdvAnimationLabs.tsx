@@ -5,6 +5,7 @@ import { pillClass, sidebarLinkClass } from "~/styles/classes";
 
 import { CanvasRAFSection } from "./section/CanvasRAFSection";
 import { SvgAnimationSection } from "./section/SvgAnimationSection";
+import { WebAnimationApiSection } from "./section/WebAnimationApiSection";
 
 import {
   advSectionIds,
@@ -68,6 +69,7 @@ const AdvAnimationLabs = () => {
           <div className="grid gap-13">
             <SvgAnimationSection />
             <CanvasRAFSection />
+            <WebAnimationApiSection />
           </div>
         </div>
       </main>
