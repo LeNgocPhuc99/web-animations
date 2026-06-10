@@ -83,7 +83,7 @@ const pages = [
     step: "04",
     title: "Advanced Skill",
     href: "/advanced-skill",
-    status: "Next",
+    status: "Ready",
     description:
       "Ky thuat nang cao: orchestration, state-driven animation, reusable patterns va debugging.",
   },
@@ -91,7 +91,7 @@ const pages = [
     step: "05",
     title: "UX & Production",
     href: "/ux-production",
-    status: "Planned",
+    status: "Next",
     description:
       "Accessibility, reduced motion, performance budgets va checklist khi ship animation that.",
   },
