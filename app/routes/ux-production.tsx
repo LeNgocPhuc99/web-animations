@@ -1,22 +1,18 @@
 import type { Route } from "./+types/ux-production";
 
-import ComingSoonPage from "~/coming-soon/ComingSoonPage";
+import UxProductionLab from "~/ux-production/UxProductionLab";
 
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "UX & Production | Web Animations" },
     {
       name: "description",
-      content: "UX, accessibility, and production guidance for web animation.",
+      content:
+        "Hướng dẫn animation sẵn sàng cho production, tập trung vào UX, accessibility, performance và motion system.",
     },
   ];
 }
 
 export default function UxProductionRoute() {
-  return (
-    <ComingSoonPage
-      title="UX & Production"
-      description="Reduced motion, accessibility, performance budgets, and production animation checklists will live here."
-    />
-  );
+  return <UxProductionLab />;
 }

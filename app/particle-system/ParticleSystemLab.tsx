@@ -6,20 +6,20 @@ import { pillClass, sidebarLinkClass } from "~/styles/classes";
 import ParticleSystemDemo from "./ParticleSystemDemo";
 
 const sectionLinks = [
-  ["overview", "Overview"],
-  ["anatomy", "Particle anatomy"],
-  ["demo", "Interactive demo"],
-  ["tuning", "Tuning"],
+  ["overview", "Tổng quan"],
+  ["anatomy", "Cấu trúc particle"],
+  ["demo", "Demo tương tác"],
+  ["tuning", "Tinh chỉnh"],
 ] as const;
 
 const sectionIds = sectionLinks.map(([id]) => id);
 
 const heroPills = [
   "Canvas 2D",
-  "Emitter loop",
-  "Particle lifetime",
-  "Wind + gravity",
-  "Resize-safe",
+  "vòng lặp emitter",
+  "vòng đời particle",
+  "gió + trọng lực",
+  "an toàn khi resize",
 ];
 
 const anatomyRows = [
@@ -40,7 +40,7 @@ const anatomyRows = [
   },
   {
     name: "age / life",
-    role: "Điều khiển vòng đời, giúp particle tự chết và được remove.",
+    role: "Điều khiển vòng đời, giúp particle tự kết thúc và được xoá.",
     note: "cleanup",
   },
   {
@@ -104,8 +104,17 @@ const ParticleSystemLab = () => {
           <div className="lab-hero-grid absolute inset-0" />
           <div className="relative z-10">
             <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-accent-orange">
-              // particle systems on the web
+              // hệ hạt trên web
             </div>
+            <h1 className="lab-fade-1 text-4xl font-extrabold tracking-tight text-text-base sm:text-5xl">
+              Hệ hạt
+              <br />
+              trên <span className="text-accent-orange">web</span>
+            </h1>
+            <p className="lab-fade-2 mx-auto mt-5 max-w-3xl text-base leading-8 text-text-muted">
+              Một lab tương tác để hiểu cách emitter, vòng đời particle và
+              render loop kết hợp với nhau để tạo ra hiệu ứng tự nhiên.
+            </p>
             <div className="lab-fade-3 mt-6 flex flex-wrap justify-center gap-2">
               {heroPills.map((pill) => (
                 <span className={pillClass} key={pill}>
@@ -122,7 +131,7 @@ const ParticleSystemLab = () => {
             className="sticky top-21 rounded-lg border border-white/10 bg-bg-main p-3.5 max-lg:static"
           >
             <p className="mb-2.5 font-mono text-xs uppercase tracking-[0.08em] text-text-muted">
-              Learning path
+              Lộ trình học
             </p>
             <nav className="lab-section-list grid gap-1 max-lg:grid-cols-2 max-sm:grid-cols-1">
               {sectionLinks.map(([id, label]) => (
@@ -153,14 +162,14 @@ const ParticleSystemLab = () => {
             <Section
               id="overview"
               num="01"
-              title="Overview"
+              title="Tổng quan"
               description="Particle system là một mô hình gồm một <code>emitter</code> sinh ra nhiều đối tượng nhỏ, mỗi đối tượng có vòng đời riêng và được update theo các luật đơn giản. Khi cộng lại, các particle tạo ra cảm giác tự nhiên như mưa, khói, tia nước, bụi, hay sparkle."
             >
               <div className="grid gap-4 md:grid-cols-3">
                 {[
                   [
                     "Emitter",
-                    "Đối tượng phát sinh particle theo rate, vị trí và bối cảnh.",
+                    "Đối tượng sinh particle theo rate, vị trí và bối cảnh.",
                   ],
                   [
                     "Particle",
@@ -168,7 +177,7 @@ const ParticleSystemLab = () => {
                   ],
                   [
                     "Renderer",
-                    "Mỗi frame sẽ update, draw, rồi loại particle đã hết life.",
+                    "Mỗi frame sẽ update, draw rồi loại particle đã hết life.",
                   ],
                 ].map(([title, body]) => (
                   <div
@@ -187,7 +196,7 @@ const ParticleSystemLab = () => {
             <Section
               id="anatomy"
               num="02"
-              title="Particle anatomy"
+              title="Cấu trúc particle"
               description="Module này tách mỗi particle thành một object nhỏ với một số thuộc tính cốt lõi. Bạn nên đọc các field này trước khi mở file update/draw, vì đây là mental model quan trọng nhất."
             >
               <div className="grid gap-3 md:grid-cols-2">
@@ -213,7 +222,7 @@ const ParticleSystemLab = () => {
             <Section
               id="demo"
               num="03"
-              title="Interactive demo"
+              title="Demo tương tác"
               description="Dùng toolbar để đổi mode giữa mưa và nước, sau đó kéo thanh cường độ để thấy emitter thay đổi ngay lập tức. Đây là phần thực hành trực tiếp của mô hình particle system."
             >
               <ParticleSystemDemo initialMode="rain" />
@@ -222,13 +231,13 @@ const ParticleSystemLab = () => {
             <Section
               id="tuning"
               num="04"
-              title="Tuning"
+              title="Tinh chỉnh"
               description="Hiệu ứng particle thường không khó ở phần vẽ, mà khó ở chỗ giữ nó ổn định, nhẹ và có kiểm soát. Hai đoạn dưới đây cho thấy cách emit và cleanup đang diễn ra trong module hiện tại."
             >
               <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
                 <div className="rounded-lg border border-white/10 bg-bg-subtle p-4">
                   <p className="mb-3 font-mono text-xs uppercase tracking-[0.08em] text-accent-orange">
-                    Emit loop
+                    Vòng lặp emit
                   </p>
                   <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-xs leading-7 text-text-muted">
                     <code dangerouslySetInnerHTML={{ __html: emitSnippet }} />
@@ -236,7 +245,7 @@ const ParticleSystemLab = () => {
                 </div>
                 <div className="rounded-lg border border-white/10 bg-bg-subtle p-4">
                   <p className="mb-3 font-mono text-xs uppercase tracking-[0.08em] text-accent-orange">
-                    Update + cleanup
+                    Update + dọn dẹp
                   </p>
                   <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-xs leading-7 text-text-muted">
                     <code dangerouslySetInnerHTML={{ __html: updateSnippet }} />
@@ -246,7 +255,7 @@ const ParticleSystemLab = () => {
 
               <div className="mt-5 rounded-lg border border-white/10 bg-bg-subtle p-4">
                 <p className="font-mono text-xs uppercase tracking-[0.08em] text-accent-orange">
-                  Tuning notes
+                  Ghi chú tinh chỉnh
                 </p>
                 <ul className="mt-3 grid gap-2 leading-7 text-text-muted">
                   {tuningItems.map((item) => (

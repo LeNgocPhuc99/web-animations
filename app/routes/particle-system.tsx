@@ -4,11 +4,11 @@ import ParticleSystemLab from "~/particle-system/ParticleSystemLab";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Particle System | Web Animations" },
+    { title: "Hệ hạt | Web Animations" },
     {
       name: "description",
       content:
-        "Interactive particle system lab for learning Canvas 2D emitters, update loops, and rendering patterns.",
+        "Phòng thí nghiệm tương tác về hệ hạt để học emitter Canvas 2D, vòng lặp update và các mẫu render.",
     },
   ];
 }

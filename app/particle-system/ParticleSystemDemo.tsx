@@ -122,8 +122,8 @@ export function ParticleSystemDemo({
     <section className={`particle-demo ${className}`}>
       <div className="particle-demo__toolbar">
         <div>
-          <h2>Particle System Demo</h2>
-          <p>Canvas 2D demo: mưa rơi và dòng nước chảy.</p>
+          <h2>Demo hệ hạt</h2>
+          <p>Demo Canvas 2D: mưa rơi và dòng nước chảy.</p>
         </div>
 
         <div className="particle-demo__controls">
