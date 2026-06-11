@@ -6,5 +6,6 @@ export default [
   route("gsap", "routes/gsap.tsx"),
   route("motion", "routes/motion.tsx"),
   route("advanced-skill", "routes/advanced-skill.tsx"),
+  route("particle-system", "routes/particle-system.tsx"),
   route("ux-production", "routes/ux-production.tsx"),
 ] satisfies RouteConfig;

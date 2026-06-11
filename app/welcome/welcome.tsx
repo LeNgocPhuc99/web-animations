@@ -81,6 +81,14 @@ const pages = [
   },
   {
     step: "04",
+    title: "Particle System",
+    href: "/particle-system",
+    status: "Ready",
+    description:
+      "Canvas 2D particle emitter, update/draw loop va cac pattern de hoc ve rain, water, smoke, sparkles.",
+  },
+  {
+    step: "05",
     title: "Advanced Skill",
     href: "/advanced-skill",
     status: "Ready",
@@ -88,7 +96,7 @@ const pages = [
       "Ky thuat nang cao: orchestration, state-driven animation, reusable patterns va debugging.",
   },
   {
-    step: "05",
+    step: "06",
     title: "UX & Production",
     href: "/ux-production",
     status: "Next",
