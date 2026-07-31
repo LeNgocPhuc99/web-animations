@@ -103,8 +103,8 @@ const ParticleSystemLab = () => {
         <section className="relative overflow-hidden py-14 text-center">
           <div className="lab-hero-grid absolute inset-0" />
           <div className="relative z-10">
-            <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-accent-orange">
-              // hệ hạt trên web
+            <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-accent-orange whitespace-nowrap">
+              // Particle System
             </div>
             <h1 className="lab-fade-1 text-4xl font-extrabold tracking-tight text-text-base sm:text-5xl">
               Hệ hạt
