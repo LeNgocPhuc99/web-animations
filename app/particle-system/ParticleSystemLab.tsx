@@ -106,15 +106,6 @@ const ParticleSystemLab = () => {
             <div className="lab-fade-0 mb-3.5 font-mono text-xs uppercase tracking-[0.12em] text-accent-orange whitespace-nowrap">
               // Particle System
             </div>
-            <h1 className="lab-fade-1 text-4xl font-extrabold tracking-tight text-text-base sm:text-5xl">
-              Hệ hạt
-              <br />
-              trên <span className="text-accent-orange">web</span>
-            </h1>
-            <p className="lab-fade-2 mx-auto mt-5 max-w-3xl text-base leading-8 text-text-muted">
-              Một lab tương tác để hiểu cách emitter, vòng đời particle và
-              render loop kết hợp với nhau để tạo ra hiệu ứng tự nhiên.
-            </p>
             <div className="lab-fade-3 mt-6 flex flex-wrap justify-center gap-2">
               {heroPills.map((pill) => (
                 <span className={pillClass} key={pill}>
