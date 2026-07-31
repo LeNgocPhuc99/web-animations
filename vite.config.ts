@@ -7,4 +7,12 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
+  ssr: {
+    // Bundle gsap into the server output instead of leaving it as a
+    // runtime `node_modules` import. Vercel's Node runtime fails to
+    // resolve `gsap/ScrollTrigger`'s named export at runtime
+    // (FUNCTION_INVOCATION_FAILED), so let Rollup resolve/inline it at
+    // build time instead.
+    noExternal: ["gsap", "@gsap/react"],
+  },
 });
